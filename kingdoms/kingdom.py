@@ -9,18 +9,44 @@ class Kingdom:
         self.y = 0
         self.img = None
         self.selected = False
-        # self.width = 0
-        # self.height = 0
+        self.width = 40
+        self.height = 59
+        self.range = 36
+        self.tile_width = 36
+        self.tile_height = 30
 
     def draw (self, win):
         """
-        draws the kingdoms' base cities
+        draws the kingdoms' base cities and surface
         :param win: surface
         :return: None
         """
-        win.blit(self.img, (self.x - self.img.get_width() // 2, self.y - self.img.get_height() // 2))
+        img = self.img
+        win.blit(self.img, (self.x - img.get_width() // 2, self.y - img.get_height() // 2))
 
-        # draw other
+        # draws kigndom's zone tile by tile
         if self.selected:
-            pass
-            # self.menu.draw(win)
+            for elem in self.tile:
+                self.draw_tile(win, elem[0], elem[1])
+            print(self.name)
+
+    # draw single tile
+    def draw_tile(self, win, X, Y):
+        if self.selected:
+            surface = pygame.Surface((self.range*4, self.range*4), pygame.SRCALPHA, 32)
+            pygame.draw.rect(surface, self.rgb, (self.range, self.range, self.range, self.tile_height), 0)
+            win.blit(surface, (X - 1.5*self.range, Y - self.range))
+
+    def click (self, X, Y):
+        """
+        returns if tower has been clicked on
+        and selects tower if it was clicked
+        :param X: int
+        :param Y: int
+        :return: bool
+        """
+        img = self.img
+        if X <= self.x - img.get_width()//2 + self.width and X >= self.x - img.get_width()//2:
+            if Y <= self.y + self.height - img.get_height()//2 and Y >= self.y - img.get_height()//2:
+                return True
+        return False

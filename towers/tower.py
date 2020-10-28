@@ -12,8 +12,8 @@ tile_y = [40,74,108,142,176,210,244,279,313,349,383,417,453,489,523,559,593,627,
 dict_tile = {}
 dict_tile_fortress = {}
 # create dict of tiles, set busy tiles to 1
-for col_num, x in enumerate(tile_x):
-    for row_num, y in enumerate(tile_y):
+for x in tile_x:
+    for y in tile_y:
         key = (x, y)
         dict_tile[key] = 1
         dict_tile_fortress[key] = 1

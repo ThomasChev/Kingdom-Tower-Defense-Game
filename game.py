@@ -85,7 +85,7 @@ class Game():
         self.timer = time.time()
         self.life_font = pygame.font.Font("game_assets/fonts/ZealotCollege-8v9g.ttf", 28)
         self.money_font = pygame.font.Font("game_assets/fonts/UDDigiKyokashoN-R.ttc", 32)
-        self.wave_font = pygame.font.Font("game_assets/fonts/UDDigiKyokashoN-R.ttc", 15)
+        self.wave_font = pygame.font.Font("game_assets/fonts/UDDigiKyokashoN-R.ttc", 16)
         self.selected_tower = None
         self.menu = VerticalMenu(self.width - 62, 125, side_img)
         self.menu.add_btn(buy_shin, "buy_shin", 20)
@@ -321,6 +321,14 @@ class Game():
                                 else:
                                     ft.selected = False
 
+                            # look if you clicked on kingdom's base
+                            for base in self.kingdom:
+                                if base.click(pos[0], pos[1]):
+                                    base.selected = True
+                                    # self.selected_tower = ft
+                                else:
+                                    base.selected = False
+
                         # self.clicks.append(pos)
                         # print(self.clicks)
 
@@ -456,9 +464,7 @@ class Game():
             self.menu.draw(self.win)
 
         # draw side button
-        # self.sideButton = PlayPauseButton(side_btn, side_btn, self.width - 40, 272)
         if self.menu_on:
-            #self.sideButton.play = pygame.transform.flip(self.sideButton.play, True, False)
             self.sideButton.x = self.width - 128
             self.sideButton.y = 272
         else:
@@ -474,7 +480,7 @@ class Game():
 
         # draw wave
         self.win.blit(wave_bg, (self.width - 100, self.height - 48))
-        text = self.wave_font.render("Wave " + str(self.wave), False, (255,255,255))
+        text = self.wave_font.render("Wave " + str(self.wave), 2, (255,255,255))
         self.win.blit(text, (self.width - 100 + wave_bg.get_width()/2 - text.get_width()/2, self.height - 45))
 
         # draw lives
