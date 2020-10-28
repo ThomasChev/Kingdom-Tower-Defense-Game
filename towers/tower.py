@@ -3,7 +3,7 @@ from menu.menu import Menu
 import os
 import math
 
-menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/menu/", "blue_menu.png")),(171, 50))
+menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/menu/", "red_menu.png")),(171, 50))
 upgrade_btn = pygame.image.load(os.path.join("game_assets/menu/", "upgrade_btn.png"))
 sell_btn = pygame.image.load(os.path.join("game_assets/menu/", "sell_btn.png"))
 

@@ -16,6 +16,15 @@ from enemies.zao_riboku import Zao_riboku
 from towers.quinTower import ShinTower, MoubuTower, KankiTower
 from towers.supportTower import TenTower, KyoukaiTower
 from towers.fortress import Fortress
+from kingdoms.quin_base import Quin_base
+from kingdoms.zao_base import Zao_base
+from kingdoms.yan_base import Yan_base
+from kingdoms.qi_base import Qi_base
+from kingdoms.wei_base import Wei_base
+from kingdoms.han_base import Han_base
+from kingdoms.chu_base import Chu_base
+from kingdoms.chu2_base import Chu2_base
+from kingdoms.chu3_base import Chu3_base
 from menu.menu import VerticalMenu, PlayPauseButton
 
 import time
@@ -26,7 +35,7 @@ pygame.init()
 
 
 lives_img = pygame.image.load(os.path.join("game_assets/menu/","heart.png"))
-star_img = pygame.image.load(os.path.join("game_assets/menu/","star.png"))
+money_img = pygame.image.load(os.path.join("game_assets/menu/","star.png"))
 side_img = pygame.image.load(os.path.join("game_assets/menu/","side.png"))
 side_btn = pygame.image.load(os.path.join("game_assets/menu/","side_btn.png"))
 
@@ -68,14 +77,14 @@ class Game():
         self.attack_towers = []
         self.support_towers = []
         self.fortress = []
-        self.lives = 1
-        self.money = 100000
+        self.lives = 10
+        self.money = 125
         self.bg = pygame.image.load(os.path.join("game_assets/background/", "kingdom.png"))
         self.bg = pygame.transform.scale(self.bg, (self.width, self.height))
         self.clicks = [] # remove
         self.timer = time.time()
-        self.life_font = pygame.font.Font("game_assets/fonts/ZealotCollege-8v9g.ttf", 45)
-        self.money_font = pygame.font.Font("game_assets/fonts/UDDigiKyokashoN-R.ttc", 45)
+        self.life_font = pygame.font.Font("game_assets/fonts/ZealotCollege-8v9g.ttf", 28)
+        self.money_font = pygame.font.Font("game_assets/fonts/UDDigiKyokashoN-R.ttc", 32)
         self.wave_font = pygame.font.Font("game_assets/fonts/UDDigiKyokashoN-R.ttc", 15)
         self.selected_tower = None
         self.menu = VerticalMenu(self.width - 62, 125, side_img)
@@ -89,8 +98,8 @@ class Game():
         self.wave = 0
         self.current_wave = waves[self.wave][:]
         self.pause = False
-        self.playPauseButton = PlayPauseButton(play_btn, pause_btn, self.width - 65, self.height - 70)
-        self.soundButton = PlayPauseButton(sound_btn, sound_btn_off, self.width - 67, self.height - 130)
+        self.playPauseButton = PlayPauseButton(play_btn, pause_btn, self.width/2 - 118, 0)
+        self.soundButton = PlayPauseButton(sound_btn, sound_btn_off, self.width/2 + 88, 0)
         self.sideButton = PlayPauseButton(side_btn, side_btn, self.width - 40, 272)
         self.music_on = True
         self.menu_on = False
@@ -102,6 +111,15 @@ class Game():
         self.first_contact = True
         self.go_lose = False
         self.go_win = False
+        self.kingdom = [Quin_base(), 
+                        Zao_base(), 
+                        Yan_base(), 
+                        Qi_base(), 
+                        Wei_base(), 
+                        Han_base(), 
+                        Chu_base(), 
+                        Chu2_base(), 
+                        Chu3_base()]
 
     def gen_enemies(self):
         """
@@ -409,6 +427,10 @@ class Game():
 
         #     self.moving_object.draw_placement(self.win)
 
+        # draw kingdom's base
+        for kingdoms in self.kingdom:
+            kingdoms.draw(self.win)
+
         # draw attack towers
         for tw in self.attack_towers:
             tw.draw(self.win)
@@ -451,34 +473,30 @@ class Game():
         self.soundButton.draw(self.win)
 
         # draw wave
-        self.win.blit(wave_bg, (self.width - 150, self.height - 48))
-        text = self.wave_font.render("Wave " + str(self.wave), 2, (255,255,255))
-        self.win.blit(text, (self.width - 150 + wave_bg.get_width()/2 - text.get_width()/2, self.height - 45))
+        self.win.blit(wave_bg, (self.width - 100, self.height - 48))
+        text = self.wave_font.render("Wave " + str(self.wave), False, (255,255,255))
+        self.win.blit(text, (self.width - 100 + wave_bg.get_width()/2 - text.get_width()/2, self.height - 45))
 
         # draw lives
         start_x = 10
-        start_y = 38
+        start_y = 0
         text = self.life_font.render(str(self.lives), 2, (255, 255, 255))
-        life = pygame.transform.scale(lives_img,(40,40))
         add_x = text.get_width() + 10
-        add_y = 2
+        add_y = 3
         self.win.blit(text, (start_x, start_y))
-        self.win.blit(life, (start_x + add_x, start_y + add_y))
+        self.win.blit(lives_img, (start_x + add_x, start_y + add_y))
 
         # draw money
         text = self.money_font.render(str(self.money), 2, (255, 255, 255))
-        money = star_img
         add_shake = 0
         if self.shake:
             add_shake = 18
-        start_x = 10
-        start_y = 38
+        start_x = self.width - money_img.get_width() - text.get_width() - 15
+        start_y = 0
         add_x = 0 + add_shake
-        add_y = 52
-        self.win.blit(text, (start_x + add_x, start_y + add_y))
+        self.win.blit(text, (start_x + add_x, start_y))
         add_x = text.get_width() + 10 + add_shake
-        add_y = 56
-        self.win.blit(money, (start_x + add_x, start_y + add_y))
+        self.win.blit(money_img, (start_x + add_x, start_y))
 
         pygame.display.update()
 

@@ -5,7 +5,7 @@ import math
 import time
 from menu.menu import Menu
 
-menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/menu/", "blue_menu.png")),(171, 50))
+menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/menu/", "red_menu.png")),(171, 50))
 upgrade_btn = pygame.image.load(os.path.join("game_assets/menu/", "upgrade_btn.png"))
 
 # load base tower images and animation images 6

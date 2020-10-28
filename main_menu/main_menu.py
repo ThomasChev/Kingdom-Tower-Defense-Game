@@ -3,7 +3,7 @@ import pygame
 import os
 import time
 
-start_btn = pygame.image.load(os.path.join("game_assets/menu/", "play_big_btn2.png"))
+start_btn = pygame.image.load(os.path.join("game_assets/menu/", "play_big_btn.png"))
 lore_btn = pygame.image.load(os.path.join("game_assets/menu/", "lore_btn.png"))
 lore_img = pygame.image.load(os.path.join("game_assets/menu/", "lore.png"))
 info_btn = pygame.image.load(os.path.join("game_assets/menu/", "info_btn.png"))
