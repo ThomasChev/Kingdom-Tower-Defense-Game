@@ -1,6 +1,7 @@
 import pygame
 import math
 import random
+from game_assets.colors import rgb
 
 class Enemy:
 
@@ -48,9 +49,9 @@ class Enemy:
             add_y = -10
         else:
             add_y = 0
-        pygame.draw.rect(win, (255, 26, 26), (self.x - 13, self.y - 55 + add_y, length, 5), 0) # red rectangle
-        pygame.draw.rect(win, (102, 255, 51), (self.x - 13, self.y - 55 + add_y, health_bar, 5), 0) # green rectangle
-        pygame.draw.rect(win, (77, 77, 77), (self.x - 13, self.y - 55 + add_y, health_bar, 5), 1) # grey rectangle border
+        pygame.draw.rect(win, rgb(255, 26, 26), (self.x - 13, self.y - 55 + add_y, length, 5), 0) # attacked rectangle
+        pygame.draw.rect(win, rgb(102, 255, 51), (self.x - 13, self.y - 55 + add_y, health_bar, 5), 0) # health rectangle
+        pygame.draw.rect(win, rgb(77, 77, 77), (self.x - 13, self.y - 55 + add_y, health_bar, 5), 1) # rectangle border
 
     # def collide(self, X, Y):
     #     """

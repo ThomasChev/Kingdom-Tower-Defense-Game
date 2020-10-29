@@ -26,6 +26,7 @@ from kingdoms.chu_base import Chu_base
 from kingdoms.chu2_base import Chu2_base
 from kingdoms.chu3_base import Chu3_base
 from menu.menu import VerticalMenu, PlayPauseButton
+from game_assets.colors import rgb
 
 import time
 import random
@@ -66,7 +67,7 @@ pygame.mixer.music.set_volume(0.4)
 
 # frequency of enemies [Zao_w, Yan_w, Qi_w, Wei_c, Wei_b, Han_w, Chu_w, Chu_e, Chu_b, Yan_b, Qi_b, Zao_r]
 waves = [[3,0,0,3,3,3,0,0,0,0,0,0],[3,0,0,0,0,0,0,0,0,0,0,0],[0,1,0,0,0,0,0,0,0,0,0,0],[0,3,0,0,0,0,0,0,0,0,0,0],[0,0,2,0,0,0,0,0,0,0,0,0],[0,0,4,0,0,0,0,0,0,0,0,0],[0,0,0,2,0,0,0,0,0,0,0,0],[0,0,0,4,0,0,0,0,0,0,0,0],[0,0,0,0,4,0,0,0,0,0,0,0],[0,0,0,0,6,0,0,0,0,0,0,0],[0,0,0,0,0,4,0,0,0,0,0,0],[0,0,0,0,0,6,0,0,0,0,0,0],[0,0,0,0,0,0,4,0,0,0,0,0],[0,0,0,0,0,0,6,0,0,0,0,0],[0,0,0,0,0,0,0,2,0,0,0,0],[0,0,0,0,0,0,0,6,0,0,0,0],[0,0,0,0,0,0,0,0,2,0,0,0],[0,0,0,0,0,0,0,0,6,0,0,0],[0,0,0,0,0,0,0,0,0,2,0,0],[0,0,0,0,0,0,0,0,0,10,0,0],[0,0,0,0,0,0,0,0,0,0,2,0],[0,0,0,0,0,0,0,0,0,0,8,0],[9,0,0,0,0,0,0,0,0,0,0,0],[0,7,0,0,0,0,0,0,0,3,0,0],[0,0,9,0,0,0,0,0,0,0,4,0],[0,0,0,5,5,0,0,0,0,0,0,0],[0,0,0,0,0,14,0,0,0,0,0,0],[0,0,0,0,0,0,4,4,4,0,0,0],[5,5,5,0,0,0,0,0,0,0,0,0],[0,18,0,0,0,0,0,0,0,0,0,0],[3,3,3,0,0,3,6,0,0,0,0,0],[3,6,3,0,0,3,6,0,0,0,0,0],[0,0,0,0,0,10,8,0,0,0,0,0],[0,0,0,0,0,0,0,0,16,0,0,0],[0,0,0,0,0,0,0,0,0,18,0,0],[0,0,0,0,0,0,0,0,0,0,20,0],[0,0,0,0,0,0,0,0,12,6,6,0],[11,11,11,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,16,18,0,0,0,0,0],[8,8,10,0,0,10,8,0,0,0,0,0],[9,9,9,0,0,9,9,0,0,0,0,0],[0,35,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,35,0,0,0],[0,0,0,0,0,0,0,0,0,35,0,0],[0,0,0,0,0,0,0,0,0,0,33,0],[0,0,0,0,0,0,0,0,12,12,15,0],[35,0,0,0,0,0,0,0,0,0,0,0],[0,29,0,0,0,0,0,0,0,0,0,0],[0,0,12,10,12,0,0,4,0,0,0,0],[10,10,10,4,4,10,10,4,4,4,4,0],[10,10,10,6,6,10,10,4,4,4,4,0],[10,10,10,6,6,10,10,6,4,4,4,0],[10,10,10,6,6,10,10,6,6,6,6,0],[12,15,10,8,8,10,10,8,6,6,6,0],[12,20,10,8,8,10,10,10,6,6,6,1]]
-waves = [[1,0,1,0,0,0,0,0,0,0,0,0]]
+waves = [[4,4,4,4,4,4,4,4,4,4,4,1], [0,0,0,0,0,0,0,0,0,0,0,0]]
 spawn_rates = [2,0.2,1,3,3,1,1,5,2,2,2,1]
 class Game():
     def __init__(self, win):
@@ -77,8 +78,8 @@ class Game():
         self.attack_towers = []
         self.support_towers = []
         self.fortress = []
-        self.lives = 10
-        self.money = 125
+        self.lives = 100
+        self.money = 1000
         self.bg = pygame.image.load(os.path.join("game_assets/background/", "kingdom.png"))
         self.bg = pygame.transform.scale(self.bg, (self.width, self.height))
         self.clicks = [] # remove
@@ -104,8 +105,8 @@ class Game():
         self.music_on = True
         self.menu_on = False
         self.shake = False
-        self.current_spawn_rate = 0.5
         self.spawn_rate = spawn_rates[:]
+        self.current_spawn_rate = 1.5
         self.fortress_sound = False
         self.to_resist = []
         self.first_contact = True
@@ -142,8 +143,8 @@ class Game():
                     pygame.mixer.music.load(os.path.join("game_assets/sounds/", "ending.mp3"))
                     pygame.mixer.music.play(loops=0)
                     time.sleep(0.4)
-  
                     print("You Win")
+
         else:
             wave_enemies = [Zao_warrior(),
                             Yan_warrior(),
@@ -158,19 +159,20 @@ class Game():
                             Qi_boat(),
                             Zao_riboku()
                             ]
+
             for x in range(len(self.current_wave)):
                 self.current_spawn_rate = self.spawn_rate[x]
                 if self.current_wave[x] != 0:
                     self.enemys.append(wave_enemies[x])
                     self.current_wave[x] = self.current_wave[x] - 1
-                    break
+                    break # comment if you want to spawn the current_wave[x] enemies all together
 
     def run(self):
         # start playing the background music
         pygame.mixer.music.load(os.path.join("game_assets/sounds/", "loop0.wav"))
         pygame.mixer.music.set_volume(0.4)
         pygame.mixer.music.play(loops=-1) # loop forever
-        self.fade(self.width, self.height, (0,0,0), 1)
+        self.fade(self.width, self.height, rgb(0,0,0), 1)
 
         run = True
         clock = pygame.time.Clock()
@@ -181,7 +183,7 @@ class Game():
                 # gen monsters
                 if time.time() - self.timer >= self.current_spawn_rate: # if time.time() - self.timer >= random.randrange(1,5)/2:
                     self.timer = time.time()
-                    self.gen_enemies()  # self.enemys.append(random.choice([Zao_warrior(), Yan_warrior(), Qi_warrior(), Han_warrior(), Chu_warrior()]))
+                    self.gen_enemies()  # self.enemys.append()
 
             pos = pygame.mouse.get_pos()
             # check for moving object
@@ -423,7 +425,7 @@ class Game():
         self.win.blit(self.bg, (0, 0))
 
         # for p in self.clicks:
-        # 	pygame.draw.circle(self.win, (255, 0, 0), (p[0], p[1]), 5, 0)
+        # 	pygame.draw.circle(self.win, rgb(255, 0, 0), (p[0], p[1]), 5, 0)
 
         # draw placement rings
         # if self.moving_object:
@@ -480,20 +482,20 @@ class Game():
 
         # draw wave
         self.win.blit(wave_bg, (self.width - 100, self.height - 48))
-        text = self.wave_font.render("Wave " + str(self.wave), 2, (255,255,255))
+        text = self.wave_font.render("Wave " + str(self.wave), 2, rgb(255,255,255))
         self.win.blit(text, (self.width - 100 + wave_bg.get_width()/2 - text.get_width()/2, self.height - 45))
 
         # draw lives
         start_x = 10
         start_y = 0
-        text = self.life_font.render(str(self.lives), 2, (255, 255, 255))
+        text = self.life_font.render(str(self.lives), 2, rgb(255, 255, 255))
         add_x = text.get_width() + 10
         add_y = 3
         self.win.blit(text, (start_x, start_y))
         self.win.blit(lives_img, (start_x + add_x, start_y + add_y))
 
         # draw money
-        text = self.money_font.render(str(self.money), 2, (255, 255, 255))
+        text = self.money_font.render(str(self.money), 2, rgb(255, 255, 255))
         add_shake = 0
         if self.shake:
             add_shake = 18

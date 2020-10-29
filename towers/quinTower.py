@@ -101,9 +101,9 @@ class ShinTower(Tower):
         for enemy in enemies:
             correction = math.sqrt(2)
             x = enemy.x
-            y = enemy.y
+            y = enemy.y - 36
             # dis = math.sqrt((self.x - enemy.img.get_width() / 2 - x) ** 2 + (self.y - enemy.img.get_height() / 2 - y) ** 2)
-            dis = math.sqrt((self.x - x)**2 + (self.y + correction - y)**2)
+            dis = math.sqrt((self.x - x)**2 + (self.y - y)**2)
             if dis < self.range:
                 self.inRange = True
                 enemy_closest.append(enemy)
@@ -120,7 +120,7 @@ class ShinTower(Tower):
                     pygame.mixer.Channel(1).play(pygame.mixer.Sound(os.path.join("game_assets/sounds/", first_enemy.sound)), maxtime=600)
                     money = first_enemy.money * 2
                     enemies.remove(first_enemy)
-        
+
         return money
 
 # load base tower images and animation images 2

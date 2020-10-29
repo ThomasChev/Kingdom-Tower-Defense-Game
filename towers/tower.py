@@ -1,5 +1,6 @@
 import pygame
 from menu.menu import Menu
+from game_assets.colors import rgb
 import os
 import math
 
@@ -80,15 +81,17 @@ class Tower:
     def draw_radius(self, win):
         if self.selected:
             # draw range circle
-            surface = pygame.Surface((self.range * 4, self.range * 4), pygame.SRCALPHA, 32)
-            pygame.draw.circle(surface, (204, 255, 255, 100), (self.range, self.range + 10), self.range, 0)
-            win.blit(surface, (self.x - self.range, self.y - self.range))
-
+            size = (self.range*2, self.range*2)
+            radius = self.range
+            surface = pygame.Surface(size, pygame.SRCALPHA, 32)
+            pygame.draw.circle(surface, rgb(204,255,255), (radius, radius), radius, 0)
+            win.blit(surface, (self.x - radius, self.y - radius))
+            
     def draw_rectangle(self, win):
         if self.selected:
             # draw range rectangle
             surface = pygame.Surface((self.range*4, self.range*4), pygame.SRCALPHA, 32)
-            pygame.draw.rect(surface, (204, 255, 255, 100), (self.range*2, self.range*2, self.range*2, self.range*1.8), 0)
+            pygame.draw.rect(surface, rgb(204,255,255), (self.range*2, self.range*2, self.range*2, self.range*1.8), 0)
             win.blit(surface, (self.x - 3*self.range, self.y - 2.6*self.range))
 
     # def draw_placement(self,win):

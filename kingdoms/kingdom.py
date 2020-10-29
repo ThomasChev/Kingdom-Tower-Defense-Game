@@ -27,8 +27,11 @@ class Kingdom:
         # draws kigndom's zone tile by tile
         if self.selected:
             for elem in self.tile:
-                self.draw_tile(win, elem[0], elem[1])
-            print(self.name)
+                x = elem[0]
+                y = elem[1]
+                if elem[1] >= 313:
+                    y = elem[1] + 5 # correction for better display
+                self.draw_tile(win, x, y)
 
     # draw single tile
     def draw_tile(self, win, X, Y):
