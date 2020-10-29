@@ -90,7 +90,7 @@ class Menu:
         self.buttons = []
         self.items = 0
         self.bg = img
-        self.font = pygame.font.Font("game_assets/fonts/UDDigiKyokashoN-R.ttc", 15)
+        self.font = pygame.font.Font("game_assets/fonts/SF Atarian System.ttf", 16)
         self.tower = tower
 
     def add_btn(self, img, name):
@@ -123,12 +123,12 @@ class Menu:
         for item in self.buttons:
             item.draw(win)
             if item.name =="Upgrade":
-                upgrade_cost = "$" + str(self.item_cost[self.tower.level - 1])
+                upgrade_cost = "$ " + str(self.item_cost[self.tower.level - 1])
                 text = self.font.render(upgrade_cost, 1, (255,255,255))
                 # win.blit(text, (item.x + item.width + 30 - text.get_width()/2, item.y + star.get_height() -8))
                 win.blit(text, (item.x + item.width + 20 - text.get_width()/2, item.y + 8))
             elif item.name == "Sell":
-                sell_price = "$" + str(self.tower.sell())
+                sell_price = "$ " + str(self.tower.sell())
                 text = self.font.render(sell_price, 1, (255,255,255))
                 win.blit(text, (item.x + item.width + 18 - text.get_width()/2, item.y + 8))
 
@@ -165,7 +165,7 @@ class VerticalMenu(Menu):
         self.buttons = []
         self.items = 0
         self.bg = img
-        self.font = pygame.font.Font("game_assets/fonts/UDDigiKyokashoN-R.ttc", 15)
+        self.font = pygame.font.Font("game_assets/fonts/SF Atarian System.ttf", 16)
 
     def add_btn(self, img, name, cost):
         """

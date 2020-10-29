@@ -69,17 +69,9 @@ class ShinTower(Tower):
             self.animation_count = 0
 
         shin = self.animation_imgs[self.animation_count // 4]
-
-        # if self.left == True:
-        #     add = -15
-        # else:
-        #     add = -shin.get_width() + 10
-        # # win.blit(shin, ((self.x + add), (self.y - shin.get_height()-15)))
-        # (shin)
         add_x = 2
         add_y = 5
         win.blit(shin, ((self.x - shin.get_width()/2 + add_x), (self.y - shin.get_height()/2 - add_y)))
-        # pygame.draw.circle(win, (0, 255, 0), (self.x+12, self.y+25), self.range, 1)
 
     def change_range(self, r):
         """

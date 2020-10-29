@@ -49,7 +49,6 @@ class MainMenu:
                         if self.btn[1] <= y <= self.btn[1] + self.btn[3]:
                             pygame.mixer.music.stop()
                             play_sound(1,"next_round.wav")
-                            time.sleep(2.4)
                             game = Game(self.win)
                             game.run()
                             self.show_lore = False
