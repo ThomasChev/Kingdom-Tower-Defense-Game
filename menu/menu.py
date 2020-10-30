@@ -1,5 +1,6 @@
 import pygame
 import os
+from game_assets.colors import rgb
 pygame.font.init()
 
 class Button:
@@ -166,6 +167,7 @@ class VerticalMenu(Menu):
         self.items = 0
         self.bg = img
         self.font = pygame.font.Font("game_assets/fonts/SF Atarian System.ttf", 16)
+        self.blink = False
 
     def add_btn(self, img, name, cost):
         """
@@ -196,10 +198,13 @@ class VerticalMenu(Menu):
         :param win: surface
         :return: None
         """
-        win.blit(self.bg, (self.x - self.bg.get_width()/2 - 8, self.y - 12))
+        add_blink = 6
+        if self.blink:
+            win.blit(self.bg, (self.x - self.bg.get_width()/2 - 8, self.y - 12 + add_blink))
+        else:
+            win.blit(self.bg, (self.x - self.bg.get_width()/2 - 8, self.y - 12))
+        
         for item in self.buttons:
             item.draw(win)
-            # upgrade_cost = "$ " + str(self.item_cost[self.tower.level - 1])
-            # text = self.font.render(upgrade_cost, 1, (255,255,255))
-            text = self.font.render("$ " + str(item.cost), 1, (255,255,255))
+            text = self.font.render("$ " + str(item.cost), 1, rgb(255,255,255))
             win.blit(text, (item.x + item.width/2 - text.get_width()/2, item.y + item.height + 1))

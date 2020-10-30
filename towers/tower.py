@@ -161,25 +161,54 @@ class Tower:
         x2 = otherTower.x
         y2 = otherTower.y
 
-        x2 = min(tile_x, key=lambda x:abs(x-x2))
-        y2 = min(tile_y, key=lambda y:abs(y-y2))
-
+        # find closest tile
+        x2 = min(tile_x, key=lambda x:abs(x-x2)) # set x2 at the x coordinate of tyle_x which has the minimum distance from x2
+        y2 = min(tile_y, key=lambda y:abs(y-y2)) # set y2 the y coordinate of tyle_y which has the minimum distance from y2
         tile_key = (x2, y2)
-        dis = math.sqrt((x2 - self.x)**2 + (y2 - self.y)**2)
 
-        if self.name == "fortress":
-            if dict_tile_fortress[tile_key] == 0:
-                if dis >= 10:
-                    return False
+        # distance between the object and the closest tile
+        dis = math.sqrt((x2 - self.x)**2 + (y2 - self.y)**2)
+        
+        # check if first tower of the game collides with forbidden tile
+        if self == otherTower:
+            if self.name == "fortress":
+                # tile is available
+                if dict_tile_fortress[tile_key] == 0:
+                    return False # collide == False
+                # tile is not available (collision with outside path)
                 else:
-                    return True
+                    return True # collide == True
             else:
-                return True
+                # tile is available
+                if dict_tile[tile_key] == 0:
+                    return False # collide == False
+                # tile is not available (collision with path)
+                else:
+                    return True # collide == True
+
+        # check if moving object collides with towers, fortress or forbidden tile 
         else:
-            if dict_tile[tile_key] == 0:
-                if dis >= 10:
-                    return False
+            if self.name == "fortress":
+                # tile is possibly available
+                if dict_tile_fortress[tile_key] == 0:
+                    # when not already occupied by another fortress
+                    if dis >= 10:
+                        return False # collide == False
+                    # tile is already occupied by another fortress
+                    else:
+                        return True # collide == True
+               # tile is not available (collision with outside path)
                 else:
-                    return True
+                    return True # collide == True
             else:
-                return True
+                # tile is possibly available
+                if dict_tile[tile_key] == 0:
+                    # when not already occupied by another object
+                    if dis >= 10:
+                        return False # collide == False
+                    # tile is already occupied by another object
+                    else:
+                        return True # collide == True
+                # tile is not available (collision with path)
+                else:
+                    return True # collide == True

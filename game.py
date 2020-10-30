@@ -79,7 +79,7 @@ class Game():
         self.attack_towers = []
         self.support_towers = []
         self.fortress = []
-        self.lives = 3
+        self.lives = 2
         self.money = 1000
         self.bg = pygame.image.load(os.path.join("game_assets/background/", "kingdom.png"))
         self.bg = pygame.transform.scale(self.bg, (self.width, self.height))
@@ -166,7 +166,7 @@ class Game():
         pygame.mixer.music.load(os.path.join("game_assets/sounds/", "loop0.wav"))
         pygame.mixer.music.set_volume(0.4)
         pygame.mixer.music.play(loops=-1) # loop forever
-        self.fade(self.width, self.height, rgb(0,0,0), 0, 300, 8) # (width, height, color, start=0, end=300, delay=1)
+        self.fade(self.width, self.height, rgb(0,0,0), 0, 255, 10) # (width, height, color, start=0, end=300, delay=1)
 
         # main run
         run = True
@@ -206,14 +206,17 @@ class Game():
                             tower_list = self.attack_towers[:] + self.support_towers[:]
                         
                         not_allowed = False
+                        # check if first tower of the game collides with forbidden tile
                         if not tower_list:
                             if self.moving_object.collide(self.moving_object):
                                 not_allowed = True 
                                 play_sound(1,"buzz.wav",600)
+                        # check if moving object collides with towers, fortress or forbidden tile
                         for tower in tower_list:
                             if tower.collide(self.moving_object):
                                 not_allowed = True
                                 play_sound(1,"buzz.wav",600)
+                        # add it if doesnt collide with towers, fortress or forbidden tile
                         if not not_allowed:
                             if self.moving_object.name in attack_tower_names:
                                 self.attack_towers.append(self.moving_object)
@@ -251,10 +254,11 @@ class Game():
                             self.sideButton.paused = self.menu_on
                             self.sideButton.play = pygame.transform.flip(self.sideButton.play, True, False)
 
-                        # if you click on side menu
+                        # if you click on side menu and buttons
                         if self.menu_on:
                             side_menu_button = self.menu.get_clicked(pos[0], pos[1])
                             if side_menu_button:
+                                self.menu.blink = True
                                 cost = self.menu.get_item_cost(side_menu_button)
                                 if self.money >= cost:
                                     play_sound(1,"buy.wav",600)
@@ -391,6 +395,8 @@ class Game():
                 # if you lose, go_lose
                 if self.lives <= 0:
                     play_sound(1,"beep.wav",600)
+                    self.shake_life = False
+                    self.draw()
                     time.sleep(0.7)
                     pygame.mixer.music.pause()
                     play_sound(0,"game_over.wav")
@@ -408,6 +414,7 @@ class Game():
             self.draw()
             self.shake_money = False
             self.shake_life = False
+            self.menu.blink = False
 
 
     def draw(self):
@@ -436,9 +443,6 @@ class Game():
         for en in self.enemys:
             en.draw(self.win)
 
-        # draw moving object
-        if self.moving_object:
-            self.moving_object.draw(self.win)
 
         # draw menu
         if self.menu_on:
@@ -446,7 +450,7 @@ class Game():
 
         # draw side button
         if self.menu_on:
-            self.sideButton.x = self.width - 128
+            self.sideButton.x = self.width - 133
             self.sideButton.y = 272
         else:
             self.sideButton.x = self.width - 40
@@ -487,6 +491,10 @@ class Game():
         self.win.blit(text, (start_x + add_x, start_y))
         add_x = text.get_width() + 10 + add_shake
         self.win.blit(money_img, (start_x + add_x, start_y))
+
+        # draw moving object
+        if self.moving_object:
+            self.moving_object.draw(self.win)
 
         pygame.display.update()
 
