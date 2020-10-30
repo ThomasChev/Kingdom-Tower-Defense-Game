@@ -47,14 +47,12 @@ class Tower:
         self.price = [100, 300, 9999]
         self.level = 1
         self.selected = False
-        # define menu and buttons
         self.menu = Menu(self, self.x, self.y, menu_bg, self.price)
         self.menu.add_btn(upgrade_btn, "Upgrade")
         self.menu.add_btn(sell_btn, "Sell")
         self.base_imgs = []
         self.animation_imgs = []
         self.damage = 1
-        # self.place_color = (0,0,255, 100)
 
     def draw (self, win):
         """
@@ -75,7 +73,9 @@ class Tower:
                 win.blit(img, (self.x - img.get_width() // 2, self.y - img.get_height() // 2))
 
         # draw menu
+        # print("tower self.y: ", self.y)
         if self.selected:
+            #self.menu.draw(win, self.range)
             self.menu.draw(win)
 
     def draw_radius(self, win):

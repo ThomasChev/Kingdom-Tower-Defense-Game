@@ -114,13 +114,14 @@ class Menu:
         """
         return self.item_cost[self.tower.level - 1]
 
+    # def draw(self, win, dis):
     def draw(self, win):
         """
         draws btns and menu bg
         :param win: surface
         :return: None
         """
-        win.blit(self.bg, (self.x - self.bg.get_width()/2, self.y-90))
+        win.blit(self.bg, (self.x - self.bg.get_width()/2, self.y - 90))
         for item in self.buttons:
             item.draw(win)
             if item.name =="Upgrade":

@@ -1,5 +1,8 @@
 import pygame # pygame-1.9.6-cp38-cp38-win_amd64.whl
 import os
+import math
+import time
+import random
 
 from enemies.zao_warrior import Zao_warrior
 from enemies.yan_warrior import Yan_warrior
@@ -28,9 +31,6 @@ from kingdoms.chu3_base import Chu3_base
 from menu.menu import VerticalMenu, PlayPauseButton
 from game_assets.colors import rgb
 
-import time
-import random
-
 pygame.font.init()
 pygame.init()
 
@@ -52,7 +52,9 @@ pause_btn = pygame.image.load(os.path.join("game_assets/menu/","pause_btn.png"))
 sound_btn = pygame.image.load(os.path.join("game_assets/menu/","music_btn.png"))
 sound_btn_off= pygame.image.load(os.path.join("game_assets/menu/","music_off_btn.png"))
 
-wave_bg = pygame.image.load(os.path.join("game_assets/menu/","wave.png"))
+wave_bg = pygame.image.load(os.path.join("game_assets/menu/","wave_sign.png"))
+alert_red = pygame.image.load(os.path.join("game_assets/menu/","alert_red.png")) # red alert
+alert_white = pygame.image.load(os.path.join("game_assets/menu/","alert_white.png")) # white alert
 
 attack_tower_names = ["shin", "moubu", "kanki"]
 support_tower_names = ["ten", "kyoukai"]
@@ -67,7 +69,7 @@ pygame.mixer.music.set_volume(0.4)
 
 # frequency of enemies [Zao_w, Yan_w, Qi_w, Wei_c, Wei_b, Han_w, Chu_w, Chu_e, Chu_b, Yan_b, Qi_b, Zao_r]
 waves = [[3,0,0,3,3,3,0,0,0,0,0,0],[3,0,0,0,0,0,0,0,0,0,0,0],[0,1,0,0,0,0,0,0,0,0,0,0],[0,3,0,0,0,0,0,0,0,0,0,0],[0,0,2,0,0,0,0,0,0,0,0,0],[0,0,4,0,0,0,0,0,0,0,0,0],[0,0,0,2,0,0,0,0,0,0,0,0],[0,0,0,4,0,0,0,0,0,0,0,0],[0,0,0,0,4,0,0,0,0,0,0,0],[0,0,0,0,6,0,0,0,0,0,0,0],[0,0,0,0,0,4,0,0,0,0,0,0],[0,0,0,0,0,6,0,0,0,0,0,0],[0,0,0,0,0,0,4,0,0,0,0,0],[0,0,0,0,0,0,6,0,0,0,0,0],[0,0,0,0,0,0,0,2,0,0,0,0],[0,0,0,0,0,0,0,6,0,0,0,0],[0,0,0,0,0,0,0,0,2,0,0,0],[0,0,0,0,0,0,0,0,6,0,0,0],[0,0,0,0,0,0,0,0,0,2,0,0],[0,0,0,0,0,0,0,0,0,10,0,0],[0,0,0,0,0,0,0,0,0,0,2,0],[0,0,0,0,0,0,0,0,0,0,8,0],[9,0,0,0,0,0,0,0,0,0,0,0],[0,7,0,0,0,0,0,0,0,3,0,0],[0,0,9,0,0,0,0,0,0,0,4,0],[0,0,0,5,5,0,0,0,0,0,0,0],[0,0,0,0,0,14,0,0,0,0,0,0],[0,0,0,0,0,0,4,4,4,0,0,0],[5,5,5,0,0,0,0,0,0,0,0,0],[0,18,0,0,0,0,0,0,0,0,0,0],[3,3,3,0,0,3,6,0,0,0,0,0],[3,6,3,0,0,3,6,0,0,0,0,0],[0,0,0,0,0,10,8,0,0,0,0,0],[0,0,0,0,0,0,0,0,16,0,0,0],[0,0,0,0,0,0,0,0,0,18,0,0],[0,0,0,0,0,0,0,0,0,0,20,0],[0,0,0,0,0,0,0,0,12,6,6,0],[11,11,11,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,16,18,0,0,0,0,0],[8,8,10,0,0,10,8,0,0,0,0,0],[9,9,9,0,0,9,9,0,0,0,0,0],[0,35,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,35,0,0,0],[0,0,0,0,0,0,0,0,0,35,0,0],[0,0,0,0,0,0,0,0,0,0,33,0],[0,0,0,0,0,0,0,0,12,12,15,0],[35,0,0,0,0,0,0,0,0,0,0,0],[0,29,0,0,0,0,0,0,0,0,0,0],[0,0,12,10,12,0,0,4,0,0,0,0],[10,10,10,4,4,10,10,4,4,4,4,0],[10,10,10,6,6,10,10,4,4,4,4,0],[10,10,10,6,6,10,10,6,4,4,4,0],[10,10,10,6,6,10,10,6,6,6,6,0],[12,15,10,8,8,10,10,8,6,6,6,0],[12,20,10,8,8,10,10,10,6,6,6,1]]
-waves = [[0,2,0,0,0,0,0,0,0,0,0,0], [0,2,0,0,0,0,0,0,0,0,0,0], [4,4,4,4,4,4,4,4,4,4,4,1], [0,0,0,0,0,0,0,0,0,0,0,0]]
+waves = [[0,2,0,0,0,0,0,0,0,0,0,0], [2,2,2,0,0,0,0,0,0,0,0,0], [4,4,4,4,4,4,4,4,4,4,4,1], [0,0,0,0,0,0,0,0,0,0,0,0]]
 spawn_rates = [2,0.2,1,3,3,1,1,5,2,2,2,1]
 
 class Game():
@@ -79,7 +81,7 @@ class Game():
         self.attack_towers = []
         self.support_towers = []
         self.fortress = []
-        self.lives = 2
+        self.lives = 200
         self.money = 1000
         self.bg = pygame.image.load(os.path.join("game_assets/background/", "kingdom.png"))
         self.bg = pygame.transform.scale(self.bg, (self.width, self.height))
@@ -115,15 +117,30 @@ class Game():
         self.go_lose = False
         self.go_win = False
         self.kingdom = [Quin_base(),Zao_base(),Yan_base(),Qi_base(),Wei_base(),Han_base(),Chu_base(),Chu2_base(),Chu3_base()]
+        self.current_kingdom = self.kingdom[0]
+        self.next_spawn = False
 
     def gen_enemies(self):
         """
         generate the next enemy or enemies to show
-        :return: enemy
+        :return: enemy, kingdom
         """
-
-        # Wave is over
+        wave_compo = [(Zao_warrior(),Zao_base()), 
+                        (Yan_warrior(),Yan_base()), 
+                        (Qi_warrior(),Qi_base()), 
+                        (Wei_catapult(),Wei_base()), 
+                        (Wei_balista(),Wei_base()), 
+                        (Han_warrior(),Han_base()), 
+                        (Chu_warrior(),Chu_base()), 
+                        (Chu_elephant(),Chu_base()), 
+                        (Chu_boat(),Chu_base()), 
+                        (Yan_boat(),Yan_base()), 
+                        (Qi_boat(),Qi_base()), 
+                        (Zao_riboku(),Zao_base())]
+        # Wave has finished
         if sum(self.current_wave) == 0:
+            self.next_spawn = True
+
             if len(self.enemys) == 0:
                 self.wave += 1
 
@@ -138,6 +155,7 @@ class Game():
                     self.pause = False
                     self.playPauseButton.paused = self.pause
                     self.current_wave = waves[self.wave]
+                    
                 
                 # No wave left, go_win
                 else:
@@ -151,13 +169,20 @@ class Game():
 
         # Generates enemies of current wave 
         else:
-            wave_enemies = [Zao_warrior(),Yan_warrior(),Qi_warrior(),Wei_catapult(),Wei_balista(),Han_warrior(),
-                            Chu_warrior(),Chu_elephant(),Chu_boat(),Yan_boat(),Qi_boat(),Zao_riboku()]
             for x in range(len(self.current_wave)):
+                enemy_nb = self.current_wave[x]
+                enemy_type = wave_compo[x][0]
+                kingdom = wave_compo[x][1]
+
+                if enemy_nb == 0:
+                    self.next_spawn = True
+
                 self.current_spawn_rate = self.spawn_rate[x]
-                if self.current_wave[x] != 0:
-                    self.enemys.append(wave_enemies[x])
+                if enemy_nb != 0:
+                    self.enemys.append(enemy_type)
+                    self.current_kingdom = kingdom
                     self.current_wave[x] = self.current_wave[x] - 1
+                    self.next_spawn = False
                     break # comment to spawn the current_wave[x] enemies all together
 
     def run(self):
@@ -229,7 +254,7 @@ class Game():
                             self.moving_object = None
                             play_sound(1,"put_tower.wav",600)
 
-                    # if you click on another object (NOT moving)
+                    # if you click another object (NOT moving)
                     else:
 
                         # toggle play/pause
@@ -268,7 +293,6 @@ class Game():
                                     self.shake_money = True
                                     play_sound(1,"buzz.wav",600)
 
-                        
                         btn_clicked = None
                         # if you click on attack tower or support tower
                         if self.selected_tower:
@@ -296,7 +320,8 @@ class Game():
                                         self.attack_towers.remove(self.selected_tower)
                                     elif self.selected_tower.name in support_tower_names:
                                         self.support_towers.remove(self.selected_tower)
-
+                                    elif self.selected_tower.name in fortress_names:
+                                        self.fortress.remove(self.selected_tower)
 
                         if not btn_clicked:
                             # if you click on attack tower
@@ -466,8 +491,11 @@ class Game():
         # draw wave
         self.win.blit(wave_bg, (self.width - 100, self.height - 48))
         text = self.wave_font.render("Wave " + str(self.wave + 1), 2, rgb(255,255,255))
-        self.win.blit(text, (self.width - 100 + wave_bg.get_width()/2 - text.get_width()/2, self.height - 45))
+        self.win.blit(text, (self.width - 100 + wave_bg.get_width()/2 - text.get_width()/2, self.height - 47))
 
+        # draw alert
+        self.draw_alert(self.current_kingdom)
+        
         # draw lives
         start_x = 10
         start_y = 0
@@ -511,6 +539,21 @@ class Game():
         except Exception as e:
             print(str(e) + "NOT VALID NAME")
 
+    def draw_alert(self, kingdom):
+        """
+        display blinking alert next to the kingdom when enemies spawn
+        :param kingdom: Kingdom
+        :return: None
+        """
+        x = kingdom.x - 72
+        y = kingdom.y - 28
+        timer = time.time() - self.timer
+        rate = self.current_spawn_rate
+        if not self.next_spawn:
+            if timer >= random.randrange(0, 1 + math.ceil(rate))/rate:
+                self.win.blit(alert_red, (x, y))
+            else:
+                self.win.blit(alert_white, (x, y))
 
     def fade(self, width, height, color, start=0, end=300, delay=1): 
         fade = pygame.Surface((width, height))

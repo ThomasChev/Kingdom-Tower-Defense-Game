@@ -7,6 +7,7 @@ from menu.menu import Menu
 
 menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/menu/", "red_menu.png")),(171, 50))
 upgrade_btn = pygame.image.load(os.path.join("game_assets/menu/", "upgrade_btn.png"))
+sell_btn = pygame.image.load(os.path.join("game_assets/menu/", "sell_btn.png"))
 
 # load base tower images and animation images 6
 base_imgs6 = []
@@ -30,6 +31,7 @@ class Fortress(Tower):
         self.price = [400, 750, 9999]
         self.menu = Menu(self, self.x, self.y, menu_bg, self.price)
         self.menu.add_btn(upgrade_btn, "Upgrade")
+        self.menu.add_btn(sell_btn, "Sell")
         self.base_imgs = base_imgs6[:]
         self.animation_imgs = animation_imgs6[:]
         self.width = 40
@@ -38,6 +40,7 @@ class Fortress(Tower):
         self.max_health = 500
         self.health = self.max_health
         self.collapse = False
+        self.price = [0, 0, 0]
 
     def get_upgrade_cost(self):
         """
@@ -87,7 +90,7 @@ class Fortress(Tower):
         length = 30
 
         health_bar = length*(1-((self.max_health-self.health)/self.max_health))
-        add_y = 5
+        add_y = 15
         pygame.draw.rect(win, (255, 26, 26), (self.x - 13, self.y - 55 + add_y, length, 5), 0) # red rectangle
         pygame.draw.rect(win, (102, 255, 51), (self.x - 13, self.y - 55 + add_y, health_bar, 5), 0) # green rectangle
         pygame.draw.rect(win, (77, 77, 77), (self.x - 13, self.y - 55 + add_y, health_bar, 5), 1) # grey rectangle border
