@@ -9,9 +9,13 @@ I made my own Tower Defense Game with pygame, based on TechWithTim's 12 hours st
 
 <a href='https://www.casimages.com/i/201027063031538664.png.html' target='_blank' title='Mon image'><img src='https://nsa40.casimages.com/img/2020/10/27/201027063031538664.png' border='0' alt='Mon image' /></a>
 
+# Menu:
+
+<a href='https://www.casimages.com/i/201030023422960065.png.html' target='_blank' title='Mon image'><img src='https://nsa40.casimages.com/img/2020/10/30/201030023422960065.png' border='0' alt='Mon image' /></a>
+
 # Game Preview:
 
-<a href='https://www.casimages.com/i/201027063136282855.png.html' target='_blank' title='Mon image'><img src='https://nsa40.casimages.com/img/2020/10/27/201027063136282855.png' border='0' alt='Mon image' /></a>
+<a href='https://www.casimages.com/i/201030023640941979.png.html' target='_blank' title='Mon image'><img src='https://nsa40.casimages.com/img/2020/10/30/201030023640941979.png' border='0' alt='Mon image' /></a>
 
 # Features:
 
@@ -21,7 +25,7 @@ I made my own Tower Defense Game with pygame, based on TechWithTim's 12 hours st
 	- Moubu (Damage: 2/3/4, Range: 65, bonus damage to Chu enemies)
 - 2 Support Towers
 	- Ten (offers extra Range: 10%/20%/30%)
-	- Kyoukai (offers extra Damage: 1/2/3)
+	- Kyoukai (offers extra Damage: 10%/20%/30%)
 - 1 Tool
 	- Fortress (Health: 500/1000/1500)
 
