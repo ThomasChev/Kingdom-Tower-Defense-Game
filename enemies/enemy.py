@@ -3,6 +3,8 @@ import math
 import random
 from game_assets.colors import rgb
 
+
+
 class Enemy:
 
     def __init__(self):
@@ -20,6 +22,7 @@ class Enemy:
         self.flip_first = True # True for right to left maps
         self.max_health = 0
         self.block = False
+        self.gold_drop = 0
 
     def draw(self, win):
         """
@@ -52,19 +55,6 @@ class Enemy:
         pygame.draw.rect(win, rgb(255, 26, 26), (self.x - 13, self.y - 55 + add_y, length, 5), 0) # attacked rectangle
         pygame.draw.rect(win, rgb(102, 255, 51), (self.x - 13, self.y - 55 + add_y, health_bar, 5), 0) # health rectangle
         pygame.draw.rect(win, rgb(77, 77, 77), (self.x - 13, self.y - 55 + add_y, health_bar, 5), 1) # rectangle border
-
-    # def collide(self, X, Y):
-    #     """
-    #     Returns if position has hit enemy
-    #     :param x: int
-    #     :param y: int
-    #     :return: Bool
-    #     """
-    #     if X<= self.x + self.width and X >= self.x:
-    #         if Y <= self.y + self.height and Y >= self.y:
-    #             return True
-    #     return False
-
 
     def move(self):
         """
@@ -143,6 +133,7 @@ class Enemy:
 
         self.health -= damage/2
         if self.health <= 0:
+            self.random_reward()
             return True
         return False
 
@@ -158,5 +149,13 @@ class Enemy:
                 self.block = True
                 return True
 
-
-
+    def random_reward(self):
+        """
+        Return an amount of reward, with low probability
+        :return: 1-sized list   
+        """
+        gold_list = [0, self.money, self.money**2]
+        distribution = [0.89, 0.1, 0.01]
+        drop = random.choices(gold_list, distribution)
+        self.gold_drop = drop[0]
+        return self.gold_drop
