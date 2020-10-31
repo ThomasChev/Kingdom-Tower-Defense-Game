@@ -3,8 +3,6 @@ import math
 import random
 from game_assets.colors import rgb
 
-
-
 class Enemy:
 
     def __init__(self):
@@ -22,7 +20,6 @@ class Enemy:
         self.flip_first = True # True for right to left maps
         self.max_health = 0
         self.block = False
-        self.gold_drop = 0
 
     def draw(self, win):
         """
@@ -30,10 +27,8 @@ class Enemy:
         :param win: surface
         :return: None
         """
-
         # for dot in self.path:
         # 	pygame.draw.circle(win, (255,0,0), dot, 5, 1)
-
         self.img = self.imgs[self.animation_count]
         win.blit(self.img, (self.x - self.img.get_width() / 2, self.y - self.img.get_height() / 2 - 35))
         self.draw_health_bar(win)
@@ -45,8 +40,6 @@ class Enemy:
         :return: None
         """
         length = 30
-        # move_by = round(length / self.max_health)
-        # health_bar = move_by * self.health
         health_bar = length*(1-((self.max_health-self.health)/self.max_health))
         if self.name =="zao_riboku":
             add_y = -10
@@ -130,10 +123,8 @@ class Enemy:
         each call
         :return: Bool
         """
-
         self.health -= damage/2
         if self.health <= 0:
-            self.random_reward()
             return True
         return False
 
@@ -148,14 +139,3 @@ class Enemy:
             else:
                 self.block = True
                 return True
-
-    def random_reward(self):
-        """
-        Return an amount of reward, with low probability
-        :return: 1-sized list   
-        """
-        gold_list = [0, self.money, self.money**2]
-        distribution = [0.89, 0.1, 0.01]
-        drop = random.choices(gold_list, distribution)
-        self.gold_drop = drop[0]
-        return self.gold_drop

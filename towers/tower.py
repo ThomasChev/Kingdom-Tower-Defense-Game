@@ -94,13 +94,6 @@ class Tower:
             pygame.draw.rect(surface, rgb(204,255,255), (self.range*2, self.range*2, self.range*2, self.range*1.8), 0)
             win.blit(surface, (self.x - 3*self.range, self.y - 2.6*self.range))
 
-    # def draw_placement(self,win):
-    #     # draw range circle
-    #     surface = pygame.Surface((self.range * 4, self.range * 4), pygame.SRCALPHA, 32)
-    #     pygame.draw.circle(surface, self.place_color, (50,50), 50, 0)
-
-    #     win.blit(surface, (self.x - 50, self.y - 50))
-
     def click (self, X, Y):
         """
         returns if tower has been clicked on

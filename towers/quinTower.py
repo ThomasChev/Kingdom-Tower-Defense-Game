@@ -1,8 +1,9 @@
 import pygame
-from .tower import Tower
 import os
 import math
+import random
 import time
+from .tower import Tower
 from menu.menu import Menu
 
 menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/menu/", "red_menu.png")),(171, 50))
@@ -44,6 +45,8 @@ class ShinTower(Tower):
         self.name = "shin"
         self.sell_price = [15, 75, 225]
         self.price = [100, 300, 9999]
+        self.gold_drop = 0
+        self.coord = (0, 0)
 
     def get_upgrade_cost(self):
         """
@@ -88,13 +91,14 @@ class ShinTower(Tower):
         :return: None
         """
         money = 0
+
+        self.gold_drop = 0
+
         self.inRange = False
         enemy_closest = []
         for enemy in enemies:
-            correction = math.sqrt(2)
             x = enemy.x
             y = enemy.y - 36
-            # dis = math.sqrt((self.x - enemy.img.get_width() / 2 - x) ** 2 + (self.y - enemy.img.get_height() / 2 - y) ** 2)
             dis = math.sqrt((self.x - x)**2 + (self.y - y)**2)
             if dis < self.range:
                 self.inRange = True
@@ -107,13 +111,30 @@ class ShinTower(Tower):
 
             if self.animation_count == len(self.animation_imgs):
                 pygame.mixer.Channel(1).play(pygame.mixer.Sound(os.path.join("game_assets/sounds/", self.sound)), maxtime=600)
-                # self.timer = time.time()
+
                 if first_enemy.hit(self.damage) == True:
                     pygame.mixer.Channel(1).play(pygame.mixer.Sound(os.path.join("game_assets/sounds/", first_enemy.sound)), maxtime=600)
+                    
+                    # give money, drop reward (low probability), remove died enemy
                     money = first_enemy.money * 2
+                    self.random_reward(first_enemy)
+                    if self.gold_drop > 0:
+                        self.coord = (first_enemy.x, first_enemy.y)
+                    print(self.gold_drop)
                     enemies.remove(first_enemy)
-
+        
         return money
+
+    def random_reward(self, enemy):
+        """
+        Return an amount of reward, with low probability
+        :return: 1-sized list   
+        """
+        gold_list = [0, enemy.money, enemy.money**2]
+        distribution = [0.49, 0.5, 0.01]
+        drop = random.choices(gold_list, distribution)
+        self.gold_drop = drop[0]
+        return self.gold_drop
 
 # load base tower images and animation images 2
 base_imgs2 = []

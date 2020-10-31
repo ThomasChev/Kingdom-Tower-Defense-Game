@@ -51,6 +51,7 @@ play_btn = pygame.image.load(os.path.join("game_assets/menu/","play_btn.png"))
 pause_btn = pygame.image.load(os.path.join("game_assets/menu/","pause_btn.png"))
 sound_btn = pygame.image.load(os.path.join("game_assets/menu/","music_btn.png"))
 sound_btn_off= pygame.image.load(os.path.join("game_assets/menu/","music_off_btn.png"))
+drop_btn = pygame.image.load(os.path.join("game_assets/menu/", "sell_btn.png"))
 
 wave_bg = pygame.image.load(os.path.join("game_assets/menu/","wave_sign.png"))
 alert_red = pygame.image.load(os.path.join("game_assets/menu/","alert_red.png")) # red alert
@@ -119,6 +120,10 @@ class Game():
         self.kingdom = [Quin_base(),Zao_base(),Yan_base(),Qi_base(),Wei_base(),Han_base(),Chu_base(),Chu2_base(),Chu3_base()]
         self.current_kingdom = self.kingdom[0]
         self.next_spawn = False
+        self.draw_drop = False
+        self.drop_x = 0
+        self.drop_y = 0
+        self.reward = 0 
 
     def gen_enemies(self):
         """
@@ -176,7 +181,6 @@ class Game():
 
                 if enemy_nb == 0:
                     self.next_spawn = True
-
                 self.current_spawn_rate = self.spawn_rate[x]
                 if enemy_nb != 0:
                     self.enemys.append(enemy_type)
@@ -356,6 +360,13 @@ class Game():
                                 else:
                                     base.selected = False
 
+                            # if you click on reward
+                            if self.draw_drop:
+                                if self.click(drop_btn, self.drop_x, self.drop_y, pos[0], pos[1]):
+                                    print("clicked!")
+                                    self.money += self.reward
+                                    self.draw_drop = False
+
                         # self.clicks.append(pos)
                         # print(self.clicks)
 
@@ -396,9 +407,18 @@ class Game():
                     self.shake_life = True
                     self.enemys.remove(d)
 
-                # loop through attack towers and attack
+                # loop through attack towers 
                 for tw in self.attack_towers:
-                    self.money += tw.attack(self.enemys)
+
+                        # attack
+                        self.money += tw.attack(self.enemys)
+
+                        # check if you got a random gold_drop
+                        if tw.gold_drop > 0:
+                            self.reward = tw.gold_drop
+                            self.drop_x = tw.coord[0] - drop_btn.get_width() / 2
+                            self.drop_y = tw.coord[1] - drop_btn.get_height() / 2 - 35
+                            self.draw_drop = True
 
                 # loop through support towers and do effect
                 for tw in self.support_towers:
@@ -451,6 +471,10 @@ class Game():
         # draw kingdom's base
         for kingdoms in self.kingdom:
             kingdoms.draw(self.win)
+
+        # draw random gold_drop
+        if self.draw_drop:
+            self.win.blit(drop_btn, (self.drop_x, self.drop_y))
 
         # draw towers and fortress, sorted by y position for no overlaying
         towers = self.attack_towers[:] + self.support_towers[:] + self.fortress[:]
@@ -556,6 +580,16 @@ class Game():
         for tw in tower_list:
             tw.draw(self.win)
 
+    def click (self, img, x, y, X, Y):
+        """
+        returns if img has been clicked on
+        :param x, y, X, Y : int
+        :return: bool
+        """
+        if X <= x + img.get_width() and X >= x:
+            if Y <= y + img.get_height() and Y >= y:
+                return True
+        return False
 
     def fade(self, width, height, color, start=0, end=300, delay=1): 
         fade = pygame.Surface((width, height))
