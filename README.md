@@ -39,3 +39,7 @@ I made my own Tower Defense Game with pygame, based on TechWithTim's 12 hours st
 	- Chu (enemies : warrior, boat, elephant)
 
 - Musics and Sounds
+
+# Join Us !
+
+<a href='https://www.casimages.com/i/201031032339434381.jpg.html' target='_blank' title='Mon image'><img src='https://nsa40.casimages.com/img/2020/10/31/201031032339434381.jpg' border='0' alt='Mon image' /></a>
