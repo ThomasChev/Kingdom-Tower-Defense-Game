@@ -120,7 +120,6 @@ class ShinTower(Tower):
                     self.random_reward(first_enemy)
                     if self.gold_drop > 0:
                         self.coord = (first_enemy.x, first_enemy.y)
-                    print(self.gold_drop)
                     enemies.remove(first_enemy)
         
         return money
@@ -131,7 +130,7 @@ class ShinTower(Tower):
         :return: 1-sized list   
         """
         gold_list = [0, enemy.money, enemy.money**2]
-        distribution = [0.49, 0.5, 0.01]
+        distribution = [0.89, 0.1, 0.01]
         drop = random.choices(gold_list, distribution)
         self.gold_drop = drop[0]
         return self.gold_drop

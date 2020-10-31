@@ -51,7 +51,7 @@ play_btn = pygame.image.load(os.path.join("game_assets/menu/","play_btn.png"))
 pause_btn = pygame.image.load(os.path.join("game_assets/menu/","pause_btn.png"))
 sound_btn = pygame.image.load(os.path.join("game_assets/menu/","music_btn.png"))
 sound_btn_off= pygame.image.load(os.path.join("game_assets/menu/","music_off_btn.png"))
-drop_btn = pygame.image.load(os.path.join("game_assets/menu/", "sell_btn.png"))
+gold_bag = pygame.image.load(os.path.join("game_assets/menu/", "gold_bag.png"))
 
 wave_bg = pygame.image.load(os.path.join("game_assets/menu/","wave_sign.png"))
 alert_red = pygame.image.load(os.path.join("game_assets/menu/","alert_red.png")) # red alert
@@ -362,8 +362,8 @@ class Game():
 
                             # if you click on reward
                             if self.draw_drop:
-                                if self.click(drop_btn, self.drop_x, self.drop_y, pos[0], pos[1]):
-                                    print("clicked!")
+                                if self.click(gold_bag, self.drop_x, self.drop_y, pos[0], pos[1]):
+                                    play_sound(0,"coin.wav",200)
                                     self.money += self.reward
                                     self.draw_drop = False
 
@@ -416,8 +416,8 @@ class Game():
                         # check if you got a random gold_drop
                         if tw.gold_drop > 0:
                             self.reward = tw.gold_drop
-                            self.drop_x = tw.coord[0] - drop_btn.get_width() / 2
-                            self.drop_y = tw.coord[1] - drop_btn.get_height() / 2 - 35
+                            self.drop_x = tw.coord[0] - gold_bag.get_width() / 2
+                            self.drop_y = tw.coord[1] - gold_bag.get_height() / 2 - 35
                             self.draw_drop = True
 
                 # loop through support towers and do effect
@@ -474,7 +474,7 @@ class Game():
 
         # draw random gold_drop
         if self.draw_drop:
-            self.win.blit(drop_btn, (self.drop_x, self.drop_y))
+            self.win.blit(gold_bag, (self.drop_x, self.drop_y))
 
         # draw towers and fortress, sorted by y position for no overlaying
         towers = self.attack_towers[:] + self.support_towers[:] + self.fortress[:]
