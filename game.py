@@ -3,6 +3,7 @@ import os
 import math
 import time
 import random
+import pandas as pd
 
 from enemies.zao_warrior import Zao_warrior
 from enemies.yan_warrior import Yan_warrior
@@ -66,7 +67,6 @@ fortress_names = ["fortress"]
 pygame.mixer.pre_init()
 pygame.mixer.init()
 pygame.mixer.music.load(os.path.join("game_assets/sounds/", "loop0.wav"))
-# pygame.mixer.music.load(os.path.join("game_assets/sounds/", "ending.mp3"))
 pygame.mixer.music.set_volume(0.4)
 
 # frequency of enemies [Zao_w, Yan_w, Qi_w, Wei_c, Wei_b, Han_w, Chu_w, Chu_e, Chu_b, Yan_b, Qi_b, Zao_r]
@@ -125,7 +125,11 @@ class Game():
         self.draw_drop = False
         self.drop_x = 0
         self.drop_y = 0
-        self.reward = 0 
+        self.reward = 0
+        self.start_ticks = 0
+        self.seconds = 0
+        self.data_dict = {'seconds':[], 'money':[], 'lives':[]}
+        self.df = pd.DataFrame()
 
     def gen_enemies(self):
         """
@@ -202,7 +206,11 @@ class Game():
         # main run
         run = True
         clock = pygame.time.Clock()
+        self.start_ticks = pygame.time.get_ticks() #starter tick
+
         while run:
+
+            self.update_stat()
             clock.tick(400)
 
             # generates enemies at given rate if not pause
@@ -225,7 +233,8 @@ class Game():
             for event in pygame.event.get():
 
                 if event.type == pygame.QUIT:
-                    run = False
+                    self.go_lose = True
+                    #run = False
 
                 if event.type == pygame.MOUSEBUTTONUP:
 
@@ -455,7 +464,9 @@ class Game():
 
                 # stop run if game is over (win or lose)
                 if self.go_win or self.go_lose:
+                    self.df = pd.DataFrame(data = self.data_dict)
                     self.fade(self.width, self.height, rgb(0,0,0), 0, 300, 4) # (width, height, color, start=0, end=300, delay=1)
+                    print(self.df)
                     run = False
 
             self.draw()
@@ -610,6 +621,16 @@ class Game():
             pygame.display.update()
             pygame.time.delay(delay)
 
+    def update_stat(self):
+
+        # seconds ticking
+        self.seconds = (pygame.time.get_ticks()-self.start_ticks)/1000
+
+        # store data every 2 seconds
+        rest = math.fmod(self.seconds, 2)
+        if rest <= 0.01:
+            for key, item in zip(['seconds', 'money', 'lives'], [round(self.seconds), self.money, self.lives]):
+                self.data_dict[key].append(item)
 
 def play_sound(*args):
     if len(args) == 3:
