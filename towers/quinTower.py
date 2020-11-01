@@ -15,16 +15,12 @@ base_imgs1 = []
 animation_imgs1 = []
 for x in range(0,3):
     base_imgs1.append(pygame.image.load(os.path.join("game_assets/quin_towers/shin_base", str(x) + ".png" )))
-# for x in range(0,24):
-#     add_str = str(x)
-#     if x < 10:
-#         add_str = "0" + add_str
-#     animation_imgs1.append(pygame.image.load(os.path.join("game_assets/quin_towers/shin_animation", "0" + add_str + ".png" )))
-for x in range(0,37):
+for x in range(0,24):
     add_str = str(x)
     if x < 10:
         add_str = "0" + add_str
-    animation_imgs1.append(pygame.image.load(os.path.join("game_assets/quin_towers/ouhon_animation", "0" + add_str + ".png" )))
+    animation_imgs1.append(pygame.image.load(os.path.join("game_assets/quin_towers/shin_animation", "0" + add_str + ".png" )))
+
 
 class ShinTower(Tower):
 
@@ -46,7 +42,7 @@ class ShinTower(Tower):
         self.menu.add_btn(upgrade_btn, "Upgrade")
         self.menu.add_btn(sell_btn, "Sell")
         self.moving = False
-        self.sound = "ice.wav"
+        self.sound = "sword.wav"
         self.name = "shin"
         self.sell_price = [15, 75, 225]
         self.price = [100, 300, 9999]
@@ -96,7 +92,6 @@ class ShinTower(Tower):
         :return: None
         """
         money = 0
-
         self.gold_drop = 0
 
         self.inRange = False
@@ -115,7 +110,14 @@ class ShinTower(Tower):
             first_enemy = enemy_closest[0]
 
             if self.animation_count == len(self.animation_imgs):
-                pygame.mixer.Channel(1).play(pygame.mixer.Sound(os.path.join("game_assets/sounds/", self.sound)), maxtime=600)
+
+                if self.name == "ouhon":
+                    if not first_enemy.frozen:
+                        pygame.mixer.Channel(1).play(pygame.mixer.Sound(os.path.join("game_assets/sounds/", self.sound)), maxtime=600)
+                        first_enemy.frozen = True
+                        first_enemy.vel = first_enemy.vel/self.freeze_power
+                else:
+                    pygame.mixer.Channel(1).play(pygame.mixer.Sound(os.path.join("game_assets/sounds/", self.sound)), maxtime=600)
 
                 if first_enemy.hit(self.damage) == True:
                     pygame.mixer.Channel(1).play(pygame.mixer.Sound(os.path.join("game_assets/sounds/", first_enemy.sound)), maxtime=600)
@@ -202,3 +204,36 @@ class KankiTower(ShinTower):
         self.name = "kanki"
         self.sell_price = [30, 75, 225]
         self.price = [100, 300, 9999]
+
+
+# load base tower images and animation images 4
+base_imgs4 = []
+animation_imgs4 = []
+for x in range(0,3):
+    base_imgs4.append(pygame.image.load(os.path.join("game_assets/quin_towers/ouhon_base", str(x) + ".png" )))
+for x in range(0,55):
+    add_str = str(x)
+    if x < 10:
+        add_str = "0" + add_str
+    animation_imgs4.append(pygame.image.load(os.path.join("game_assets/quin_towers/ouhon_animation", "0" + add_str + ".png" )))
+
+class OuhonTower(ShinTower):
+    def __init__(self, x,y):
+        super().__init__(x, y)
+        self.base_imgs = base_imgs4[:]
+        self.animation_imgs = animation_imgs4[:]
+        self.animation_count = 0
+        self.range = 65
+        self.original_range = self.range
+        self.inRange = False
+        self.left = True
+        self.damage = 0
+        self.freeze_power = 2
+        self.original_damage = self.damage
+        self.menu = Menu(self, self.x, self.y, menu_bg, self.price)
+        self.menu.add_btn(upgrade_btn, "Upgrade")
+        self.menu.add_btn(sell_btn, "Sell")
+        self.sound = "ice.wav"
+        self.name = "ouhon"
+        self.sell_price = [100, 135, 260]
+        self.price = [180, 350, 9999]

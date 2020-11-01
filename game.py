@@ -16,7 +16,7 @@ from enemies.chu_boat import Chu_boat
 from enemies.yan_boat import Yan_boat
 from enemies.qi_boat import Qi_boat
 from enemies.zao_riboku import Zao_riboku
-from towers.quinTower import ShinTower, MoubuTower, KankiTower
+from towers.quinTower import ShinTower, MoubuTower, KankiTower, OuhonTower
 from towers.supportTower import TenTower, KyoukaiTower
 from towers.fortress import Fortress
 from kingdoms.quin_base import Quin_base
@@ -43,6 +43,7 @@ side_btn = pygame.image.load(os.path.join("game_assets/menu/","side_btn.png"))
 buy_shin = pygame.image.load(os.path.join("game_assets/quin_towers/shin_icon","buy_shin.png"))
 buy_moubu = pygame.image.load(os.path.join("game_assets/quin_towers/moubu_icon","buy_moubu.png"))
 buy_kanki = pygame.image.load(os.path.join("game_assets/quin_towers/kanki_icon","buy_kanki.png"))
+buy_ouhon = pygame.image.load(os.path.join("game_assets/quin_towers/ouhon_icon","buy_ouhon.png"))
 buy_kyoukai = pygame.image.load(os.path.join("game_assets/support_towers/kyoukai_icon","buy_kyoukai.png"))
 buy_ten = pygame.image.load(os.path.join("game_assets/support_towers/ten_icon","buy_ten.png"))
 buy_fortress = pygame.image.load(os.path.join("game_assets/fortress/fortress_icon","buy_fortress.png"))
@@ -57,7 +58,7 @@ wave_bg = pygame.image.load(os.path.join("game_assets/menu/","wave_sign.png"))
 alert_red = pygame.image.load(os.path.join("game_assets/menu/","alert_red.png")) # red alert
 alert_white = pygame.image.load(os.path.join("game_assets/menu/","alert_white.png")) # white alert
 
-attack_tower_names = ["shin", "moubu", "kanki"]
+attack_tower_names = ["shin", "moubu", "kanki", "ouhon"]
 support_tower_names = ["ten", "kyoukai"]
 fortress_names = ["fortress"]
 
@@ -96,6 +97,7 @@ class Game():
         self.menu.add_btn(buy_shin, "buy_shin", 20)
         self.menu.add_btn(buy_moubu, "buy_moubu", 60)
         self.menu.add_btn(buy_kanki, "buy_kanki", 40)
+        self.menu.add_btn(buy_ouhon, "buy_ouhon", 150)
         self.menu.add_btn(buy_fortress, "buy_fortress", 500)
         self.menu.add_btn(buy_kyoukai, "buy_kyoukai", 150)
         self.menu.add_btn(buy_ten, "buy_ten", 150)
@@ -544,8 +546,8 @@ class Game():
 
     def add_tower(self, name):
         x, y = pygame.mouse.get_pos()
-        name_list = ["buy_shin", "buy_moubu", "buy_kanki", "buy_fortress", "buy_kyoukai", "buy_ten",]
-        object_list = [ShinTower(x,y), MoubuTower(x, y), KankiTower(x, y), Fortress(x, y), KyoukaiTower(x, y), TenTower(x, y)]
+        name_list = ["buy_shin", "buy_moubu", "buy_kanki", "buy_ouhon", "buy_fortress", "buy_kyoukai", "buy_ten"]
+        object_list = [ShinTower(x,y), MoubuTower(x, y), KankiTower(x, y), OuhonTower(x, y), Fortress(x, y), KyoukaiTower(x, y), TenTower(x, y)]
 
         try:
             obj = object_list[name_list.index(name)]

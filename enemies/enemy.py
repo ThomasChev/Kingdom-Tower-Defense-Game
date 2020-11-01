@@ -27,6 +27,7 @@ class Enemy:
         self.flip_first = True # True for right to left maps
         self.max_health = 0
         self.block = False
+        self.frozen = False
 
     def draw(self, win):
         """
@@ -40,8 +41,10 @@ class Enemy:
         ice = ices[self.ice_count]
         win.blit(self.img, (self.x - self.img.get_width() / 2, self.y - self.img.get_height() / 2 - 35))
 
-        # draw ice when hit by ouhon
-        # win.blit(ice, (self.x - ice.get_width() / 2, self.y - ice.get_height() / 2 - 35))
+        # draw ice when hit by OuhonTower
+        if self.frozen:
+            win.blit(ice, (self.x - ice.get_width() / 2, self.y - ice.get_height() / 2 - 35))
+            
         self.draw_health_bar(win)
 
     def draw_health_bar(self, win):
@@ -76,12 +79,11 @@ class Enemy:
                 self.ice_count = 0
 
             # To move object1 to object2:
-            # x1, y1 = self.path[self.path_pos]
             if self.path_pos + 1 >= len(self.path):
                 x2, y2 = (-10, 346)
             else:
                 x2, y2 = self.path[self.path_pos+1]
-            # distances between objects...
+            # distances between objects
             dx = x2 - self.x
             dy = y2 - self.y
             # actual distance between objects(direct line)

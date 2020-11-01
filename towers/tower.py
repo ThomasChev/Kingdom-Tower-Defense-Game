@@ -123,6 +123,10 @@ class Tower:
                 self.level += 1
                 self.max_health += self.max_health
                 self.health += self.health
+        elif self.name == "ouhon":
+            if self.level < len(self.base_imgs):
+                self.level += 1
+                self.freeze_power += 0.5
         else:
             if self.level < len(self.base_imgs):
                 self.level += 1
