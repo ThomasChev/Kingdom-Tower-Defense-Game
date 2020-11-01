@@ -73,9 +73,7 @@ class Tower:
                 win.blit(img, (self.x - img.get_width() // 2, self.y - img.get_height() // 2))
 
         # draw menu
-        # print("tower self.y: ", self.y)
         if self.selected:
-            #self.menu.draw(win, self.range)
             self.menu.draw(win)
 
     def draw_radius(self, win):

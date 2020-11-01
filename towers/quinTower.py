@@ -15,11 +15,16 @@ base_imgs1 = []
 animation_imgs1 = []
 for x in range(0,3):
     base_imgs1.append(pygame.image.load(os.path.join("game_assets/quin_towers/shin_base", str(x) + ".png" )))
-for x in range(0,24):
+# for x in range(0,24):
+#     add_str = str(x)
+#     if x < 10:
+#         add_str = "0" + add_str
+#     animation_imgs1.append(pygame.image.load(os.path.join("game_assets/quin_towers/shin_animation", "0" + add_str + ".png" )))
+for x in range(0,37):
     add_str = str(x)
     if x < 10:
         add_str = "0" + add_str
-    animation_imgs1.append(pygame.image.load(os.path.join("game_assets/quin_towers/shin_animation", "0" + add_str + ".png" )))
+    animation_imgs1.append(pygame.image.load(os.path.join("game_assets/quin_towers/ouhon_animation", "0" + add_str + ".png" )))
 
 class ShinTower(Tower):
 
@@ -41,7 +46,7 @@ class ShinTower(Tower):
         self.menu.add_btn(upgrade_btn, "Upgrade")
         self.menu.add_btn(sell_btn, "Sell")
         self.moving = False
-        self.sound = "sword.wav"
+        self.sound = "ice.wav"
         self.name = "shin"
         self.sell_price = [15, 75, 225]
         self.price = [100, 300, 9999]

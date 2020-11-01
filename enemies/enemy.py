@@ -1,7 +1,13 @@
 import pygame
 import math
 import random
+import os
 from game_assets.colors import rgb
+
+ices = []
+for x in range(0,56):
+    ices.append(pygame.image.load(os.path.join("game_assets/enemies/freeze", str(x) + ".png")))
+
 
 class Enemy:
 
@@ -9,6 +15,7 @@ class Enemy:
         self.width = 64
         self.height = 64
         self.animation_count = 0
+        self.ice_count = 0
         self.health = 1
         self.img = None
         self.dis = 0
@@ -30,7 +37,11 @@ class Enemy:
         # for dot in self.path:
         # 	pygame.draw.circle(win, (255,0,0), dot, 5, 1)
         self.img = self.imgs[self.animation_count]
+        ice = ices[self.ice_count]
         win.blit(self.img, (self.x - self.img.get_width() / 2, self.y - self.img.get_height() / 2 - 35))
+
+        # draw ice when hit by ouhon
+        # win.blit(ice, (self.x - ice.get_width() / 2, self.y - ice.get_height() / 2 - 35))
         self.draw_health_bar(win)
 
     def draw_health_bar(self, win):
@@ -55,9 +66,14 @@ class Enemy:
         :return: None
         """
         if not self.block:
+            
+            # animation counters
             self.animation_count += 1
             if self.animation_count >= len(self.imgs):
                 self.animation_count = 0
+            self.ice_count += 1
+            if self.ice_count >= len(ices):
+                self.ice_count = 0
 
             # To move object1 to object2:
             # x1, y1 = self.path[self.path_pos]
@@ -72,7 +88,7 @@ class Enemy:
             d = math.sqrt(dx** 2 + dy** 2)
             # calculate the distance allowed to move
             normal = 0.3*self.vel/d
-            # finally move ;)
+            # finally move
             self.x = self.x + dx*normal
             self.y = self.y + dy*normal
 

@@ -263,7 +263,7 @@ class Game():
 
                         # toggle play/pause
                         if self.playPauseButton.click(pos[0], pos[1]):
-                            play_sound(1,"play_pause.wav",300)
+                            play_sound(1,"beep_menu.wav",300)
                             self.pause = not(self.pause)
                             self.playPauseButton.paused = self.pause
 
