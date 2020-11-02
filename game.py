@@ -30,6 +30,7 @@ from kingdoms.chu_base import Chu_base
 from kingdoms.chu2_base import Chu2_base
 from kingdoms.chu3_base import Chu3_base
 from menu.menu import VerticalMenu, PlayPauseButton
+from graphs.graphs import Graph
 from game_assets.colors import rgb
 
 pygame.font.init()
@@ -128,8 +129,9 @@ class Game():
         self.reward = 0
         self.start_ticks = 0
         self.seconds = 0
-        self.data_dict = {'seconds':[], 'money':[], 'lives':[]}
+        self.data_dict = {'seconds':[], 'waves':[], 'money':[], 'lives':[], 'money2':[]}
         self.df = pd.DataFrame()
+        self.graphs = [Graph()]
 
     def gen_enemies(self):
         """
@@ -467,6 +469,22 @@ class Game():
                     self.df = pd.DataFrame(data = self.data_dict)
                     self.fade(self.width, self.height, rgb(0,0,0), 0, 300, 4) # (width, height, color, start=0, end=300, delay=1)
                     print(self.df)
+
+                    # graph = self.graphs[0]
+                    graph = Graph()
+                    graph.name = os.path.join("graphs/fig/","plot_money.png")
+
+                    # line = [x, y, label, title, xlabel, ylabel]
+                    graph.lines['money'] = [self.df['seconds'], self.df['money'], 'money', 'Money = f(t)', 'Time (s)' , 'Money ($)']
+                    graph.lines['money/2'] = [self.df['seconds'], self.df['money2'], 'money/2', 'Money = f(t)', 'Time (s)', 'Money ($)']
+                    graph.lines['lives'] = [self.df['seconds'], self.df['lives'], 'lives', 'Lives = f(t)', 'Time (s)', 'Lives (nb)']
+
+                    # ax = [line1, line2...]
+                    graph.ax_dict['ax1'] = [graph.lines['money'], graph.lines['money/2']]
+                    graph.ax_dict['ax2'] = [graph.lines['lives']]
+
+                    graph.plot()
+                    
                     run = False
 
             self.draw()
@@ -625,11 +643,13 @@ class Game():
 
         # seconds ticking
         self.seconds = (pygame.time.get_ticks()-self.start_ticks)/1000
+        list_keys = ['seconds', 'waves', 'money', 'lives', 'money2']
+        list_items = [round(self.seconds), self.wave + 1 ,self.money, self.lives, self.money/2]
 
         # store data every 2 seconds
         rest = math.fmod(self.seconds, 2)
         if rest <= 0.01:
-            for key, item in zip(['seconds', 'money', 'lives'], [round(self.seconds), self.money, self.lives]):
+            for key, item in zip(list_keys, list_items):
                 self.data_dict[key].append(item)
 
 def play_sound(*args):
