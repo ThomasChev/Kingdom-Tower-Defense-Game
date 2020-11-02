@@ -16,6 +16,8 @@ class Graph:
 		self.ncol = 2
 		self.ax_dict = {}
 		self.obj = {}
+		self.towers = ["Shin", "Moubu", "Kanki", "Ouhon", "Ten", "Kyoukai", "Fortress"]
+		self.ys = []
 
 	def plot(self):
 
@@ -39,18 +41,22 @@ class Graph:
 				self.title = elem[3]
 				self.xlabel = elem[4]
 				self.ylabel = elem[5]
-				print('ax=',key,' label=',self.label, ' title=',self.title, ' x=',self.xlabel, ' y=', self.ylabel)
-				self.add_line(ax, self.data_x, self.data_y, self.label)
+				if key != 'ax4':
+					ax.plot(self.data_x, self.data_y, label=self.label)
+				else:
+					for y in elem[6]:
+						self.ys.append(y)
+					ax.stackplot(self.data_x, self.ys[0], self.ys[1], self.ys[2], self.ys[3], self.ys[4], self.ys[5], self.ys[6], labels=self.towers, baseline ='zero')
 			self.set_up(ax)
 		
 		plt.tight_layout()
 		plt.show()
 
-	def add_line(self, ax, x, y, name): # [self.data_x, self.data_y]
-		ax.plot(x, y, label=name)
+	# def add_line(self, ax, x, y, name):
+	# 	ax.plot(x, y, label=name)
 
 	def set_up(self, ax):
-		ax.legend()
+		ax.legend(loc='upper left')
 		# ax.set_title(self.title)
 		ax.set_xlabel(self.xlabel)
 		ax.set_ylabel(self.ylabel)

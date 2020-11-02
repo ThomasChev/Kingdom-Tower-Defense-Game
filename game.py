@@ -129,7 +129,13 @@ class Game():
         self.reward = 0
         self.start_ticks = 0
         self.seconds = 0
-        self.data_dict = {'seconds':[], 'waves':[], 'money':[], 'lives':[], 'money2':[]}
+        self.data_dict = {'seconds':[], 'waves':[], 'money':[], 'lives':[], 'money_earnt':[], 'money_spent':[],
+                            'shin':[], 'moubu':[], 'kanki':[], 'ouhon':[], 'ten':[], 'kyoukai':[], 'fortress':[], 'towers':[], 'upgrade':[], 
+                            'shin_stack':[], 'moubu_stack':[], 'kanki_stack':[], 'ouhon_stack':[], 'ten_stack':[], 'kyoukai_stack':[], 'fortress_stack':[]}
+        self.counters = {'shin':0,'moubu':0, 'kanki':0, 'ouhon':0, 'ten':0, 'kyoukai':0, 'fortress':0, 'upgrade':0}
+        self.stacks = {'shin':0, 'moubu':0, 'kanki':0, 'ouhon':0, 'ten':0, 'kyoukai':0, 'fortress':0}
+        self.money_earnt = 0
+        self.money_spent = 0
         self.df = pd.DataFrame()
         self.graphs = [Graph()]
 
@@ -168,8 +174,10 @@ class Game():
                     self.pause = False
                     self.playPauseButton.paused = self.pause
                     self.current_wave = waves[self.wave]
+                    # reset stack data
+                    for items in self.stacks:
+                        self.stacks[items] = 0
                     
-                
                 # No wave left, go_win
                 else:
                     time.sleep(0.7)
@@ -267,6 +275,8 @@ class Game():
                             elif self.moving_object.name in fortress_names:
                                 self.fortress.append(self.moving_object)
                                 self.first_contact = True
+                            self.counters[self.moving_object.name] += 1
+                            self.stacks[self.moving_object.name] += 1
                             self.moving_object.moving = False
                             self.moving_object = None
                             play_sound(1,"put_tower.wav",600)
@@ -305,6 +315,7 @@ class Game():
                                 if self.money >= cost:
                                     play_sound(1,"buy.wav",600)
                                     self.money -= cost
+                                    self.money_spent += cost
                                     self.add_tower(side_menu_button)
                                 else:
                                     self.shake_money = True
@@ -322,6 +333,8 @@ class Game():
                                     cost = self.selected_tower.get_upgrade_cost()
                                     if self.money >= cost:
                                         self.money -= cost
+                                        self.money_spent += cost
+                                        self.upgrade += 1
                                         self.selected_tower.upgrade()
                                         play_sound(1,"buy.wav",600)
                                     else:
@@ -332,6 +345,9 @@ class Game():
                                 if btn_clicked == "Sell":
                                     refund = self.selected_tower.sell()
                                     self.money += refund
+                                    self.money_earnt += refund
+                                    self.counters[self.selected_tower.name] -= 1
+                                    self.stacks[self.moving_object.name] += 1
                                     play_sound(1,"sell.wav",200)
                                     if self.selected_tower.name in attack_tower_names:
                                         self.attack_towers.remove(self.selected_tower)
@@ -378,6 +394,7 @@ class Game():
                                 if self.click(gold_bag, self.drop_x, self.drop_y, pos[0], pos[1]):
                                     play_sound(0,"coin.wav",200)
                                     self.money += self.reward
+                                    self.money_earnt += self.reward
                                     self.draw_drop = False
 
                         # self.clicks.append(pos)
@@ -424,7 +441,9 @@ class Game():
                 for tw in self.attack_towers:
 
                         # attack
+                        money_before = self.money 
                         self.money += tw.attack(self.enemys)
+                        self.money_earnt += self.money - money_before
 
                         # check if you got a random gold_drop
                         if tw.gold_drop > 0:
@@ -475,20 +494,18 @@ class Game():
                     graph.name = os.path.join("graphs/fig/","plot_money.png")
 
                     # line = [x, y, label, title, xlabel, ylabel]
-                    graph.lines['money'] = [self.df['seconds'], self.df['money'], 'money', 'Money = f(t)', 'Time (s)' , 'Money ($)']
-                    graph.lines['money/2'] = [self.df['seconds'], self.df['money2'], 'money/2', 'Money = f(t)', 'Time (s)', 'Money ($)']
-                    graph.lines['lives'] = [self.df['seconds'], self.df['lives'], 'lives', 'Lives = f(t)', 'Time (s)', 'Lives (nb)']
+                    graph.lines['1a'] = [self.df['seconds'], self.df['money_spent'], 'spent', 'Money = f(t)', 'Time (s)' , 'Money ($)']
+                    graph.lines['1b'] = [self.df['seconds'], self.df['money_earnt'], 'earnt', 'Money = f(t)', 'Time (s)', 'Money ($)']
+                    graph.lines['2a'] = [self.df['seconds'], self.df['money'], 'money', 'Money = f(t)', 'Time (s)', 'Money ($)']
+                    graph.lines['3a'] = [self.df['seconds'], self.df['lives'], 'lives', 'Lives = f(t)', 'Time (s)', 'Lives (nb)']
+                    # graph.lines['4a'] = [self.df['waves'], self.df['towers'], 'towers', 'Towers = f(wave)', 'Wave', 'Towers (nb)', [self.df['shin_stack'],  self.df['moubu_stack'],  self.df['kanki_stack'],  self.df['ouhon_stack'],  self.df['ten_stack'],  self.df['kyoukai_stack'],  self.df['fortress_stack']]]
+                    graph.lines['4a'] = [self.df['seconds'], self.df['towers'], 'towers', 'Towers = f(t)', 'Time (s)', 'Towers (nb)', [self.df['shin'],  self.df['moubu'],  self.df['kanki'],  self.df['ouhon'],  self.df['ten'],  self.df['kyoukai'],  self.df['fortress']]]
 
                     # ax = [line1, line2...]
-                    graph.ax_dict['ax1'] = [graph.lines['money'], graph.lines['money/2']]
-                    graph.ax_dict['ax2'] = [graph.lines['lives']]
-
-                    graph.lines['money_2'] = [self.df['waves'], self.df['money'], 'money', 'Money = f(wave)', 'Wave' , 'Money ($)']
-                    graph.lines['money/2_2'] = [self.df['waves'], self.df['money2'], 'money/2', 'Money = f(wave)', 'Wave', 'Money ($)']
-                    graph.lines['lives_2'] = [self.df['waves'], self.df['lives'], 'lives', 'Lives = f(t)', 'Wave', 'Lives (nb)']
-
-                    graph.ax_dict['ax3'] = [graph.lines['money_2'], graph.lines['money/2_2']]
-                    graph.ax_dict['ax4'] = [graph.lines['lives_2']]
+                    graph.ax_dict['ax1'] = [graph.lines['1a'], graph.lines['1b']]
+                    graph.ax_dict['ax2'] = [graph.lines['2a']]
+                    graph.ax_dict['ax3'] = [graph.lines['3a']]
+                    graph.ax_dict['ax4'] = [graph.lines['4a']]
 
                     graph.plot()
                     
@@ -650,8 +667,20 @@ class Game():
 
         # seconds ticking
         self.seconds = (pygame.time.get_ticks()-self.start_ticks)/1000
-        list_keys = ['seconds', 'waves', 'money', 'lives', 'money2']
-        list_items = [round(self.seconds), self.wave + 1 ,self.money, self.lives, self.money/2]
+
+        towers_nb = 0
+        for items in self.counters:
+            if items != 'upgrade':
+                towers_nb += self.counters[items]
+
+        list_keys = ['seconds', 'waves', 'money', 'lives', 'money_earnt', 'money_spent', 
+                        'shin','moubu', 'kanki', 'ouhon', 'ten', 'kyoukai', 'fortress', 'towers', 'upgrade',
+                        'shin_stack', 'moubu_stack', 'kanki_stack', 'ouhon_stack', 'ten_stack', 'kyoukai_stack', 'fortress_stack']
+        list_items = [round(self.seconds), self.wave + 1 , self.money, self.lives, self.money_earnt,  self.money_spent,
+                        self.counters['shin'],  self.counters['moubu'],  self.counters['kanki'],  self.counters['ouhon'],  
+                        self.counters['ten'],  self.counters['kyoukai'],  self.counters['fortress'], towers_nb, 
+                        self.counters['upgrade'], self.stacks['shin'],  self.stacks['moubu'],  self.stacks['kanki'],  self.stacks['ouhon'],  
+                        self.stacks['ten'],  self.stacks['kyoukai'],  self.stacks['fortress']]
 
         # store data every 2 seconds
         rest = math.fmod(self.seconds, 2)
