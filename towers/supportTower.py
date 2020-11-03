@@ -142,5 +142,6 @@ class RyoTower(TenTower):
                 effected.append(tower)
 
         for tower in effected:
-            pass
-            #tower.damage = tower.original_damage + round(tower.original_damage * self.effect[self.level -1])
+            for i in range(1,3):
+                tower.distribution[i] = tower.original_distribution[i] + round(tower.original_distribution[i] * self.effect[self.level -1], 3)
+            tower.distribution[0] = 1 - (tower.distribution[1] + tower.distribution[2])

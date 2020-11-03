@@ -46,6 +46,8 @@ class ShinTower(Tower):
         self.name = "shin"
         self.sell_price = [15, 75, 225]
         self.price = [100, 300, 9999]
+        self.distribution = [0.89, 0.1, 0.01]
+        self.original_distribution = self.distribution[:]
         self.gold_drop = 0
         self.coord = (0, 0)
 
@@ -125,6 +127,7 @@ class ShinTower(Tower):
                     # give money, drop reward (low probability), remove died enemy
                     money = first_enemy.money * 2
                     self.random_reward(first_enemy)
+                    print(self.gold_drop, self.distribution)
                     if self.gold_drop > 0:
                         self.coord = (first_enemy.x, first_enemy.y)
                     enemies.remove(first_enemy)
@@ -136,9 +139,8 @@ class ShinTower(Tower):
         Return an amount of reward, with low probability
         :return: 1-sized list   
         """
-        gold_list = [0, enemy.money, enemy.money**2]
-        distribution = [0.89, 0.1, 0.01]
-        drop = random.choices(gold_list, distribution)
+        gold_list = [0, enemy.money, enemy.money**3]
+        drop = random.choices(gold_list, self.distribution)
         self.gold_drop = drop[0]
         return self.gold_drop
 
@@ -173,6 +175,8 @@ class MoubuTower(ShinTower):
         self.name = "moubu"
         self.sell_price = [45, 75, 225]
         self.price = [100, 300, 9999]
+        self.distribution = [0.89, 0.1, 0.01]
+        self.original_distribution = self.distribution[:]
 
 # load base tower images and animation images 3
 base_imgs3 = []
@@ -204,6 +208,7 @@ class KankiTower(ShinTower):
         self.name = "kanki"
         self.sell_price = [30, 75, 225]
         self.price = [100, 300, 9999]
+        self.distribution = [0.89, 0.1, 0.01]
 
 
 # load base tower images and animation images 4
@@ -237,3 +242,5 @@ class OuhonTower(ShinTower):
         self.name = "ouhon"
         self.sell_price = [100, 135, 260]
         self.price = [180, 350, 9999]
+        self.distribution = [0.89, 0.1, 0.01]
+        self.original_distribution = self.distribution[:]
