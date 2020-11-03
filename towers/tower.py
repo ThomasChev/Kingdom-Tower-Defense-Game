@@ -53,6 +53,7 @@ class Tower:
         self.base_imgs = []
         self.animation_imgs = []
         self.damage = 1
+        self.speed = 4
 
     def draw (self, win):
         """

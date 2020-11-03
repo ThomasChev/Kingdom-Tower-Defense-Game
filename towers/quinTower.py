@@ -50,6 +50,7 @@ class ShinTower(Tower):
         self.original_distribution = self.distribution[:]
         self.gold_drop = 0
         self.coord = (0, 0)
+        self.speed = 4
 
     def get_upgrade_cost(self):
         """
@@ -69,12 +70,12 @@ class ShinTower(Tower):
 
         if self.inRange and not self.moving:
             self.animation_count += 1
-            if self.animation_count >= len(self.animation_imgs) * 4:
+            if self.animation_count >= len(self.animation_imgs) * (5-self.speed):
                 self.animation_count = len(self.animation_imgs)
         else:
             self.animation_count = 0
 
-        shin = self.animation_imgs[self.animation_count // 4]
+        shin = self.animation_imgs[self.animation_count // (5-self.speed)]
         add_x = 2
         add_y = 5
         win.blit(shin, ((self.x - shin.get_width()/2 + add_x), (self.y - shin.get_height()/2 - add_y)))
@@ -127,7 +128,6 @@ class ShinTower(Tower):
                     # give money, drop reward (low probability), remove died enemy
                     money = first_enemy.money * 2
                     self.random_reward(first_enemy)
-                    print(self.gold_drop, self.distribution)
                     if self.gold_drop > 0:
                         self.coord = (first_enemy.x, first_enemy.y)
                     enemies.remove(first_enemy)

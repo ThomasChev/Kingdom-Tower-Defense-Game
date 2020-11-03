@@ -28,6 +28,7 @@ class Enemy:
         self.max_health = 0
         self.block = False
         self.frozen = False
+        self.speed = 1
 
     def draw(self, win):
         """
@@ -89,7 +90,7 @@ class Enemy:
             # actual distance between objects(direct line)
             d = math.sqrt(dx** 2 + dy** 2)
             # calculate the distance allowed to move
-            normal = 0.3*self.vel/d
+            normal = (0.3*self.vel/d)*self.speed
             # finally move
             self.x = self.x + dx*normal
             self.y = self.y + dy*normal

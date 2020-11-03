@@ -57,6 +57,8 @@ buy_fortress = pygame.image.load(os.path.join("game_assets/fortress/fortress_ico
 
 play_btn = pygame.image.load(os.path.join("game_assets/menu/","play_btn.png"))
 pause_btn = pygame.image.load(os.path.join("game_assets/menu/","pause_btn.png"))
+speed1_btn = pygame.image.load(os.path.join("game_assets/menu/","speed1_btn.png"))
+speed3_btn = pygame.image.load(os.path.join("game_assets/menu/","speed3_btn.png"))
 sound_btn = pygame.image.load(os.path.join("game_assets/menu/","music_btn.png"))
 sound_btn_off= pygame.image.load(os.path.join("game_assets/menu/","music_off_btn.png"))
 gold_bag = pygame.image.load(os.path.join("game_assets/menu/", "gold_bag.png"))
@@ -89,8 +91,9 @@ class Game():
         self.attack_towers = []
         self.support_towers = []
         self.fortress = []
+        self.fortress_sold = []
         self.lives = 200
-        self.money = 1000
+        self.money = 10000
         self.bg = pygame.image.load(os.path.join("game_assets/background/", "kingdom.png"))
         self.bg = pygame.transform.scale(self.bg, (self.width, self.height))
         self.clicks = [] # use to see clicks
@@ -104,7 +107,7 @@ class Game():
         self.menu.add_btn(buy_moubu, "buy_moubu", 60)
         self.menu.add_btn(buy_kanki, "buy_kanki", 40)
         self.menu.add_btn(buy_ouhon, "buy_ouhon", 150)
-        self.menu.add_btn(buy_fortress, "buy_fortress", 500)
+        self.menu.add_btn(buy_fortress, "buy_fortress", 200)
         self.menu.add_btn(buy_kyoukai, "buy_kyoukai", 150)
         self.menu.add_btn(buy_ten, "buy_ten", 150)
         self.menu.add_btn(buy_ryo, "buy_ryo", 150)
@@ -112,9 +115,11 @@ class Game():
         self.wave = 0
         self.current_wave = waves[self.wave][:]
         self.pause = False
+        self.speed = False
         self.playPauseButton = PlayPauseButton(play_btn, pause_btn, self.width/2 - 118, 0)
         self.soundButton = PlayPauseButton(sound_btn, sound_btn_off, self.width/2 + 88, 0)
         self.sideButton = PlayPauseButton(side_btn, side_btn, self.width - 33, 272)
+        self.speedButton = PlayPauseButton(speed1_btn, speed3_btn, self.width/2 - 170, 0)
         self.music_on = True
         self.menu_on = False
         self.shake_money = False
@@ -158,8 +163,8 @@ class Game():
                         (Wei_balista(),Wei_base()), 
                         (Han_warrior(),Han_base()), 
                         (Chu_warrior(),Chu_base()), 
-                        (Chu_elephant(),Chu_base()), 
-                        (Chu_boat(),Chu_base()), 
+                        (Chu_elephant(),Chu2_base()), 
+                        (Chu_boat(),Chu3_base()), 
                         (Yan_boat(),Yan_base()), 
                         (Qi_boat(),Qi_base()), 
                         (Zao_riboku(),Zao_base())]
@@ -179,7 +184,6 @@ class Game():
                     # reset
                     self.fortress_sound = False
                     self.pause = False
-                    self.playPauseButton.paused = self.pause
                     self.current_wave = waves[self.wave]
                     # reset stack data
                     for items in self.stacks:
@@ -294,8 +298,8 @@ class Game():
                         # toggle play/pause
                         if self.playPauseButton.click(pos[0], pos[1]):
                             play_sound(1,"beep_menu.wav",300)
-                            self.pause = not(self.pause)
                             self.playPauseButton.paused = self.pause
+                            self.pause = not(self.pause)
 
                         # toggle music
                         if self.soundButton.click(pos[0], pos[1]):
@@ -327,6 +331,12 @@ class Game():
                                 else:
                                     self.shake_money = True
                                     play_sound(1,"buzz.wav",600)
+
+                        # if you click on speed-up, speed-down
+                        if self.speedButton.click(pos[0], pos[1]):
+                            play_sound(1,"beep_menu.wav", 300)
+                            self.speedButton.paused = self.speed
+                            self.speed = not(self.speed)
 
                         btn_clicked = None
                         # if you click on attack tower or support tower
@@ -361,6 +371,8 @@ class Game():
                                     elif self.selected_tower.name in support_tower_names:
                                         self.support_towers.remove(self.selected_tower)
                                     elif self.selected_tower.name in fortress_names:
+                                        self.fortress_sound = False
+                                        self.fortress_sold.append(self.selected_tower)
                                         self.fortress.remove(self.selected_tower)
 
                         if not btn_clicked:
@@ -413,6 +425,11 @@ class Game():
 
                 # loop through enemies
                 for en in self.enemys:
+
+                    if self.speed:
+                        en.speed = 3
+                    else:
+                        en.speed = 1
                     
                     # move enemies along the path
                     en.move()
@@ -426,6 +443,7 @@ class Game():
                         # fortress loses health
                         if en.collide(ft):
                             self.fortress_sound = True
+                            ft.collided.append(en)
                             if self.first_contact:
                                 play_sound(1,"melee.wav",1600)
                                 self.first_contact = False
@@ -446,7 +464,11 @@ class Game():
 
                 # loop through attack towers 
                 for tw in self.attack_towers:
-
+                        # if game has speed-up
+                        if self.speed:
+                            tw.speed = 3  
+                        else:
+                            tw.speed = 1
                         # attack
                         money_before = self.money 
                         self.money += tw.attack(self.enemys)
@@ -470,8 +492,13 @@ class Game():
                         self.fortress.remove(ft)
                         for en in self.to_resist:
                             en.block = False
-                
-                # play fortress sound if activated
+                for ft in self.fortress_sold:
+                    for en in self.to_resist:
+                        if en in ft.collided:
+                            en.block = False
+                    self.fortress_sold.remove(ft)
+
+                # play fortress sound if fortress is still activated
                 if self.fortress_sound:
                     if random.randint(0,60) == 10:
                         play_sound(1,"melee.wav",1600)
@@ -547,7 +574,6 @@ class Game():
         for en in self.enemys:
             en.draw(self.win)
 
-
         # draw menu
         if self.menu_on:
             self.menu.draw(self.win)
@@ -560,6 +586,9 @@ class Game():
             self.sideButton.x = self.width - 33
             self.sideButton.y = 272
         self.sideButton.draw(self.win)
+
+        # draw speed-up, speed-down button
+        self.speedButton.draw(self.win)
 
         # draw play pause button
         self.playPauseButton.draw(self.win)

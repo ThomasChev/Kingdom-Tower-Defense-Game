@@ -41,6 +41,7 @@ class Fortress(Tower):
         self.health = self.max_health
         self.collapse = False
         self.price = [0, 0, 0]
+        self.collided = []
 
     def get_upgrade_cost(self):
         """
