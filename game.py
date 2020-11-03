@@ -5,6 +5,7 @@ import time
 import random
 import pandas as pd
 
+# enemies
 from enemies.zao_warrior import Zao_warrior
 from enemies.yan_warrior import Yan_warrior
 from enemies.qi_warrior import Qi_warrior
@@ -17,9 +18,13 @@ from enemies.chu_boat import Chu_boat
 from enemies.yan_boat import Yan_boat
 from enemies.qi_boat import Qi_boat
 from enemies.zao_riboku import Zao_riboku
+
+# towers
 from towers.quinTower import ShinTower, MoubuTower, KankiTower, OuhonTower
-from towers.supportTower import TenTower, KyoukaiTower
+from towers.supportTower import TenTower, KyoukaiTower, RyoTower
 from towers.fortress import Fortress
+
+# kingdoms
 from kingdoms.quin_base import Quin_base
 from kingdoms.zao_base import Zao_base
 from kingdoms.yan_base import Yan_base
@@ -36,7 +41,6 @@ from game_assets.colors import rgb
 pygame.font.init()
 pygame.init()
 
-
 lives_img = pygame.image.load(os.path.join("game_assets/menu/","heart.png"))
 money_img = pygame.image.load(os.path.join("game_assets/menu/","star.png"))
 side_img = pygame.image.load(os.path.join("game_assets/menu/","side.png"))
@@ -48,6 +52,7 @@ buy_kanki = pygame.image.load(os.path.join("game_assets/quin_towers/kanki_icon",
 buy_ouhon = pygame.image.load(os.path.join("game_assets/quin_towers/ouhon_icon","buy_ouhon.png"))
 buy_kyoukai = pygame.image.load(os.path.join("game_assets/support_towers/kyoukai_icon","buy_kyoukai.png"))
 buy_ten = pygame.image.load(os.path.join("game_assets/support_towers/ten_icon","buy_ten.png"))
+buy_ryo = pygame.image.load(os.path.join("game_assets/support_towers/ryo_icon","buy_ryo.png"))
 buy_fortress = pygame.image.load(os.path.join("game_assets/fortress/fortress_icon","buy_fortress.png"))
 
 play_btn = pygame.image.load(os.path.join("game_assets/menu/","play_btn.png"))
@@ -61,7 +66,7 @@ alert_red = pygame.image.load(os.path.join("game_assets/menu/","alert_red.png"))
 alert_white = pygame.image.load(os.path.join("game_assets/menu/","alert_white.png")) # white alert
 
 attack_tower_names = ["shin", "moubu", "kanki", "ouhon"]
-support_tower_names = ["ten", "kyoukai"]
+support_tower_names = ["ten", "kyoukai", "ryo"]
 fortress_names = ["fortress"]
 
 # initialize background music
@@ -94,7 +99,7 @@ class Game():
         self.wave_font = pygame.font.Font("game_assets/fonts/SF Atarian System.ttf", 18)
         self.wave_font2 = pygame.font.Font("game_assets/fonts/SF Atarian System.ttf", 72)
         self.selected_tower = None
-        self.menu = VerticalMenu(self.width - 62, 125, side_img)
+        self.menu = VerticalMenu(self.width - 45, 46, side_img)
         self.menu.add_btn(buy_shin, "buy_shin", 20)
         self.menu.add_btn(buy_moubu, "buy_moubu", 60)
         self.menu.add_btn(buy_kanki, "buy_kanki", 40)
@@ -102,13 +107,14 @@ class Game():
         self.menu.add_btn(buy_fortress, "buy_fortress", 500)
         self.menu.add_btn(buy_kyoukai, "buy_kyoukai", 150)
         self.menu.add_btn(buy_ten, "buy_ten", 150)
+        self.menu.add_btn(buy_ryo, "buy_ryo", 150)
         self.moving_object = None
         self.wave = 0
         self.current_wave = waves[self.wave][:]
         self.pause = False
         self.playPauseButton = PlayPauseButton(play_btn, pause_btn, self.width/2 - 118, 0)
         self.soundButton = PlayPauseButton(sound_btn, sound_btn_off, self.width/2 + 88, 0)
-        self.sideButton = PlayPauseButton(side_btn, side_btn, self.width - 40, 272)
+        self.sideButton = PlayPauseButton(side_btn, side_btn, self.width - 33, 272)
         self.music_on = True
         self.menu_on = False
         self.shake_money = False
@@ -130,12 +136,13 @@ class Game():
         self.start_ticks = 0
         self.seconds = 0
         self.data_dict = {'seconds':[], 'waves':[], 'money':[], 'lives':[], 'money_earnt':[], 'money_spent':[],
-                            'shin':[], 'moubu':[], 'kanki':[], 'ouhon':[], 'ten':[], 'kyoukai':[], 'fortress':[], 'towers':[], 'upgrade':[], 
-                            'shin_stack':[], 'moubu_stack':[], 'kanki_stack':[], 'ouhon_stack':[], 'ten_stack':[], 'kyoukai_stack':[], 'fortress_stack':[]}
-        self.counters = {'shin':0,'moubu':0, 'kanki':0, 'ouhon':0, 'ten':0, 'kyoukai':0, 'fortress':0, 'upgrade':0}
-        self.stacks = {'shin':0, 'moubu':0, 'kanki':0, 'ouhon':0, 'ten':0, 'kyoukai':0, 'fortress':0}
+                            'shin':[], 'moubu':[], 'kanki':[], 'ouhon':[], 'ten':[], 'kyoukai':[], 'ryo':[],'fortress':[], 'towers':[], 'upgrade':[], 
+                            'shin_stack':[], 'moubu_stack':[], 'kanki_stack':[], 'ouhon_stack':[], 'ten_stack':[], 'kyoukai_stack':[], 'ryo_stack':[],'fortress_stack':[]}
+        self.counters = {'shin':0,'moubu':0, 'kanki':0, 'ouhon':0, 'ten':0, 'kyoukai':0, 'ryo':0 ,'fortress':0, 'upgrade':0}
+        self.stacks = {'shin':0, 'moubu':0, 'kanki':0, 'ouhon':0, 'ten':0, 'kyoukai':0, 'ryo':0, 'fortress':0}
         self.money_earnt = 0
         self.money_spent = 0
+        self.upgrade = 0
         self.df = pd.DataFrame()
         self.graphs = [Graph()]
 
@@ -301,7 +308,7 @@ class Game():
 
                         # toggle side menu
                         if self.sideButton.click(pos[0], pos[1]):
-                            play_sound(1,"toggle.wav",600)
+                            play_sound(1,"toggle.wav", 600)
                             self.menu_on = not(self.menu_on)
                             self.sideButton.paused = self.menu_on
                             self.sideButton.play = pygame.transform.flip(self.sideButton.play, True, False)
@@ -347,7 +354,7 @@ class Game():
                                     self.money += refund
                                     self.money_earnt += refund
                                     self.counters[self.selected_tower.name] -= 1
-                                    self.stacks[self.moving_object.name] += 1
+                                    self.stacks[self.selected_tower.name] += 1
                                     play_sound(1,"sell.wav",200)
                                     if self.selected_tower.name in attack_tower_names:
                                         self.attack_towers.remove(self.selected_tower)
@@ -496,13 +503,14 @@ class Game():
                     # line = [x, y, label, title, xlabel, ylabel]
                     graph.lines['1a'] = [self.df['seconds'], self.df['money_spent'], 'spent', 'Money = f(t)', 'Time (s)' , 'Money ($)']
                     graph.lines['1b'] = [self.df['seconds'], self.df['money_earnt'], 'earnt', 'Money = f(t)', 'Time (s)', 'Money ($)']
-                    graph.lines['2a'] = [self.df['seconds'], self.df['money'], 'money', 'Money = f(t)', 'Time (s)', 'Money ($)']
+                    graph.lines['1c'] = [self.df['seconds'], self.df['money'], 'money', 'Money = f(t)', 'Time (s)', 'Money ($)']
+                    graph.lines['2a'] = [self.df['seconds'], self.df['towers'], 'towers', 'Towers = f(t)', 'Time (s)', 'Attack Towers', [self.df['shin'],  self.df['moubu'],  self.df['kanki'],  self.df['ouhon']]]
                     graph.lines['3a'] = [self.df['seconds'], self.df['lives'], 'lives', 'Lives = f(t)', 'Time (s)', 'Lives (nb)']
-                    # graph.lines['4a'] = [self.df['waves'], self.df['towers'], 'towers', 'Towers = f(wave)', 'Wave', 'Towers (nb)', [self.df['shin_stack'],  self.df['moubu_stack'],  self.df['kanki_stack'],  self.df['ouhon_stack'],  self.df['ten_stack'],  self.df['kyoukai_stack'],  self.df['fortress_stack']]]
-                    graph.lines['4a'] = [self.df['seconds'], self.df['towers'], 'towers', 'Towers = f(t)', 'Time (s)', 'Towers (nb)', [self.df['shin'],  self.df['moubu'],  self.df['kanki'],  self.df['ouhon'],  self.df['ten'],  self.df['kyoukai'],  self.df['fortress']]]
+                    graph.lines['4a'] = [self.df['seconds'], self.df['towers'], 'towers', 'Towers = f(t)', 'Time (s)', 'Support Towers', [self.df['ten'],  self.df['kyoukai'],  self.df['ryo'], self.df['fortress']]]
+                    # do functions graph_tower, graph_money()...
 
                     # ax = [line1, line2...]
-                    graph.ax_dict['ax1'] = [graph.lines['1a'], graph.lines['1b']]
+                    graph.ax_dict['ax1'] = [graph.lines['1a'], graph.lines['1b'], graph.lines['1c']]
                     graph.ax_dict['ax2'] = [graph.lines['2a']]
                     graph.ax_dict['ax3'] = [graph.lines['3a']]
                     graph.ax_dict['ax4'] = [graph.lines['4a']]
@@ -539,16 +547,17 @@ class Game():
         for en in self.enemys:
             en.draw(self.win)
 
+
         # draw menu
         if self.menu_on:
             self.menu.draw(self.win)
 
         # draw side button
         if self.menu_on:
-            self.sideButton.x = self.width - 133
+            self.sideButton.x = self.width - 116
             self.sideButton.y = 272
         else:
-            self.sideButton.x = self.width - 40
+            self.sideButton.x = self.width - 33
             self.sideButton.y = 272
         self.sideButton.draw(self.win)
 
@@ -559,9 +568,9 @@ class Game():
         self.soundButton.draw(self.win)
 
         # draw wave
-        self.win.blit(wave_bg, (self.width - 100, self.height - 48))
+        self.win.blit(wave_bg, (self.width - 90, self.height - 48))
         text = self.wave_font.render("Wave " + str(self.wave + 1), 2, rgb(255,255,255))
-        self.win.blit(text, (self.width - 100 + wave_bg.get_width()/2 - text.get_width()/2, self.height - 47))
+        self.win.blit(text, (self.width - 90 + wave_bg.get_width()/2 - text.get_width()/2, self.height - 47))
 
         # draw alert
         self.draw_alert(self.current_kingdom)
@@ -599,8 +608,8 @@ class Game():
 
     def add_tower(self, name):
         x, y = pygame.mouse.get_pos()
-        name_list = ["buy_shin", "buy_moubu", "buy_kanki", "buy_ouhon", "buy_fortress", "buy_kyoukai", "buy_ten"]
-        object_list = [ShinTower(x,y), MoubuTower(x, y), KankiTower(x, y), OuhonTower(x, y), Fortress(x, y), KyoukaiTower(x, y), TenTower(x, y)]
+        name_list = ["buy_shin", "buy_moubu", "buy_kanki", "buy_ouhon", "buy_fortress", "buy_kyoukai", "buy_ten", "buy_ryo"]
+        object_list = [ShinTower(x,y), MoubuTower(x, y), KankiTower(x, y), OuhonTower(x, y), Fortress(x, y), KyoukaiTower(x, y), TenTower(x, y), RyoTower(x, y)]
 
         try:
             obj = object_list[name_list.index(name)]
@@ -674,13 +683,13 @@ class Game():
                 towers_nb += self.counters[items]
 
         list_keys = ['seconds', 'waves', 'money', 'lives', 'money_earnt', 'money_spent', 
-                        'shin','moubu', 'kanki', 'ouhon', 'ten', 'kyoukai', 'fortress', 'towers', 'upgrade',
-                        'shin_stack', 'moubu_stack', 'kanki_stack', 'ouhon_stack', 'ten_stack', 'kyoukai_stack', 'fortress_stack']
+                        'shin','moubu', 'kanki', 'ouhon', 'ten', 'kyoukai', 'ryo', 'fortress', 'towers', 'upgrade',
+                        'shin_stack', 'moubu_stack', 'kanki_stack', 'ouhon_stack', 'ten_stack', 'kyoukai_stack', 'ryo_stack', 'fortress_stack']
         list_items = [round(self.seconds), self.wave + 1 , self.money, self.lives, self.money_earnt,  self.money_spent,
                         self.counters['shin'],  self.counters['moubu'],  self.counters['kanki'],  self.counters['ouhon'],  
-                        self.counters['ten'],  self.counters['kyoukai'],  self.counters['fortress'], towers_nb, 
+                        self.counters['ten'],  self.counters['kyoukai'], self.counters['ryo'],  self.counters['fortress'], towers_nb, 
                         self.counters['upgrade'], self.stacks['shin'],  self.stacks['moubu'],  self.stacks['kanki'],  self.stacks['ouhon'],  
-                        self.stacks['ten'],  self.stacks['kyoukai'],  self.stacks['fortress']]
+                        self.stacks['ten'],  self.stacks['kyoukai'], self.stacks['ryo'], self.stacks['fortress']]
 
         # store data every 2 seconds
         rest = math.fmod(self.seconds, 2)

@@ -102,3 +102,45 @@ class KyoukaiTower(TenTower):
 
         for tower in effected:
             tower.damage = tower.original_damage + round(tower.original_damage * self.effect[self.level -1])
+
+
+# load base tower images 6
+base_imgs6 = []
+for x in range(0,3):
+    base_imgs6.append(pygame.image.load(os.path.join("game_assets/support_towers/ryo_base", str(x) + ".png" )))
+
+class RyoTower(TenTower):
+    """
+    enhance rewards surrounding towers
+    """
+    def __init__(self, x, y):
+        super().__init__(x,y)
+        self.range = 60
+        self.base_imgs = base_imgs6[:]
+        self.effect = [1, 2, 3]
+        self.menu = Menu(self, self.x, self.y, menu_bg, self.price)
+        self.menu.add_btn(upgrade_btn, "Upgrade")
+        self.menu.add_btn(sell_btn, "Sell")
+        self.name = "ryo"
+        self.sell_price = [100, 135, 260]
+        self.price = [180, 350, 9999]
+
+    def support(self, towers):
+        """
+        will modify towers according to ability
+        :param towers: list
+        :return: None
+        """
+        effected = []
+        for tower in towers:
+            x = tower.x
+            y = tower.y
+
+            dis = math.sqrt((self.x - x) ** 2 + (self.y - y) ** 2)
+
+            if dis <= self.range + tower.width/2:
+                effected.append(tower)
+
+        for tower in effected:
+            pass
+            #tower.damage = tower.original_damage + round(tower.original_damage * self.effect[self.level -1])

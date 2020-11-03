@@ -179,7 +179,7 @@ class VerticalMenu(Menu):
         """
         self.items += 1
         btn_x = self.x - 25
-        btn_y = self.y + (self.items-1)*74
+        btn_y = self.y + (self.items-1)*74 + 4
         self.buttons.append(VerticalButton(btn_x, btn_y, img, name, cost))
 
     def get_item_cost(self, name):
@@ -201,9 +201,9 @@ class VerticalMenu(Menu):
         """
         add_blink = 6
         if self.blink:
-            win.blit(self.bg, (self.x - self.bg.get_width()/2 - 8, self.y - 12 + add_blink))
+            win.blit(self.bg, (self.x - self.bg.get_width()/2 - 8, self.y - 10 + add_blink))
         else:
-            win.blit(self.bg, (self.x - self.bg.get_width()/2 - 8, self.y - 12))
+            win.blit(self.bg, (self.x - self.bg.get_width()/2 - 8, self.y - 10))
         
         for item in self.buttons:
             item.draw(win)
