@@ -34,7 +34,7 @@ from kingdoms.han_base import Han_base
 from kingdoms.chu_base import Chu_base
 from kingdoms.chu2_base import Chu2_base
 from kingdoms.chu3_base import Chu3_base
-from menu.menu import VerticalMenu, PlayPauseButton
+from menu.menu import VerticalMenu, PlayPauseButton, ReturnButton
 from graphs.graphs import Graph
 from game_assets.colors import rgb
 
@@ -58,6 +58,7 @@ buy_fortress = pygame.image.load(os.path.join("game_assets/fortress/fortress_ico
 play_btn = pygame.image.load(os.path.join("game_assets/menu/","play_btn.png"))
 pause_btn = pygame.image.load(os.path.join("game_assets/menu/","pause_btn.png"))
 speed1_btn = pygame.image.load(os.path.join("game_assets/menu/","speed1_btn.png"))
+speed2_btn = pygame.image.load(os.path.join("game_assets/menu/","speed2_btn.png"))
 speed3_btn = pygame.image.load(os.path.join("game_assets/menu/","speed3_btn.png"))
 sound_btn = pygame.image.load(os.path.join("game_assets/menu/","music_btn.png"))
 sound_btn_off= pygame.image.load(os.path.join("game_assets/menu/","music_off_btn.png"))
@@ -115,11 +116,11 @@ class Game():
         self.wave = 0
         self.current_wave = waves[self.wave][:]
         self.pause = False
-        self.speed = False
+        self.speed = 1
         self.playPauseButton = PlayPauseButton(play_btn, pause_btn, self.width/2 - 118, 0)
         self.soundButton = PlayPauseButton(sound_btn, sound_btn_off, self.width/2 + 88, 0)
         self.sideButton = PlayPauseButton(side_btn, side_btn, self.width - 33, 272)
-        self.speedButton = PlayPauseButton(speed1_btn, speed3_btn, self.width/2 - 170, 0)
+        self.speedButton = ReturnButton(speed1_btn, speed2_btn, speed3_btn, self.width/2 - 170, 0)
         self.music_on = True
         self.menu_on = False
         self.shake_money = False
@@ -224,7 +225,7 @@ class Game():
         pygame.mixer.music.set_volume(0.4)
         pygame.mixer.music.play(loops=-1) # loop forever
         self.fade(self.width, self.height, rgb(0,0,0), 0, 255, 10) # (width, height, color, start=0, end=300, delay=1)
-        print(self.level)
+        
         # main run
         run = True
         clock = pygame.time.Clock()
@@ -336,8 +337,11 @@ class Game():
                         # if you click on speed-up, speed-down
                         if self.speedButton.click(pos[0], pos[1]):
                             play_sound(1,"beep_menu.wav", 300)
-                            self.speedButton.paused = self.speed
-                            self.speed = not(self.speed)
+                            if self.speed < 3:
+                                self.speed += 1
+                            else:
+                                self.speed = 1
+                            self.speedButton.speed = self.speed
 
                         btn_clicked = None
                         # if you click on attack tower or support tower
@@ -427,12 +431,8 @@ class Game():
                 # loop through enemies
                 for en in self.enemys:
 
-                    if self.speed:
-                        en.speed = 3
-                    else:
-                        en.speed = 1
-                    
-                    # move enemies along the path
+                    # move enemies along the path, displayed at chosen game speed
+                    en.speed = self.speed
                     en.move()
                     if en.x < 46:
                         to_del.append(en)
@@ -465,12 +465,8 @@ class Game():
 
                 # loop through attack towers 
                 for tw in self.attack_towers:
-                        # if game has speed-up
-                        if self.speed:
-                            tw.speed = 3  
-                        else:
-                            tw.speed = 1
-                        # attack
+                        # attack, at chosen game speed
+                        tw.speed = self.speed
                         money_before = self.money 
                         self.money += tw.attack(self.enemys)
                         self.money_earnt += self.money - money_before

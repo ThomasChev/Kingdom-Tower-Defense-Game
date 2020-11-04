@@ -64,6 +64,20 @@ class PlayPauseButton(Button):
             win.blit(self.pause, (self.x, self.y))
 
 
+class ReturnButton(Button):
+    def __init__(self, img1, img2, img3, x, y):
+        self.img = img1
+        self.imgs = [img1, img2, img3]
+        self.x = x
+        self.y = y
+        self.width = self.img.get_width()
+        self.height = self.img.get_height()
+        self.speed = 1
+
+    def draw(self, win):
+        win.blit(self.imgs[self.speed-1], (self.x, self.y))
+
+
 class VerticalButton(Button):
     """
     Button class for menu objects
