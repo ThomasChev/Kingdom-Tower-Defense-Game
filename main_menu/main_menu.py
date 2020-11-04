@@ -6,13 +6,20 @@ import time
 start_btn = pygame.image.load(os.path.join("game_assets/menu/", "play_big_btn.png"))
 lore_btn = pygame.image.load(os.path.join("game_assets/menu/", "lore_btn.png"))
 lore_img = pygame.image.load(os.path.join("game_assets/menu/", "lore.png"))
+lore2_img = pygame.image.load(os.path.join("game_assets/menu/", "lore2.png"))
 info_btn = pygame.image.load(os.path.join("game_assets/menu/", "info_btn.png"))
+
+# Attack Towers
 info_shin_img = pygame.image.load(os.path.join("game_assets/menu/", "info_shin.png"))
 info_moubu_img = pygame.image.load(os.path.join("game_assets/menu/", "info_moubu.png"))
 info_kanki_img = pygame.image.load(os.path.join("game_assets/menu/", "info_kanki.png"))
+info_ouhon_img = pygame.image.load(os.path.join("game_assets/menu/", "info_ouhon.png"))
+
+# Support Towers + Fortress
 info_fortress_img = pygame.image.load(os.path.join("game_assets/menu/", "info_fortress.png"))
 info_kyoukai_img = pygame.image.load(os.path.join("game_assets/menu/", "info_kyoukai.png"))
 info_ten_img = pygame.image.load(os.path.join("game_assets/menu/", "info_ten.png"))
+info_ryo_img = pygame.image.load(os.path.join("game_assets/menu/", "info_ryo.png"))
 
 pygame.mixer.pre_init()
 pygame.mixer.init()
@@ -80,17 +87,25 @@ class MainMenu:
             x = self.lore[0] + pad_x
             y = self.lore[1]
             self.win.blit(lore_img, (x, y))
+            x = self.lore[0] - pad_x - lore2_img.get_width() + lore_btn.get_width()
+            self.win.blit(lore2_img, (x, y))
         if self.show_info:
             x = self.info[0] + pad_x
             y = self.info[1]
             add_x = -(2*pad_x + info_shin_img.get_width())
             add_y = info_shin_img.get_height() + pad_y
+            
+            # Attack Towers
             self.win.blit(info_shin_img, (x + add_x, y + 0*add_y ))
             self.win.blit(info_moubu_img, (x + add_x, y + 1*add_y ))
             self.win.blit(info_kanki_img, (x + add_x, y + 2*add_y ))
+            self.win.blit(info_ouhon_img, (x + add_x, y + 3*add_y ))
+
+            # Support Towers + Fortress
             self.win.blit(info_fortress_img, (x, y + 0*add_y ))
             self.win.blit(info_kyoukai_img, (x, y + 1*add_y ))
             self.win.blit(info_ten_img, (x, y + 2*add_y ))
+            self.win.blit(info_ryo_img, (x, y + 3*add_y ))
 
         pygame.display.update()
 

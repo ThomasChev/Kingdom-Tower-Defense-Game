@@ -1,4 +1,4 @@
-# Kingdom-Tower-Defense:
+# Kingdom-Tower-Defense-Game:
 
 I made my own Tower Defense Game with pygame, based on TechWithTim's 12 hours stream (https://github.com/techwithtim/Tower-Defense-Game)
 
@@ -11,21 +11,25 @@ I made my own Tower Defense Game with pygame, based on TechWithTim's 12 hours st
 
 # Menu:
 
-<a href='https://www.casimages.com/i/201030023422960065.png.html' target='_blank' title='Mon image'><img src='https://nsa40.casimages.com/img/2020/10/30/201030023422960065.png' border='0' alt='Mon image' /></a>
+<a href='https://www.casimages.com/i/201104032905999295.png.html' target='_blank' title='Mon image'><img src='https://nsa40.casimages.com/img/2020/11/04/201104032905999295.png' border='0' alt='Mon image' /></a>
 
 # Game Preview:
 
-<a href='https://www.casimages.com/i/201030023640941979.png.html' target='_blank' title='Mon image'><img src='https://nsa40.casimages.com/img/2020/10/30/201030023640941979.png' border='0' alt='Mon image' /></a>
+<a href='https://www.casimages.com/i/201104032926421247.png.html' target='_blank' title='Mon image'><img src='https://nsa40.casimages.com/img/2020/11/04/201104032926421247.png' border='0' alt='Mon image' /></a>
 
 # Features:
 
-- 3 Attack Towers
+- 4 Attack Towers
 	- Shin (Damage: 1/2/3, Range: 75)
 	- Kanki (Damage: 1/2/3, Range: 65, bonus damage to Wei enemies)
 	- Moubu (Damage: 2/3/4, Range: 65, bonus damage to Chu enemies)
-- 2 Support Towers
+	- Ouhon (Power: 2/2.5/3, Range: 65, freeze enemies)
+
+- 3 Support Towers
 	- Ten (offers extra Range: 10%/20%/30%)
 	- Kyoukai (offers extra Damage: 10%/20%/30%)
+	- Ryo Fui (offers extra gold drops: 10%/20%/30%)
+
 - 1 Tool
 	- Fortress (Health: 500/1000/1500)
 
@@ -39,6 +43,10 @@ I made my own Tower Defense Game with pygame, based on TechWithTim's 12 hours st
 	- Chu (enemies : warrior, boat, elephant)
 
 - Musics and Sounds
+
+- End Game Statistics
+
+<a href='https://www.casimages.com/i/201104033348783751.png.html' target='_blank' title='Mon image'><img src='https://nsa40.casimages.com/img/2020/11/04/201104033348783751.png' border='0' alt='Mon image' /></a>
 
 # Join Us !
 
