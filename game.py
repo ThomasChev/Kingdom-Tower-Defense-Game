@@ -150,6 +150,7 @@ class Game():
         self.upgrade = 0
         self.df = pd.DataFrame()
         self.graphs = [Graph()]
+        self.level = ""
 
     def gen_enemies(self):
         """
@@ -223,7 +224,7 @@ class Game():
         pygame.mixer.music.set_volume(0.4)
         pygame.mixer.music.play(loops=-1) # loop forever
         self.fade(self.width, self.height, rgb(0,0,0), 0, 255, 10) # (width, height, color, start=0, end=300, delay=1)
-
+        print(self.level)
         # main run
         run = True
         clock = pygame.time.Clock()
