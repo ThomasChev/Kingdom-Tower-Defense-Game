@@ -24,10 +24,26 @@ class Button:
         :param Y: int
         :return: bool
         """
-        if X <= self.x + self.width and X >= self.x:
-            if Y <= self.y + self.height and Y >= self.y:
-                return True
-        return False
+        # pb with buy_ouhon button next to side toggle button, touch both at the same time
+        try:
+            if self.name != "buy_ouhon":
+                if X <= self.x + self.width and X >= self.x:
+                    if Y <= self.y + self.height and Y >= self.y:
+                        return True
+                return False
+            else:
+                if X <= self.x + self.width - 12 and X >= self.x: # pad of -12 to make sure we don't buy ouhon involuntarily
+                    if Y <= self.y + self.height and Y >= self.y:
+                        return True
+                return False
+
+        # other butttons don't have name attribute
+        except AttributeError:
+            if X <= self.x + self.width and X >= self.x:
+                if Y <= self.y + self.height and Y >= self.y:
+                    return True
+            return False
+
 
     def draw(self, win):
         """

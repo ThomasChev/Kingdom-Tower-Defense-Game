@@ -115,7 +115,7 @@ class RyoTower(TenTower):
     """
     def __init__(self, x, y):
         super().__init__(x,y)
-        self.range = 60
+        self.range = 100
         self.base_imgs = base_imgs6[:]
         self.effect = [1, 2, 3]
         self.menu = Menu(self, self.x, self.y, menu_bg, self.price)

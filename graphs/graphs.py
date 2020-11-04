@@ -60,9 +60,7 @@ class Graph:
 		
 		plt.tight_layout()
 		plt.show()
-
-	# def add_line(self, ax, x, y, name):
-	# 	ax.plot(x, y, label=name)
+		
 
 	def set_up(self, ax):
 		ax.legend(loc='upper left')
@@ -70,14 +68,5 @@ class Graph:
 		ax.set_xlabel(self.xlabel)
 		ax.set_ylabel(self.ylabel)
 		# plt.savefig(self.name)
-
-	# def add_ax(self, *args)
-	# 	fig, ax1, ax2 = args[0], args[1],args[2]
-	# 	fig, (ax1, ax2) = plt.subplots(nrows=self.nrow, ncols=self.ncol)
-		# try:
-	 #    	fig, ax1, ax2 = args[0], args[1],args[2]
-		# 	fig, (ax1, ax2) = plt.subplots(nrows=self.nrow, ncols=self.ncol)
-		# except:
-		# 	print('error in add_ax')
 
 
