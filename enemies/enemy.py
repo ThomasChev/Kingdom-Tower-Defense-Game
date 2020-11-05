@@ -29,6 +29,10 @@ class Enemy:
         self.block = False
         self.frozen = False
         self.speed = 1
+        # kanki affects wei, moubu affects chu, shin affects riboku by +20%
+        self.chu_special = ["chu_warrior", "chu_elephant", "chu_boat"]
+        self.wei_special = ["wei_catapult", "wei_balista"]
+        self.zao_special = ["zao_riboku"]
 
     def draw(self, win):
         """
@@ -136,16 +140,26 @@ class Enemy:
                         self.path_pos += 1
                         self.x, self.y = self.path[self.path_pos]
 
-    def hit(self, damage):
+    def hit(self, damage, tower):
         """
-        Returns if an enemy has died and removes one health
-        each call
+        Returns if an enemy has died and removes health each call
+        based on tower damage and special ability
         :return: Bool
         """
-        self.health -= damage/2
+        # kanki affects wei, moubu affects chu, shin affects riboku by +20%
+        if tower == "kanki" and self.name in self.wei_special:
+            coef = 1.2
+        elif tower == "moubu" and self.name in self.chu_special:
+            coef = 1.2
+        elif tower == "shin" and self.name in self.zao_special:
+            coef = 1.2
+        else:
+            coef = 1
+        self.health -= damage*coef/2
         if self.health <= 0:
             return True
         return False
+
 
     def collide(self, otherTower):
         x2 = otherTower.x

@@ -29,8 +29,8 @@ class TenTower(Tower):
         self.width = 40
         self.height = 44
         self.name = "ten"
-        self.sell_price = [100, 135, 260]
-        self.price = [180, 350, 9999]
+        self.sell_price = [80, 120, 240]
+        self.price = [160, 300, 9999]
 
     def get_upgrade_cost(self):
         """
@@ -81,8 +81,8 @@ class KyoukaiTower(TenTower):
         self.menu.add_btn(upgrade_btn, "Upgrade")
         self.menu.add_btn(sell_btn, "Sell")
         self.name = "kyoukai"
-        self.sell_price = [100, 135, 260]
-        self.price = [180, 350, 9999]
+        self.sell_price = [80, 120, 240]
+        self.price = [160, 300, 9999]
 
     def support(self, towers):
         """
@@ -122,8 +122,8 @@ class RyoTower(TenTower):
         self.menu.add_btn(upgrade_btn, "Upgrade")
         self.menu.add_btn(sell_btn, "Sell")
         self.name = "ryo"
-        self.sell_price = [100, 135, 260]
-        self.price = [180, 350, 9999]
+        self.sell_price = [80, 120, 240]
+        self.price = [160, 300, 9999]
 
     def support(self, towers):
         """

@@ -122,7 +122,7 @@ class ShinTower(Tower):
                 else:
                     pygame.mixer.Channel(1).play(pygame.mixer.Sound(os.path.join("game_assets/sounds/", self.sound)), maxtime=600)
 
-                if first_enemy.hit(self.damage) == True:
+                if first_enemy.hit(self.damage, self.name) == True:
                     pygame.mixer.Channel(1).play(pygame.mixer.Sound(os.path.join("game_assets/sounds/", first_enemy.sound)), maxtime=600)
                     
                     # give money, drop reward (low probability), remove died enemy
