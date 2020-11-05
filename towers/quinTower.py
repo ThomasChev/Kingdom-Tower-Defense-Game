@@ -29,7 +29,7 @@ class ShinTower(Tower):
         self.base_imgs = base_imgs1[:]
         self.animation_imgs = animation_imgs1[:]
         self.animation_count = 0
-        self.range = 75
+        self.range = 85
         self.original_range = self.range
         self.inRange = False
         self.left = True
@@ -139,7 +139,7 @@ class ShinTower(Tower):
         Return an amount of reward, with low probability
         :return: 1-sized list   
         """
-        gold_list = [0, enemy.money, enemy.money**3]
+        gold_list = [0, enemy.money, enemy.money*3]
         drop = random.choices(gold_list, self.distribution)
         self.gold_drop = drop[0]
         return self.gold_drop

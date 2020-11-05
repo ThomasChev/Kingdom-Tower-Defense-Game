@@ -28,7 +28,8 @@ class Enemy:
         self.max_health = 0
         self.block = False
         self.frozen = False
-        self.speed = 1
+        self.speed = 1 # game speed
+        self.shield = 2
         # kanki affects wei, moubu affects chu, shin affects riboku by +20%
         self.chu_special = ["chu_warrior", "chu_elephant", "chu_boat"]
         self.wei_special = ["wei_catapult", "wei_balista"]
@@ -155,11 +156,17 @@ class Enemy:
             coef = 1.2
         else:
             coef = 1
-        self.health -= damage*coef/2
+        self.health -= damage*coef/self.shield
+        self.health = self.truncate(self.health)
+        print(damage*coef/self.shield, self.health)
+
         if self.health <= 0:
             return True
         return False
 
+    def scale_health(self, wave):
+        self.max_health += wave*0.1 # health scaling with waves
+        self.health = self.max_health
 
     def collide(self, otherTower):
         x2 = otherTower.x
@@ -172,3 +179,10 @@ class Enemy:
             else:
                 self.block = True
                 return True
+
+    def round_up(self, n, decimals=0):
+        multiplier = 10 ** decimals
+        return math.ceil(n * multiplier) / multiplier
+
+    def truncate(self, n):
+        return int(n * 10000) / 10000

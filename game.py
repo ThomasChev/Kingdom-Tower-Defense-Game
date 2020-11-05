@@ -79,8 +79,8 @@ pygame.mixer.music.load(os.path.join("game_assets/sounds/", "loop0.wav"))
 pygame.mixer.music.set_volume(0.4)
 
 # frequency of enemies [Zao_w, Yan_w, Qi_w, Wei_c, Wei_b, Han_w, Chu_w, Chu_e, Chu_b, Yan_b, Qi_b, Zao_r]
-waves = [[3,0,0,3,3,3,0,0,0,0,0,0],[3,0,0,0,0,0,0,0,0,0,0,0],[0,1,0,0,0,0,0,0,0,0,0,0],[0,3,0,0,0,0,0,0,0,0,0,0],[0,0,2,0,0,0,0,0,0,0,0,0],[0,0,4,0,0,0,0,0,0,0,0,0],[0,0,0,2,0,0,0,0,0,0,0,0],[0,0,0,4,0,0,0,0,0,0,0,0],[0,0,0,0,4,0,0,0,0,0,0,0],[0,0,0,0,6,0,0,0,0,0,0,0],[0,0,0,0,0,4,0,0,0,0,0,0],[0,0,0,0,0,6,0,0,0,0,0,0],[0,0,0,0,0,0,4,0,0,0,0,0],[0,0,0,0,0,0,6,0,0,0,0,0],[0,0,0,0,0,0,0,2,0,0,0,0],[0,0,0,0,0,0,0,6,0,0,0,0],[0,0,0,0,0,0,0,0,2,0,0,0],[0,0,0,0,0,0,0,0,6,0,0,0],[0,0,0,0,0,0,0,0,0,2,0,0],[0,0,0,0,0,0,0,0,0,10,0,0],[0,0,0,0,0,0,0,0,0,0,2,0],[0,0,0,0,0,0,0,0,0,0,8,0],[9,0,0,0,0,0,0,0,0,0,0,0],[0,7,0,0,0,0,0,0,0,3,0,0],[0,0,9,0,0,0,0,0,0,0,4,0],[0,0,0,5,5,0,0,0,0,0,0,0],[0,0,0,0,0,14,0,0,0,0,0,0],[0,0,0,0,0,0,4,4,4,0,0,0],[5,5,5,0,0,0,0,0,0,0,0,0],[0,18,0,0,0,0,0,0,0,0,0,0],[3,3,3,0,0,3,6,0,0,0,0,0],[3,6,3,0,0,3,6,0,0,0,0,0],[0,0,0,0,0,10,8,0,0,0,0,0],[0,0,0,0,0,0,0,0,16,0,0,0],[0,0,0,0,0,0,0,0,0,18,0,0],[0,0,0,0,0,0,0,0,0,0,20,0],[0,0,0,0,0,0,0,0,12,6,6,0],[11,11,11,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,16,18,0,0,0,0,0],[8,8,10,0,0,10,8,0,0,0,0,0],[9,9,9,0,0,9,9,0,0,0,0,0],[0,35,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,35,0,0,0],[0,0,0,0,0,0,0,0,0,35,0,0],[0,0,0,0,0,0,0,0,0,0,33,0],[0,0,0,0,0,0,0,0,12,12,15,0],[35,0,0,0,0,0,0,0,0,0,0,0],[0,29,0,0,0,0,0,0,0,0,0,0],[0,0,12,10,12,0,0,4,0,0,0,0],[10,10,10,4,4,10,10,4,4,4,4,0],[10,10,10,6,6,10,10,4,4,4,4,0],[10,10,10,6,6,10,10,6,4,4,4,0],[10,10,10,6,6,10,10,6,6,6,6,0],[12,15,10,8,8,10,10,8,6,6,6,0],[12,20,10,8,8,10,10,10,6,6,6,1]]
-waves = [[1,1,2,8,8,0,2,2,2,0,0,0], [1,1,1,0,0,0,0,0,0,0,0,0],[0,0,2,0,0,0,0,0,0,0,0,0], [2,0,0,0,0,0,0,0,0,0,0,0], [4,4,4,4,4,4,4,4,4,4,4,1], [0,0,0,0,0,0,0,0,0,0,0,0]]
+waves = [[3,0,0,0,0,0,0,0,0,0,0,0],[0,1,0,0,0,0,0,0,0,0,0,0],[0,3,0,0,0,0,0,0,0,0,0,0],[0,0,2,0,0,0,0,0,0,0,0,0],[0,0,4,0,0,0,0,0,0,0,0,0],[0,0,0,2,0,0,0,0,0,0,0,0],[0,0,0,4,0,0,0,0,0,0,0,0],[0,0,0,0,4,0,0,0,0,0,0,0],[0,0,0,0,6,0,0,0,0,0,0,0],[0,0,0,0,0,4,0,0,0,0,0,0],[0,0,0,0,0,6,0,0,0,0,0,0],[0,0,0,0,0,0,4,0,0,0,0,0],[0,0,0,0,0,0,6,0,0,0,0,0],[0,0,0,0,0,0,0,2,0,0,0,0],[0,0,0,0,0,0,0,6,0,0,0,0],[0,0,0,0,0,0,0,0,2,0,0,0],[0,0,0,0,0,0,0,0,6,0,0,0],[0,0,0,0,0,0,0,0,0,2,0,0],[0,0,0,0,0,0,0,0,0,10,0,0],[0,0,0,0,0,0,0,0,0,0,2,0],[0,0,0,0,0,0,0,0,0,0,8,0],[9,0,0,0,0,0,0,0,0,0,0,0],[0,7,0,0,0,0,0,0,0,3,0,0],[0,0,9,0,0,0,0,0,0,0,4,0],[0,0,0,5,5,0,0,0,0,0,0,0],[0,0,0,0,0,14,0,0,0,0,0,0],[0,0,0,0,0,0,4,4,4,0,0,0],[5,5,5,0,0,0,0,0,0,0,0,0],[0,18,0,0,0,0,0,0,0,0,0,0],[3,3,3,0,0,3,6,0,0,0,0,0],[3,6,3,0,0,3,6,0,0,0,0,0],[0,0,0,0,0,10,8,0,0,0,0,0],[0,0,0,0,0,0,0,0,16,0,0,0],[0,0,0,0,0,0,0,0,0,18,0,0],[0,0,0,0,0,0,0,0,0,0,20,0],[0,0,0,0,0,0,0,0,12,6,6,0],[11,11,11,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,16,18,0,0,0,0,0],[8,8,10,0,0,10,8,0,0,0,0,0],[9,9,9,0,0,9,9,0,0,0,0,0],[0,35,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,35,0,0,0],[0,0,0,0,0,0,0,0,0,35,0,0],[0,0,0,0,0,0,0,0,0,0,33,0],[0,0,0,0,0,0,0,0,12,12,15,0],[35,0,0,0,0,0,0,0,0,0,0,0],[0,29,0,0,0,0,0,0,0,0,0,0],[0,0,12,10,12,0,0,4,0,0,0,0],[10,10,10,4,4,10,10,4,4,4,4,0],[10,10,10,6,6,10,10,4,4,4,4,0],[10,10,10,6,6,10,10,6,4,4,4,0],[10,10,10,6,6,10,10,6,6,6,6,0],[12,15,10,8,8,10,10,8,6,6,6,0],[12,20,10,8,8,10,10,10,6,6,6,1]]
+# waves = [[1,1,2,8,8,0,2,2,2,0,0,0], [1,1,1,0,0,0,0,0,0,0,0,0],[0,0,2,0,0,0,0,0,0,0,0,0], [2,0,0,0,0,0,0,0,0,0,0,0], [4,4,4,4,4,4,4,4,4,4,4,1], [0,0,0,0,0,0,0,0,0,0,0,0]]
 spawn_rates = [2,0.2,1,3,3,1,1,5,2,2,2,1]
 
 class Game():
@@ -93,8 +93,8 @@ class Game():
         self.support_towers = []
         self.fortress = []
         self.fortress_sold = []
-        self.lives = 200
-        self.money = 10000
+        self.lives = 20
+        self.money = 10
         self.bg = pygame.image.load(os.path.join("game_assets/background/", "kingdom.png"))
         self.bg = pygame.transform.scale(self.bg, (self.width, self.height))
         self.clicks = [] # use to see clicks
@@ -152,6 +152,7 @@ class Game():
         self.df = pd.DataFrame()
         self.graphs = [Graph()]
         self.level = ""
+        self.lvl = {"Easy":0, "Medium":1, "Hard":2}
 
     def gen_enemies(self):
         """
@@ -170,6 +171,7 @@ class Game():
                         (Yan_boat(),Yan_base()), 
                         (Qi_boat(),Qi_base()), 
                         (Zao_riboku(),Zao_base())]
+
         # Wave has finished
         if sum(self.current_wave) == 0:
             self.next_spawn = True
@@ -212,6 +214,8 @@ class Game():
                     self.next_spawn = True
                 self.current_spawn_rate = self.spawn_rate[x]
                 if enemy_nb != 0:
+                    enemy_type.scale_health(self.wave)
+                    enemy_type.shield = self.shield
                     self.enemys.append(enemy_type)
                     self.current_kingdom = kingdom
                     self.current_wave[x] = self.current_wave[x] - 1
@@ -226,6 +230,10 @@ class Game():
         pygame.mixer.music.play(loops=-1) # loop forever
         self.fade(self.width, self.height, rgb(0,0,0), 0, 255, 10) # (width, height, color, start=0, end=300, delay=1)
         
+        # Before game initialisation :
+        if self.wave == 0:
+            self.initialise()
+
         # main run
         run = True
         clock = pygame.time.Clock()
@@ -371,14 +379,19 @@ class Game():
                                     self.counters[self.selected_tower.name] -= 1
                                     self.stacks[self.selected_tower.name] += 1
                                     play_sound(1,"sell.wav",200)
-                                    if self.selected_tower.name in attack_tower_names:
-                                        self.attack_towers.remove(self.selected_tower)
-                                    elif self.selected_tower.name in support_tower_names:
-                                        self.support_towers.remove(self.selected_tower)
-                                    elif self.selected_tower.name in fortress_names:
-                                        self.fortress_sound = False
-                                        self.fortress_sold.append(self.selected_tower)
-                                        self.fortress.remove(self.selected_tower)
+
+                                    try:
+                                        if self.selected_tower.name in attack_tower_names:
+                                            self.attack_towers.remove(self.selected_tower)
+                                        elif self.selected_tower.name in support_tower_names:
+                                            self.support_towers.remove(self.selected_tower)
+                                        elif self.selected_tower.name in fortress_names:
+                                            self.fortress_sound = False
+                                            self.fortress_sold.append(self.selected_tower)
+                                            self.fortress.remove(self.selected_tower)
+                                    # sell bugs
+                                    except ValueError:
+                                        pass
 
                         if not btn_clicked:
                             # if you click on attack tower
@@ -525,12 +538,12 @@ class Game():
                     graph.name = os.path.join("graphs/fig/","plot_money.png")
 
                     # line = [x, y, label, title, xlabel, ylabel]
-                    graph.lines['1a'] = [self.df['seconds'], self.df['money_spent'], 'spent', 'Money = f(t)', 'Time (s)' , 'Money ($)']
-                    graph.lines['1b'] = [self.df['seconds'], self.df['money_earnt'], 'earnt', 'Money = f(t)', 'Time (s)', 'Money ($)']
-                    graph.lines['1c'] = [self.df['seconds'], self.df['money'], 'money', 'Money = f(t)', 'Time (s)', 'Money ($)']
-                    graph.lines['2a'] = [self.df['seconds'], self.df['towers'], 'towers', 'Towers = f(t)', 'Time (s)', 'Attack Towers', [self.df['shin'],  self.df['moubu'],  self.df['kanki'],  self.df['ouhon']]]
-                    graph.lines['3a'] = [self.df['seconds'], self.df['lives'], 'lives', 'Lives = f(t)', 'Time (s)', 'Lives (nb)']
-                    graph.lines['4a'] = [self.df['seconds'], self.df['towers'], 'towers', 'Towers = f(t)', 'Time (s)', 'Support Towers', [self.df['ten'],  self.df['kyoukai'],  self.df['ryo'], self.df['fortress']]]
+                    graph.lines['1a'] = [self.df['waves'], self.df['money_spent'], 'spent', 'Money = f(wave)', 'Wave' , 'Money ($)']
+                    graph.lines['1b'] = [self.df['waves'], self.df['money_earnt'], 'earnt', 'Money = f(wave)', 'Wave', 'Money ($)']
+                    graph.lines['1c'] = [self.df['waves'], self.df['money'], 'money', 'Money = f(wave)', 'Wave', 'Money ($)']
+                    graph.lines['2a'] = [self.df['waves'], self.df['towers'], 'towers', 'Towers = f(wave)', 'Wave', 'Attack Towers', [self.df['shin'],  self.df['moubu'],  self.df['kanki'],  self.df['ouhon']]]
+                    graph.lines['3a'] = [self.df['waves'], self.df['lives'], 'lives', 'Lives = f(wave)', 'Wave', 'Lives (nb)']
+                    graph.lines['4a'] = [self.df['waves'], self.df['towers'], 'towers', 'Towers = f(wave)', 'Waves)', 'Support Towers', [self.df['ten'],  self.df['kyoukai'],  self.df['ryo'], self.df['fortress']]]
                     # do functions graph_tower, graph_money()...
 
                     # ax = [line1, line2...]
@@ -697,6 +710,19 @@ class Game():
             self.win.blit(text, (self.width/2 - text.get_width()/2, self.height/2 - text.get_height()/2))
             pygame.display.update()
             pygame.time.delay(delay)
+
+    def initialise(self):
+        # add additional money based on game level (+10, +20, +30)
+        coef = 3 - self.lvl[self.level]
+        self.money = self.money + self.money*coef
+
+        # reduce spaw rates based on game level (-0%, -20%, -40%)
+        coef = 1 - 0.2*self.lvl[self.level]
+        self.spawn_rate = [r*coef for r in self.spawn_rate]
+
+        # enemies strengh
+        coef = self.lvl[self.level]/4
+        self.shield = 2 + coef
 
     def update_stat(self):
 
