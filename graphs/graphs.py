@@ -21,7 +21,7 @@ class Graph:
 		self.ys = []
 		self.linestyle = ['solid', 'solid', 'dotted']
 
-	def plot(self):
+	def plot(self, nb):
 
 		plt.style.use(self.style)
 
@@ -59,7 +59,9 @@ class Graph:
 			self.set_up(ax)
 		
 		plt.tight_layout()
-		plt.show()
+
+		if nb == 1:
+			plt.show()
 		
 
 	def set_up(self, ax):
@@ -69,4 +71,30 @@ class Graph:
 		ax.set_ylabel(self.ylabel)
 		# plt.savefig(self.name)
 
+	def write_line(self, df, param_x, param):
+		
+		if param_x == 'waves':
+			titre_x = "f(wave)"
+			x = 'Wave'
+		elif param_x == "seconds":
+			titre_x = "f(t)"
+			x =  'Time (s)'
 
+		if param == "towers":
+			titre_y = 'Towers = '
+		elif param == "enemies":
+			titre_y = None
+
+        # line = [x, y, label, title, xlabel, ylabel]
+		self.lines['1a'] = [df[param_x], df['money_spent'], 'spent', 'Money = ' + titre_x, x , 'Money ($)']
+		self.lines['1b'] = [df[param_x], df['money_earnt'], 'earnt', 'Money = ' + titre_x, x, 'Money ($)']
+		self.lines['1c'] = [df[param_x], df['money'], 'money', 'Money = ' + titre_x, x, 'Money ($)']
+		self.lines['2a'] = [df[param_x], df[param], param, titre_y + titre_x, x, 'Attack Towers', [df['shin'],  df['moubu'],  df['kanki'],  df['ouhon']]]
+		self.lines['3a'] = [df[param_x], df['lives'], 'lives', 'Lives = ' + titre_x, x, 'Lives (nb)']
+		self.lines['4a'] = [df[param_x], df[param], param, titre_y + titre_x, x, 'Support Towers', [df['ten'],  df['kyoukai'],  df['ryo'], df['fortress']]]
+
+		# ax = [line1, line2...]
+		self.ax_dict['ax1'] = [self.lines['1a'], self.lines['1b'], self.lines['1c']]
+		self.ax_dict['ax2'] = [self.lines['2a']]
+		self.ax_dict['ax3'] = [self.lines['3a']]
+		self.ax_dict['ax4'] = [self.lines['4a']]

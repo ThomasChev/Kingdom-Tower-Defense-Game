@@ -60,6 +60,8 @@ class Fortress(Tower):
             coef = 2
         elif enemy.name == "wei_balista":
             coef = 2
+        elif enemy.name == "zao_riboku":
+            coef = 10
         else:
             coef = 1
         self.health -= 1*coef

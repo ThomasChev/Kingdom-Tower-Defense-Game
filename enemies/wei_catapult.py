@@ -13,7 +13,7 @@ class Wei_catapult(Enemy):
 
 		self.imgs = imgs[:]
 		self.name = "wei_catapult"
-		self.max_health = 4
+		self.max_health = 6
 		self.vel = 1
 		self.money = 7
 		self.health = self.max_health

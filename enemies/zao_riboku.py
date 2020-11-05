@@ -13,7 +13,7 @@ class Zao_riboku(Enemy):
 
 		self.imgs = imgs[:]
 		self.name = "zao_riboku"
-		self.max_health = 999
+		self.max_health = 500
 		self.vel = 1
 		self.money = 50
 		self.health = self.max_health

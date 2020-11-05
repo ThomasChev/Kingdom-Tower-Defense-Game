@@ -158,7 +158,6 @@ class Enemy:
             coef = 1
         self.health -= damage*coef/self.shield
         self.health = self.truncate(self.health)
-        print(damage*coef/self.shield, self.health)
 
         if self.health <= 0:
             return True

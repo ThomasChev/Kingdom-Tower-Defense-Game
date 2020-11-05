@@ -13,7 +13,7 @@ class Wei_balista(Enemy):
 
 		self.imgs = imgs[:]
 		self.name = "wei_balista"
-		self.max_health = 4
+		self.max_health = 8
 		self.vel = 1.5
 		self.money = 8
 		self.health = self.max_health
