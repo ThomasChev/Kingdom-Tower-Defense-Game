@@ -75,8 +75,14 @@ fortress_names = ["fortress"]
 # initialize background music
 pygame.mixer.pre_init()
 pygame.mixer.init()
+
+SONG_END = pygame.USEREVENT + 1
+
+pygame.mixer.music.set_endevent(SONG_END)
 pygame.mixer.music.load(os.path.join("game_assets/sounds/", "loop0.wav"))
-pygame.mixer.music.set_volume(0.4)
+pygame.mixer.music.play()
+# pygame.mixer.music.load(os.path.join("game_assets/sounds/", "08_T_Station.mp3"))
+# pygame.mixer.music.set_volume(0.4)
 
 # frequency of enemies [Zao_w, Yan_w, Qi_w, Wei_c, Wei_b, Han_w, Chu_w, Chu_e, Chu_b, Yan_b, Qi_b, Zao_r]
 waves = [[3,0,0,0,0,0,0,0,0,0,0,0],[6,0,0,0,0,0,0,0,0,0,0,0],[0,3,0,0,0,0,0,0,0,0,0,0],[0,6,0,0,0,0,0,0,0,0,0,0],[0,0,3,0,0,0,0,0,0,0,0,0],[0,0,6,0,0,0,0,0,0,0,0,0],[0,0,0,2,0,0,0,0,0,0,0,0],[0,0,0,4,0,0,0,0,0,0,0,0],[0,0,0,0,4,0,0,0,0,0,0,0],[0,0,0,0,6,0,0,0,0,0,0,0],[0,0,0,0,0,4,0,0,0,0,0,0],[0,0,0,0,0,6,0,0,0,0,0,0],[0,0,0,0,0,0,4,0,0,0,0,0],[0,0,0,0,0,0,6,0,0,0,0,0],[0,0,0,0,0,0,0,2,0,0,0,0],[0,0,0,0,0,0,0,6,0,0,0,0],[0,0,0,0,0,0,0,0,2,0,0,0],[0,0,0,0,0,0,0,0,6,0,0,0],[0,0,0,0,0,0,0,0,0,2,0,0],[0,0,0,0,0,0,0,0,0,15,0,0],[0,0,0,0,0,0,0,0,0,0,2,0],[0,0,0,0,0,0,0,0,0,0,8,0],[9,0,0,0,0,0,0,0,0,0,0,0],[0,7,0,0,0,0,0,0,0,3,0,0],[0,0,9,0,0,0,0,0,0,0,4,0],[0,0,0,5,5,0,0,0,0,0,0,0],[0,0,0,0,0,14,0,0,0,0,0,0],[0,0,0,0,0,0,4,4,4,0,0,0],[5,5,5,0,0,0,0,0,0,0,0,0],[0,18,0,0,0,0,0,0,0,0,0,0],[3,3,3,0,0,3,6,0,0,0,0,0],[3,6,3,0,0,3,6,0,0,0,0,0],[0,0,0,0,0,10,8,0,0,0,0,0],[0,0,0,0,0,0,0,0,16,0,0,0],[0,0,0,0,0,0,0,0,0,18,0,0],[0,0,0,0,0,0,0,0,0,0,20,0],[0,0,0,0,0,0,0,0,12,6,6,0],[11,11,11,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,16,18,0,0,0,0,0],[8,8,10,0,0,10,8,0,0,0,0,0],[9,9,9,0,0,9,9,0,0,0,0,0],[0,25,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,35,0,0,0],[0,0,0,0,0,0,0,0,0,35,0,0],[0,0,0,0,0,0,0,0,0,0,33,0],[0,0,0,0,0,0,0,0,12,12,15,0],[35,0,0,0,0,0,0,0,0,0,0,0],[0,25,0,0,0,0,0,0,0,0,0,0],[0,0,12,10,12,0,0,4,0,0,0,0],[10,10,10,4,4,10,10,4,4,4,4,0],[10,10,10,6,6,10,10,4,4,4,4,0],[10,10,10,6,6,10,10,6,4,4,4,0],[10,10,10,6,6,10,10,6,6,6,6,0],[12,15,10,8,8,10,10,8,6,6,6,0],[12,20,10,8,8,10,10,12,6,6,6,1]]
@@ -90,7 +96,7 @@ class Game():
         self.height = 700
         self.win = win
         self.lives = 20
-        self.money = 20
+        self.money = 35
         self.bg = pygame.image.load(os.path.join("game_assets/background/", "kingdom.png"))
         self.bg = pygame.transform.scale(self.bg, (self.width, self.height))
         self.clicks = [] # use to see clicks
@@ -113,9 +119,9 @@ class Game():
         
         # Side Tower menu
         self.menu = VerticalMenu(self.width - 45, 46, side_img)
-        self.menu.add_btn(buy_shin, "buy_shin", 20)
-        self.menu.add_btn(buy_moubu, "buy_moubu", 60)
-        self.menu.add_btn(buy_kanki, "buy_kanki", 40)
+        self.menu.add_btn(buy_shin, "buy_shin", 40)
+        self.menu.add_btn(buy_moubu, "buy_moubu", 120)
+        self.menu.add_btn(buy_kanki, "buy_kanki", 80)
         self.menu.add_btn(buy_ouhon, "buy_ouhon", 150)
         self.menu.add_btn(buy_fortress, "buy_fortress", 200)
         self.menu.add_btn(buy_kyoukai, "buy_kyoukai", 100)
@@ -170,6 +176,7 @@ class Game():
         self.graphs = [Graph()]
         self.not_killed = {"zao_warrior":0, "yan_warrior":0, "qi_warrior":0, "wei_catapult":0, "wei_balista":0, "han_warrior":0, "chu_warrior":0, "chu_elephant":0, "chu_boat":0, "yan_boat":0, "qi_boat":0, "zao_riboku":0}
         self.list_enemy_spawned= [0,0,0,0,0,0,0,0,0,0,0,0]
+        self.change_sound = False
 
     def gen_enemies(self):
         """
@@ -191,9 +198,14 @@ class Game():
                 if self.wave < len(waves):
                     # play sound, write wave number and shade
                     if self.wave > 0:
-                        play_sound(0,"next_round.wav")
+                        # if self.change_sound:
+                        #     pygame.mixer.music.set_volume(0.1)
+                        if not self.change_sound:
+                            play_sound(0,"next_round.wav")
                         self.fade(self.width, self.height, rgb(0,0,0), 0, 50, 60)  # (width, height, color, start=0, end=300, delay=1)
                     # reset
+                    # if self.change_sound:
+                    #     pygame.mixer.music.set_volume(0.4)
                     self.fortress_sound = False
                     self.pause = False
                     self.current_wave = waves[self.wave]
@@ -235,8 +247,10 @@ class Game():
 
         # start playing the background music
         pygame.mixer.music.load(os.path.join("game_assets/sounds/", "loop0.wav"))
+        #pygame.mixer.music.load(os.path.join("game_assets/sounds/", "08_T_Station.mp3"))
         pygame.mixer.music.set_volume(0.4)
         pygame.mixer.music.play(loops=-1) # loop forever
+
         self.fade(self.width, self.height, rgb(0,0,0), 0, 255, 10) # (width, height, color, start=0, end=300, delay=1)
         
         # Before game initialisation :
@@ -252,6 +266,10 @@ class Game():
 
             self.update_stat()
             clock.tick(400)
+
+            if not self.change_sound and self.wave >= 2:
+                pygame.mixer.music.stop()
+                self.change_sound = True
 
             # generates enemies at given rate if not pause
             if not self.pause:
@@ -275,6 +293,10 @@ class Game():
                 if event.type == pygame.QUIT:
                     self.go_lose = True
                     #run = False
+
+                if event.type == SONG_END and self.change_sound and not self.go_win:
+                    print("the song ended!")
+                    play_next_song()
 
                 if event.type == pygame.MOUSEBUTTONUP:
 
@@ -757,3 +779,11 @@ def play_sound(*args):
     elif len(args) == 2:
         a,b = args[0],args[1]
         pygame.mixer.Channel(a).play(pygame.mixer.Sound(os.path.join("game_assets/sounds/", b)))
+
+
+_songs = [os.path.join("game_assets/sounds/", "13_Tazer.mp3"), os.path.join("game_assets/sounds/", "08_T_Station.mp3"), os.path.join("game_assets/sounds/", "04_Shamburger.mp3")]
+def play_next_song():
+    global _songs
+    _songs = _songs[1:] + [_songs[0]] # move current song to the back of the list
+    pygame.mixer.music.load(_songs[0])
+    pygame.mixer.music.play()
