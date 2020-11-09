@@ -63,7 +63,7 @@ class Button:
 
 
 class PlayPauseButton(Button):
-    def __init__(self, play_img, pause_img, x, y):
+    def __init__(self, play_img, pause_img, x, y, boolean):
         self.img = play_img
         self.play = play_img
         self.pause = pause_img
@@ -72,12 +72,23 @@ class PlayPauseButton(Button):
         self.width = self.img.get_width()
         self.height = self.img.get_height()
         self.paused = True
+        self.on = boolean
+        self.on_pause = self.on
 
     def draw(self, win):
         if self.paused:
             win.blit(self.play, (self.x, self.y))
         else:
             win.blit(self.pause, (self.x, self.y))
+
+    def toggle(self, opposite=False):
+        if not opposite:
+            self.on = not(self.on)
+            self.paused = self.on
+        else:
+            self.paused = self.on
+            self.on = not(self.on)
+            self.on_pause = self.on
 
 
 class ReturnButton(Button):

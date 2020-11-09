@@ -44,7 +44,7 @@ class ShinTower(Tower):
         self.moving = False
         self.sound = "sword.wav"
         self.name = "shin"
-        self.sell_price = [30, 150, 450]
+        self.sell_price = [30, 80, 200]
         self.price = [100, 300, 9999]
         self.distribution = [0.89, 0.1, 0.01]
         self.original_distribution = self.distribution[:]
@@ -173,7 +173,7 @@ class MoubuTower(ShinTower):
         self.menu.add_btn(sell_btn, "Sell")
         self.sound = "club.wav"
         self.name = "moubu"
-        self.sell_price = [90, 150, 450]
+        self.sell_price = [90, 150, 200]
         self.price = [180, 300, 9999]
         self.distribution = [0.89, 0.1, 0.01]
         self.original_distribution = self.distribution[:]
@@ -206,7 +206,7 @@ class KankiTower(ShinTower):
         self.menu.add_btn(sell_btn, "Sell")
         self.sound = "sword2.wav"
         self.name = "kanki"
-        self.sell_price = [60, 150, 450]
+        self.sell_price = [60, 100, 200]
         self.price = [120, 250, 9999]
         self.distribution = [0.89, 0.1, 0.01]
 

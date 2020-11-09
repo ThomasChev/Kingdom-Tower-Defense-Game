@@ -83,7 +83,7 @@ pygame.mixer.music.load(os.path.join("game_assets/sounds/", "loop0.wav"))
 pygame.mixer.music.play()
 
 # frequency of enemies [Zao_w, Yan_w, Qi_w, Wei_c, Wei_b, Han_w, Chu_w, Chu_e, Chu_b, Yan_b, Qi_b, Zao_r]
-waves = [[3,0,0,0,0,0,0,0,0,0,0,0],[6,0,0,0,0,0,0,0,0,0,0,0],[0,3,0,0,0,0,0,0,0,0,0,0],[0,6,0,0,0,0,0,0,0,0,0,0],[0,0,3,0,0,0,0,0,0,0,0,0],[0,0,6,0,0,0,0,0,0,0,0,0],[0,0,0,2,0,0,0,0,0,0,0,0],[0,0,0,4,0,0,0,0,0,0,0,0],[0,0,0,0,4,0,0,0,0,0,0,0],[0,0,0,0,6,0,0,0,0,0,0,0],[0,0,0,0,0,4,0,0,0,0,0,0],[0,0,0,0,0,6,0,0,0,0,0,0],[0,0,0,0,0,0,4,0,0,0,0,0],[0,0,0,0,0,0,6,0,0,0,0,0],[0,0,0,0,0,0,0,2,0,0,0,0],[0,0,0,0,0,0,0,6,0,0,0,0],[0,0,0,0,0,0,0,0,2,0,0,0],[0,0,0,0,0,0,0,0,6,0,0,0],[0,0,0,0,0,0,0,0,0,2,0,0],[0,0,0,0,0,0,0,0,0,15,0,0],[0,0,0,0,0,0,0,0,0,0,2,0],[0,0,0,0,0,0,0,0,0,0,8,0],[9,0,0,0,0,0,0,0,0,0,0,0],[0,7,0,0,0,0,0,0,0,3,0,0],[0,0,9,0,0,0,0,0,0,0,4,0],[0,0,0,5,5,0,0,0,0,0,0,0],[0,0,0,0,0,14,0,0,0,0,0,0],[0,0,0,0,0,0,4,4,4,0,0,0],[5,5,5,0,0,0,0,0,0,0,0,0],[0,18,0,0,0,0,0,0,0,0,0,0],[3,3,3,0,0,3,6,0,0,0,0,0],[3,6,3,0,0,3,6,0,0,0,0,0],[0,0,0,0,0,10,8,0,0,0,0,0],[0,0,0,0,0,0,0,0,16,0,0,0],[0,0,0,0,0,0,0,0,0,18,0,0],[0,0,0,0,0,0,0,0,0,0,20,0],[0,0,0,0,0,0,0,0,12,6,6,0],[11,11,11,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,16,18,0,0,0,0,0],[8,8,10,0,0,10,8,0,0,0,0,0],[9,9,9,0,0,9,9,0,0,0,0,0],[0,25,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,35,0,0,0],[0,0,0,0,0,0,0,0,0,35,0,0],[0,0,0,0,0,0,0,0,0,0,33,0],[0,0,0,0,0,0,0,0,12,12,15,0],[35,0,0,0,0,0,0,0,0,0,0,0],[0,25,0,0,0,0,0,0,0,0,0,0],[0,0,12,10,12,0,0,4,0,0,0,0],[10,10,10,4,4,10,10,4,4,4,4,0],[10,10,10,6,6,10,10,4,4,4,4,0],[10,10,10,6,6,10,10,6,4,4,4,0],[10,10,10,6,6,10,10,6,6,6,6,0],[12,15,10,8,8,10,10,8,6,6,6,0],[12,20,10,8,8,10,10,12,6,6,6,1]]
+waves = [[3,0,0,0,0,0,0,0,0,0,0,0],[6,0,0,0,0,0,0,0,0,0,0,0],[0,3,0,0,0,0,0,0,0,0,0,0],[0,6,0,0,0,0,0,0,0,0,0,0],[0,0,3,0,0,0,0,0,0,0,0,0],[0,0,6,0,0,0,0,0,0,0,0,0],[0,0,0,2,0,0,0,0,0,0,0,0],[0,0,0,4,0,0,0,0,0,0,0,0],[0,0,0,0,4,0,0,0,0,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,0],[0,0,0,0,0,4,0,0,0,0,0,0],[0,0,0,0,0,6,0,0,0,0,0,0],[0,0,0,0,0,0,4,0,0,0,0,0],[0,0,0,0,0,0,6,0,0,0,0,0],[0,0,0,0,0,0,0,2,0,0,0,0],[0,0,0,0,0,0,0,6,0,0,0,0],[0,0,0,0,0,0,0,0,2,0,0,0],[0,0,0,0,0,0,0,0,6,0,0,0],[0,0,0,0,0,0,0,0,0,2,0,0],[0,4,0,0,0,0,0,0,8,10,0,0],[0,0,0,0,0,0,0,0,0,0,2,0],[0,0,0,0,0,0,0,0,0,0,8,0],[9,0,0,0,0,0,0,0,0,0,0,0],[0,8,0,0,0,0,0,0,0,3,0,0],[0,0,9,0,0,0,0,0,0,0,4,0],[0,0,0,3,5,0,0,0,0,0,0,0],[0,0,0,0,0,14,0,0,0,0,0,0],[0,0,0,0,0,0,4,4,4,0,0,0],[5,5,5,0,0,0,0,0,0,0,0,0],[0,12,0,0,0,0,0,0,0,0,0,0],[3,3,3,0,0,3,6,0,0,0,0,0],[3,6,3,0,0,3,6,0,0,0,0,0],[0,0,0,0,0,10,8,0,0,0,0,0],[0,0,0,0,0,0,0,0,16,0,0,0],[0,0,0,0,0,0,0,0,0,18,0,0],[0,0,0,0,0,0,0,0,0,0,20,0],[0,0,0,0,0,0,0,0,12,6,6,0],[11,11,11,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,16,18,0,0,0,0,0],[8,8,10,0,0,10,8,0,0,0,0,0],[9,9,9,0,0,9,9,0,0,0,0,0],[0,25,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,12,12,0,0],[0,0,0,0,0,0,0,0,12,0,12,0],[0,0,0,0,0,0,0,0,12,8,8,0],[0,0,0,0,0,0,0,0,12,12,15,0],[18,12,0,0,0,0,0,0,0,0,0,0],[18,15,0,0,0,0,0,0,0,0,0,0],[0,0,12,8,12,0,0,4,0,0,0,0],[10,10,10,4,4,10,10,4,4,4,4,0],[10,10,10,6,6,10,10,4,4,4,4,0],[10,10,10,6,6,10,10,6,4,4,4,0],[10,10,10,6,6,10,10,6,6,6,6,0],[12,15,10,8,8,10,10,8,6,6,6,0],[12,20,10,8,8,10,10,12,6,6,6,1]]
 # waves = [[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0], [1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0], [1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0], [1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0]]
 
 spawn_rates = [1.5,0.2,1,3,3,1,1,5,2,2,2,1]
@@ -96,7 +96,7 @@ class Game():
         self.width = 1200
         self.height = 700
         self.win = win
-        self.lives = 20
+        self.lives = 3
         self.money = 35
         self.bg = pygame.image.load(os.path.join("game_assets/background/", "kingdom.png"))
         self.bg = pygame.transform.scale(self.bg, (self.width, self.height))
@@ -133,14 +133,11 @@ class Game():
         self.life_font = self.money_font = pygame.font.Font("game_assets/fonts/SF Atarian System.ttf", 32)
         self.wave_font = pygame.font.Font("game_assets/fonts/SF Atarian System.ttf", 18)
         self.wave_font2 = pygame.font.Font("game_assets/fonts/SF Atarian System.ttf", 72)
-        self.playPauseButton = PlayPauseButton(play_btn, pause_btn, self.width/2 - 118, 0)
-        self.soundButton = PlayPauseButton(sound_btn, sound_btn_off, self.width/2 + 88, 0)
-        self.sideButton = PlayPauseButton(side_btn, side_btn, self.width - 33, 272)
+        self.playPauseButton = PlayPauseButton(play_btn, pause_btn, self.width/2 - 118, 0, False)
+        self.soundButton = PlayPauseButton(sound_btn, sound_btn_off, self.width/2 + 88, 0, True)
+        self.sideButton = PlayPauseButton(side_btn, side_btn, self.width - 33, 272, False)
         self.speedButton = ReturnButton(speed1_btn, speed2_btn, speed3_btn, self.width/2 - 170, 0)
-        self.pause = False
         self.speed = 1
-        self.music_on = True
-        self.menu_on = False
         self.shake_money = False
         self.shake_life = False
         
@@ -174,7 +171,6 @@ class Game():
         self.money_spent = 0
         self.upgrade = 0
         self.df = pd.DataFrame()
-        self.graphs = [Graph()]
         self.not_killed = {"zao_warrior":0, "yan_warrior":0, "qi_warrior":0, "wei_catapult":0, "wei_balista":0, "han_warrior":0, "chu_warrior":0, "chu_elephant":0, "chu_boat":0, "yan_boat":0, "qi_boat":0, "zao_riboku":0}
         self.list_enemy_spawned= [0,0,0,0,0,0,0,0,0,0,0,0]
         self.change_sound = False
@@ -210,7 +206,7 @@ class Game():
                         self.fade(self.width, self.height, rgb(0,0,0), 0, 50, 60)  # (width, height, color, start=0, end=300, delay=1)
                     # reset
                     self.fortress_sound = False
-                    self.pause = False
+                    self.playPauseButton.on = False
                     self.current_wave = waves[self.wave]
                     for items in self.stacks:
                         self.stacks[items] = 0
@@ -280,7 +276,7 @@ class Game():
             clock.tick(400)
 
             # generates enemies at given rate if not pause
-            if not self.pause:
+            if not self.playPauseButton.on_pause:
                 if time.time() - self.timer >= self.current_spawn_rate:
                     self.timer = time.time()
                     self.gen_enemies()
@@ -324,17 +320,10 @@ class Game():
                             if tower.collide(self.moving_object):
                                 not_allowed = True
                                 play_sound(1,"buzz.wav",600)
-                        # add it if doesnt collide with towers, fortress or forbidden tile
+                        # add moving object if no collision with towers, fortress or forbidden tile
                         if not not_allowed:
-                            if self.moving_object.name in attack_tower_names:
-                                self.attack_towers.append(self.moving_object)
-                            elif self.moving_object.name in support_tower_names:
-                                self.support_towers.append(self.moving_object)
-                            elif self.moving_object.name in fortress_names:
-                                self.fortress.append(self.moving_object)
-                                self.first_contact = True
-                            self.counters[self.moving_object.name] += 1
-                            self.stacks[self.moving_object.name] += 1
+                            self.add_obj(self.moving_object)
+                            self.up_counter(self.moving_object, "+")
                             self.moving_object.moving = False
                             self.moving_object = None
                             play_sound(1,"put_tower.wav",600)
@@ -345,14 +334,12 @@ class Game():
                         # toggle play/pause
                         if self.playPauseButton.click(pos[0], pos[1]):
                             play_sound(1,"beep_menu.wav",300)
-                            self.playPauseButton.paused = self.pause
-                            self.pause = not(self.pause)
+                            self.playPauseButton.toggle(opposite=True)
 
                         # toggle music
                         if self.soundButton.click(pos[0], pos[1]):
-                            self.music_on = not(self.music_on)
-                            self.soundButton.paused = self.music_on
-                            if self.music_on:
+                            self.soundButton.toggle()
+                            if self.soundButton.on:
                                 pygame.mixer.music.unpause()
                             else:
                                 pygame.mixer.music.pause()
@@ -360,20 +347,18 @@ class Game():
                         # toggle side menu
                         if self.sideButton.click(pos[0], pos[1]):
                             play_sound(1,"toggle.wav", 600)
-                            self.menu_on = not(self.menu_on)
-                            self.sideButton.paused = self.menu_on
+                            self.sideButton.toggle()
                             self.sideButton.play = pygame.transform.flip(self.sideButton.play, True, False)
 
                         # if you click on side menu and buttons
-                        if self.menu_on:
+                        if self.sideButton.on:
                             side_menu_button = self.menu.get_clicked(pos[0], pos[1])
                             if side_menu_button:
                                 self.menu.blink = True
                                 cost = self.menu.get_item_cost(side_menu_button)
                                 if self.money >= cost:
                                     play_sound(1,"buy.wav",600)
-                                    self.money -= cost
-                                    self.money_spent += cost
+                                    self.spend(cost)
                                     self.add_tower(side_menu_button)
                                 else:
                                     self.shake_money = True
@@ -399,8 +384,7 @@ class Game():
                                 if btn_clicked == "Upgrade":
                                     cost = self.selected_tower.get_upgrade_cost()
                                     if self.money >= cost:
-                                        self.money -= cost
-                                        self.money_spent += cost
+                                        self.spend(cost)
                                         self.upgrade += 1
                                         self.selected_tower.upgrade()
                                         play_sound(1,"buy.wav",600)
@@ -411,71 +395,33 @@ class Game():
                                 # if you click on Sell button
                                 if btn_clicked == "Sell":
                                     refund = self.selected_tower.sell()
-                                    self.money += refund
-                                    self.money_earnt += refund
-                                    self.counters[self.selected_tower.name] -= 1
-                                    self.stacks[self.selected_tower.name] += 1
+                                    self.gain(refund)
+                                    self.up_counter(self.selected_tower, "-")
                                     play_sound(1,"sell.wav",200)
-
                                     try:
-                                        if self.selected_tower.name in attack_tower_names:
-                                            self.attack_towers.remove(self.selected_tower)
-                                        elif self.selected_tower.name in support_tower_names:
-                                            self.support_towers.remove(self.selected_tower)
-                                        elif self.selected_tower.name in fortress_names:
-                                            self.fortress_sound = False
-                                            self.fortress_sold.append(self.selected_tower)
-                                            self.fortress.remove(self.selected_tower)
-                                    # sell bugs
-                                    except ValueError:
-                                        pass
+                                        self.del_obj(self.selected_tower)
+                                    except ValueError: # sell bugs
+                                        pass 
 
                         if not btn_clicked:
-                            # if you click on attack tower
-                            for tw in self.attack_towers:
-                                if tw.click(pos[0], pos[1]):
-                                    tw.selected = True
-                                    self.selected_tower = tw
-                                else:
-                                    tw.selected = False
 
-                            # if you click on support tower
-                            for tw in self.support_towers:
-                                if tw.click(pos[0], pos[1]):
-                                    tw.selected = True
-                                    self.selected_tower = tw
-                                else:
-                                    tw.selected = False
-
-                            # if you click on fortress
-                            for ft in self.fortress:
-                                if ft.click(pos[0], pos[1]):
-                                    ft.selected = True
-                                    self.selected_tower = ft
-                                else:
-                                    ft.selected = False
-
-                            # if you clicked on kingdom's base
-                            for base in self.kingdom:
-                                if base.click(pos[0], pos[1]):
-                                    base.selected = True
-                                    # self.selected_tower = ft
-                                else:
-                                    base.selected = False
+                            # check if you click on tower, fortress or kingdom, and select it
+                            obj_list = [self.attack_towers, self.support_towers, self.fortress, self.kingdom]
+                            for elem in obj_list:
+                                self.check_click(pos, elem)
 
                             # if you click on reward
                             if self.draw_drop:
                                 if self.click(gold_bag, self.drop_x, self.drop_y, pos[0], pos[1]):
                                     play_sound(0,"coin.wav",200)
-                                    self.money += self.reward
-                                    self.money_earnt += self.reward
+                                    self.gain(self.reward)
                                     self.draw_drop = False
 
                         # self.clicks.append(pos)
                         # print(self.clicks)
 
             # do atoher actions: enemies(move), fortress(resist/collapse), towers(effect), lose lives
-            if not self.pause:
+            if not self.playPauseButton.on_pause:
                 to_del = []
 
                 # loop through enemies
@@ -509,10 +455,7 @@ class Game():
 
                 # delete all enemies off the screen
                 for d in to_del:
-                    self.not_killed[d.name] +=1
-                    self.lives -= 1
-                    self.shake_life = True
-                    self.enemys.remove(d)
+                    self.lose_life(d)
 
                 # loop through attack towers 
                 for tw in self.attack_towers:
@@ -524,10 +467,7 @@ class Game():
 
                     # check if you got a random gold_drop
                     if tw.gold_drop > 0:
-                        self.reward = tw.gold_drop
-                        self.drop_x = tw.coord[0] - gold_bag.get_width() / 2
-                        self.drop_y = tw.coord[1] - gold_bag.get_height() / 2 - 35
-                        self.draw_drop = True
+                        self.dropped(tw)
 
                 # loop through support towers and do effect
                 for tw in self.support_towers:
@@ -553,17 +493,7 @@ class Game():
 
                 # if you lose, go_lose
                 if self.lives <= 0:
-                    play_sound(1,"beep.wav",600)
-                    self.shake_life = False
-                    self.draw()
-                    time.sleep(0.7)
-                    pygame.mixer.music.pause()
-                    play_sound(0,"game_over.wav")
-                    time.sleep(2.4)
-                    print("You Lose")
-                    self.go_lose = True
-                    pygame.mixer.music.load(os.path.join("game_assets/sounds/", "melody.wav"))
-                    pygame.mixer.music.play(loops=-1)
+                    self.game_over()
 
                 # stop run if game is over (win or lose)
                 if self.go_win or self.go_lose:
@@ -614,11 +544,11 @@ class Game():
             en.draw(self.win)
 
         # draw menu
-        if self.menu_on:
+        if self.sideButton.on:
             self.menu.draw(self.win)
 
         # draw side button
-        if self.menu_on:
+        if self.sideButton.on:
             self.sideButton.x = self.width - 116
             self.sideButton.y = 272
         else:
@@ -674,18 +604,6 @@ class Game():
         pygame.display.update()
 
 
-    def add_tower(self, name):
-        x, y = pygame.mouse.get_pos()
-        name_list = ["buy_shin", "buy_moubu", "buy_kanki", "buy_ouhon", "buy_fortress", "buy_kyoukai", "buy_ten", "buy_ryo"]
-        object_list = [ShinTower(x,y), MoubuTower(x, y), KankiTower(x, y), OuhonTower(x, y), Fortress(x, y), KyoukaiTower(x, y), TenTower(x, y), RyoTower(x, y)]
-
-        try:
-            obj = object_list[name_list.index(name)]
-            self.moving_object = obj
-            obj.moving = True
-        except Exception as e:
-            print(str(e) + "NOT VALID NAME")
-
     def draw_alert(self, kingdom):
         """
         display blinking alert next to the kingdom when enemies spawn
@@ -702,6 +620,7 @@ class Game():
             else:
                 self.win.blit(alert_white, (x, y))
 
+
     def draw_towers(self, tower_list):
         """
         display towers and fortress, without overlaying
@@ -711,6 +630,7 @@ class Game():
         tower_list.sort(key=lambda tw: tw.y)
         for tw in tower_list:
             tw.draw(self.win)
+
 
     def click (self, img, x, y, X, Y):
         """
@@ -722,6 +642,87 @@ class Game():
             if Y <= y + img.get_height() and Y >= y:
                 return True
         return False
+
+    def add_tower(self, name):
+        x, y = pygame.mouse.get_pos()
+        name_list = ["buy_shin", "buy_moubu", "buy_kanki", "buy_ouhon", "buy_fortress", "buy_kyoukai", "buy_ten", "buy_ryo"]
+        object_list = [ShinTower(x,y), MoubuTower(x, y), KankiTower(x, y), OuhonTower(x, y), Fortress(x, y), KyoukaiTower(x, y), TenTower(x, y), RyoTower(x, y)]
+        try:
+            obj = object_list[name_list.index(name)]
+            self.moving_object = obj
+            obj.moving = True
+        except Exception as e:
+            print(str(e) + "NOT VALID NAME")
+
+    def add_obj(self, obj):
+        if obj.name in attack_tower_names:
+            self.attack_towers.append(obj)
+        elif obj.name in support_tower_names:
+            self.support_towers.append(obj)
+        elif obj.name in fortress_names:
+            self.fortress.append(obj)
+            self.first_contact = True
+
+    def del_obj(self, obj):
+        if obj.name in attack_tower_names:
+            self.attack_towers.remove(obj)
+        elif obj.name in support_tower_names:
+            self.support_towers.remove(obj)
+        elif obj.name in fortress_names:
+            self.fortress_sound = False
+            self.fortress_sold.append(obj)
+            self.fortress.remove(obj)
+
+    def check_click(self, pos, elem):
+        for obj in elem:
+            if obj.click(pos[0], pos[1]):
+                obj.selected = True
+                if elem != self.kingdom:
+                    self.selected_tower = obj
+            else:
+                obj.selected = False
+
+    def up_counter(self, obj, sign):
+        if sign == "+":
+            self.counters[obj.name] += 1
+            self.stacks[obj.name] += 1
+        if sign == "-":
+            self.counters[obj.name] -= 1
+            self.stacks[obj.name] += 1
+
+    def spend(self, cost):
+        self.money -= cost
+        self.money_spent += cost
+
+    def gain(self, cost):
+        self.money += cost
+        self.money_earnt += cost
+
+    def lose_life(self, enemy):
+        self.not_killed[enemy.name] +=1
+        self.lives -= 1
+        self.shake_life = True
+        self.enemys.remove(enemy)
+
+    def dropped(self, tower):
+        self.reward = tower.gold_drop
+        self.drop_x = tower.coord[0] - gold_bag.get_width() / 2
+        self.drop_y = tower.coord[1] - gold_bag.get_height() / 2 - 35
+        self.draw_drop = True
+
+    def game_over(self):
+        play_sound(1,"beep.wav",600)
+        self.shake_life = False
+        self.draw()
+        time.sleep(0.7)
+        pygame.mixer.music.pause()
+        play_sound(0,"game_over.wav")
+        time.sleep(2.4)
+        print("You Lose")
+        self.go_lose = True
+        pygame.mixer.music.load(os.path.join("game_assets/sounds/", "melody.wav"))
+        pygame.mixer.music.play(loops=-1)
+
 
     def fade(self, width, height, color, start=0, end=300, delay=1): 
         fade = pygame.Surface((width, height))
@@ -744,7 +745,6 @@ class Game():
             pygame.time.delay(delay)
         if self.wave == break_round - 1:
             pygame.time.delay(5000)
-
 
     def initialise(self):
         # add additional money based on game level (+10, +20, +30)
