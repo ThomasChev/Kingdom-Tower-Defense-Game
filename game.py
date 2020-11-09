@@ -81,12 +81,13 @@ SONG_END = pygame.USEREVENT + 1
 pygame.mixer.music.set_endevent(SONG_END)
 pygame.mixer.music.load(os.path.join("game_assets/sounds/", "loop0.wav"))
 pygame.mixer.music.play()
-# pygame.mixer.music.load(os.path.join("game_assets/sounds/", "08_T_Station.mp3"))
-# pygame.mixer.music.set_volume(0.4)
 
 # frequency of enemies [Zao_w, Yan_w, Qi_w, Wei_c, Wei_b, Han_w, Chu_w, Chu_e, Chu_b, Yan_b, Qi_b, Zao_r]
 waves = [[3,0,0,0,0,0,0,0,0,0,0,0],[6,0,0,0,0,0,0,0,0,0,0,0],[0,3,0,0,0,0,0,0,0,0,0,0],[0,6,0,0,0,0,0,0,0,0,0,0],[0,0,3,0,0,0,0,0,0,0,0,0],[0,0,6,0,0,0,0,0,0,0,0,0],[0,0,0,2,0,0,0,0,0,0,0,0],[0,0,0,4,0,0,0,0,0,0,0,0],[0,0,0,0,4,0,0,0,0,0,0,0],[0,0,0,0,6,0,0,0,0,0,0,0],[0,0,0,0,0,4,0,0,0,0,0,0],[0,0,0,0,0,6,0,0,0,0,0,0],[0,0,0,0,0,0,4,0,0,0,0,0],[0,0,0,0,0,0,6,0,0,0,0,0],[0,0,0,0,0,0,0,2,0,0,0,0],[0,0,0,0,0,0,0,6,0,0,0,0],[0,0,0,0,0,0,0,0,2,0,0,0],[0,0,0,0,0,0,0,0,6,0,0,0],[0,0,0,0,0,0,0,0,0,2,0,0],[0,0,0,0,0,0,0,0,0,15,0,0],[0,0,0,0,0,0,0,0,0,0,2,0],[0,0,0,0,0,0,0,0,0,0,8,0],[9,0,0,0,0,0,0,0,0,0,0,0],[0,7,0,0,0,0,0,0,0,3,0,0],[0,0,9,0,0,0,0,0,0,0,4,0],[0,0,0,5,5,0,0,0,0,0,0,0],[0,0,0,0,0,14,0,0,0,0,0,0],[0,0,0,0,0,0,4,4,4,0,0,0],[5,5,5,0,0,0,0,0,0,0,0,0],[0,18,0,0,0,0,0,0,0,0,0,0],[3,3,3,0,0,3,6,0,0,0,0,0],[3,6,3,0,0,3,6,0,0,0,0,0],[0,0,0,0,0,10,8,0,0,0,0,0],[0,0,0,0,0,0,0,0,16,0,0,0],[0,0,0,0,0,0,0,0,0,18,0,0],[0,0,0,0,0,0,0,0,0,0,20,0],[0,0,0,0,0,0,0,0,12,6,6,0],[11,11,11,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,16,18,0,0,0,0,0],[8,8,10,0,0,10,8,0,0,0,0,0],[9,9,9,0,0,9,9,0,0,0,0,0],[0,25,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,35,0,0,0],[0,0,0,0,0,0,0,0,0,35,0,0],[0,0,0,0,0,0,0,0,0,0,33,0],[0,0,0,0,0,0,0,0,12,12,15,0],[35,0,0,0,0,0,0,0,0,0,0,0],[0,25,0,0,0,0,0,0,0,0,0,0],[0,0,12,10,12,0,0,4,0,0,0,0],[10,10,10,4,4,10,10,4,4,4,4,0],[10,10,10,6,6,10,10,4,4,4,4,0],[10,10,10,6,6,10,10,6,4,4,4,0],[10,10,10,6,6,10,10,6,6,6,6,0],[12,15,10,8,8,10,10,8,6,6,6,0],[12,20,10,8,8,10,10,12,6,6,6,1]]
+# waves = [[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0], [1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0], [1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0], [1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0]]
+
 spawn_rates = [2,0.2,1,3,3,1,1,5,2,2,2,1]
+break_round = 2
 
 class Game():
     def __init__(self, win):
@@ -177,6 +178,7 @@ class Game():
         self.not_killed = {"zao_warrior":0, "yan_warrior":0, "qi_warrior":0, "wei_catapult":0, "wei_balista":0, "han_warrior":0, "chu_warrior":0, "chu_elephant":0, "chu_boat":0, "yan_boat":0, "qi_boat":0, "zao_riboku":0}
         self.list_enemy_spawned= [0,0,0,0,0,0,0,0,0,0,0,0]
         self.change_sound = False
+        self.coef_rate = 1
 
     def gen_enemies(self):
         """
@@ -198,18 +200,18 @@ class Game():
                 if self.wave < len(waves):
                     # play sound, write wave number and shade
                     if self.wave > 0:
-                        # if self.change_sound:
-                        #     pygame.mixer.music.set_volume(0.1)
+                        # change music (epic AOE) at wave 10
+                        if not self.change_sound and self.wave >= break_round - 1:
+                            pygame.mixer.music.stop()
+                            self.change_sound = True
+                            play_next_song()
                         if not self.change_sound:
                             play_sound(0,"next_round.wav")
                         self.fade(self.width, self.height, rgb(0,0,0), 0, 50, 60)  # (width, height, color, start=0, end=300, delay=1)
                     # reset
-                    # if self.change_sound:
-                    #     pygame.mixer.music.set_volume(0.4)
                     self.fortress_sound = False
                     self.pause = False
                     self.current_wave = waves[self.wave]
-                    # reset stack data
                     for items in self.stacks:
                         self.stacks[items] = 0
                     
@@ -232,7 +234,9 @@ class Game():
                 
                 if enemy_nb == 0:
                     self.next_spawn = True
-                self.current_spawn_rate = self.spawn_rate[x]
+                #self.current_spawn_rate = self.spawn_rate[x]
+                self.current_spawn_rate = enemy_type.rate*self.coef_rate
+
                 if enemy_nb != 0:
                     enemy_type.scale_health(self.wave)
                     enemy_type.shield = self.shield
@@ -241,13 +245,12 @@ class Game():
                     self.current_wave[x] = self.current_wave[x] - 1
                     self.list_enemy_spawned[x] += 1
                     self.next_spawn = False
-                    break # comment to spawn the current_wave[x] enemies all together
+                    # break
 
     def run(self):
 
         # start playing the background music
         pygame.mixer.music.load(os.path.join("game_assets/sounds/", "loop0.wav"))
-        #pygame.mixer.music.load(os.path.join("game_assets/sounds/", "08_T_Station.mp3"))
         pygame.mixer.music.set_volume(0.4)
         pygame.mixer.music.play(loops=-1) # loop forever
 
@@ -267,9 +270,10 @@ class Game():
             self.update_stat()
             clock.tick(400)
 
-            if not self.change_sound and self.wave >= 2:
-                pygame.mixer.music.stop()
-                self.change_sound = True
+            # # change music (epic AOE) at wave 10
+            # if not self.change_sound and self.wave >= break_round - 1:
+            #     pygame.mixer.music.stop()
+            #     self.change_sound = True
 
             # generates enemies at given rate if not pause
             if not self.pause:
@@ -292,11 +296,11 @@ class Game():
 
                 if event.type == pygame.QUIT:
                     self.go_lose = True
-                    #run = False
 
-                if event.type == SONG_END and self.change_sound and not self.go_win:
-                    print("the song ended!")
+                if event.type == SONG_END and self.change_sound and not self.go_win and self.wave != break_round - 1:
                     play_next_song()
+                    # if self.wave == break_round - 1:
+                    #     pygame.time.delay(2000)
 
                 if event.type == pygame.MOUSEBUTTONUP:
 
@@ -510,18 +514,18 @@ class Game():
 
                 # loop through attack towers 
                 for tw in self.attack_towers:
-                        # attack, at chosen game speed
-                        tw.speed = self.speed
-                        money_before = self.money 
-                        self.money += tw.attack(self.enemys)
-                        self.money_earnt += self.money - money_before
+                    # attack, at chosen game speed
+                    tw.speed = self.speed
+                    money_before = self.money 
+                    self.money += tw.attack(self.enemys)
+                    self.money_earnt += self.money - money_before
 
-                        # check if you got a random gold_drop
-                        if tw.gold_drop > 0:
-                            self.reward = tw.gold_drop
-                            self.drop_x = tw.coord[0] - gold_bag.get_width() / 2
-                            self.drop_y = tw.coord[1] - gold_bag.get_height() / 2 - 35
-                            self.draw_drop = True
+                    # check if you got a random gold_drop
+                    if tw.gold_drop > 0:
+                        self.reward = tw.gold_drop
+                        self.drop_x = tw.coord[0] - gold_bag.get_width() / 2
+                        self.drop_y = tw.coord[1] - gold_bag.get_height() / 2 - 35
+                        self.draw_drop = True
 
                 # loop through support towers and do effect
                 for tw in self.support_towers:
@@ -720,6 +724,9 @@ class Game():
     def fade(self, width, height, color, start=0, end=300, delay=1): 
         fade = pygame.Surface((width, height))
         fade.fill(color)
+
+        if self.wave == break_round - 1:
+            delay = round(delay*1.5)
         for alpha in range(start, end):
             fade.set_alpha(alpha)
             # redrawWindow()
@@ -733,17 +740,21 @@ class Game():
             self.win.blit(text, (self.width/2 - text.get_width()/2, self.height/2 - text.get_height()/2))
             pygame.display.update()
             pygame.time.delay(delay)
+        if self.wave == break_round - 1:
+            pygame.time.delay(5000)
+
 
     def initialise(self):
         # add additional money based on game level (+10, +20, +30)
         coef = 3 - self.lvl[self.level]
         self.money = self.money + self.money*coef
 
-        # reduce spaw rates based on game level (-0%, -20%, -40%)
+        # reduce spaw rates based on game level (-0%, -20%, -40%) TO DO
         coef = 1 - 0.2*self.lvl[self.level]
-        self.spawn_rate = [r*coef for r in self.spawn_rate]
+        self.coef_rate = coef
+        #self.spawn_rate = [r*coef for r in self.spawn_rate]
 
-        # enemies strengh
+        # balance enemies strengh based on game level
         coef = self.lvl[self.level]/4
         self.shield = 2 + coef
 

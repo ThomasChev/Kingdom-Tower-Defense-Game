@@ -22,5 +22,5 @@ class Chu_boat(Enemy):
 		self.x = self.path[0][0]
 		self.y = self.path[0][1]
 		self.speed = 1
-		
+		self.rate = 2
 		
