@@ -86,8 +86,8 @@ pygame.mixer.music.play()
 waves = [[3,0,0,0,0,0,0,0,0,0,0,0],[6,0,0,0,0,0,0,0,0,0,0,0],[0,3,0,0,0,0,0,0,0,0,0,0],[0,6,0,0,0,0,0,0,0,0,0,0],[0,0,3,0,0,0,0,0,0,0,0,0],[0,0,6,0,0,0,0,0,0,0,0,0],[0,0,0,2,0,0,0,0,0,0,0,0],[0,0,0,4,0,0,0,0,0,0,0,0],[0,0,0,0,4,0,0,0,0,0,0,0],[0,0,0,0,6,0,0,0,0,0,0,0],[0,0,0,0,0,4,0,0,0,0,0,0],[0,0,0,0,0,6,0,0,0,0,0,0],[0,0,0,0,0,0,4,0,0,0,0,0],[0,0,0,0,0,0,6,0,0,0,0,0],[0,0,0,0,0,0,0,2,0,0,0,0],[0,0,0,0,0,0,0,6,0,0,0,0],[0,0,0,0,0,0,0,0,2,0,0,0],[0,0,0,0,0,0,0,0,6,0,0,0],[0,0,0,0,0,0,0,0,0,2,0,0],[0,0,0,0,0,0,0,0,0,15,0,0],[0,0,0,0,0,0,0,0,0,0,2,0],[0,0,0,0,0,0,0,0,0,0,8,0],[9,0,0,0,0,0,0,0,0,0,0,0],[0,7,0,0,0,0,0,0,0,3,0,0],[0,0,9,0,0,0,0,0,0,0,4,0],[0,0,0,5,5,0,0,0,0,0,0,0],[0,0,0,0,0,14,0,0,0,0,0,0],[0,0,0,0,0,0,4,4,4,0,0,0],[5,5,5,0,0,0,0,0,0,0,0,0],[0,18,0,0,0,0,0,0,0,0,0,0],[3,3,3,0,0,3,6,0,0,0,0,0],[3,6,3,0,0,3,6,0,0,0,0,0],[0,0,0,0,0,10,8,0,0,0,0,0],[0,0,0,0,0,0,0,0,16,0,0,0],[0,0,0,0,0,0,0,0,0,18,0,0],[0,0,0,0,0,0,0,0,0,0,20,0],[0,0,0,0,0,0,0,0,12,6,6,0],[11,11,11,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,16,18,0,0,0,0,0],[8,8,10,0,0,10,8,0,0,0,0,0],[9,9,9,0,0,9,9,0,0,0,0,0],[0,25,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,35,0,0,0],[0,0,0,0,0,0,0,0,0,35,0,0],[0,0,0,0,0,0,0,0,0,0,33,0],[0,0,0,0,0,0,0,0,12,12,15,0],[35,0,0,0,0,0,0,0,0,0,0,0],[0,25,0,0,0,0,0,0,0,0,0,0],[0,0,12,10,12,0,0,4,0,0,0,0],[10,10,10,4,4,10,10,4,4,4,4,0],[10,10,10,6,6,10,10,4,4,4,4,0],[10,10,10,6,6,10,10,6,4,4,4,0],[10,10,10,6,6,10,10,6,6,6,6,0],[12,15,10,8,8,10,10,8,6,6,6,0],[12,20,10,8,8,10,10,12,6,6,6,1]]
 # waves = [[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0], [1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0], [1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0], [1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0]]
 
-spawn_rates = [2,0.2,1,3,3,1,1,5,2,2,2,1]
-break_round = 2
+spawn_rates = [1.5,0.2,1,3,3,1,1,5,2,2,2,1]
+break_round = 10
 
 class Game():
     def __init__(self, win):
@@ -227,6 +227,14 @@ class Game():
 
         # Generates enemies of current wave 
         else:
+
+            # check if wave has just one type of enemy
+            nb_0 = self.current_wave.count(0)
+            if nb_0 == len(self.current_wave) - 1:
+                one_type = True
+            else:
+                one_type = False
+
             for x in range(len(self.current_wave)):
                 enemy_nb = self.current_wave[x]
                 enemy_type = wave_compo[x][0]
@@ -234,7 +242,6 @@ class Game():
                 
                 if enemy_nb == 0:
                     self.next_spawn = True
-                #self.current_spawn_rate = self.spawn_rate[x]
                 self.current_spawn_rate = enemy_type.rate*self.coef_rate
 
                 if enemy_nb != 0:
@@ -245,7 +252,9 @@ class Game():
                     self.current_wave[x] = self.current_wave[x] - 1
                     self.list_enemy_spawned[x] += 1
                     self.next_spawn = False
-                    # break
+                    # if wave has just one type of enemy, break for better spawn rates
+                    if one_type:
+                        break
 
     def run(self):
 
@@ -269,11 +278,6 @@ class Game():
 
             self.update_stat()
             clock.tick(400)
-
-            # # change music (epic AOE) at wave 10
-            # if not self.change_sound and self.wave >= break_round - 1:
-            #     pygame.mixer.music.stop()
-            #     self.change_sound = True
 
             # generates enemies at given rate if not pause
             if not self.pause:
@@ -299,8 +303,6 @@ class Game():
 
                 if event.type == SONG_END and self.change_sound and not self.go_win and self.wave != break_round - 1:
                     play_next_song()
-                    # if self.wave == break_round - 1:
-                    #     pygame.time.delay(2000)
 
                 if event.type == pygame.MOUSEBUTTONUP:
 
@@ -755,7 +757,7 @@ class Game():
         #self.spawn_rate = [r*coef for r in self.spawn_rate]
 
         # balance enemies strengh based on game level
-        coef = self.lvl[self.level]/4
+        coef = self.lvl[self.level]/5
         self.shield = 2 + coef
 
     def update_stat(self):
