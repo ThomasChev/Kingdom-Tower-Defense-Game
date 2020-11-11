@@ -296,7 +296,7 @@ text_shin = "Shin is the main protagonist of Kingdom. \nHe is a General of Qin a
         "Swordman: he is able to easily cut down a large number of soldiers.\n" \
         "\n" \
         " - Damage: Low\n" \
-        " - Range: Enhanced Range\n" \
+        " - Range: Long\n" \
         " - Cost : Cheap\n" \
         " - Ability: None"
 
@@ -306,59 +306,63 @@ text_moubu = "Mou Bu is a Great General of Qin, the leader of Mou Bu Army, " \
         "\n" \
         "Mace User: he is able to easily cut down armor soldiers and Chu's Units.\n" \
         "\n" \
-        " - Damage: Enhanced Damage\n" \
-        " - Range: Low\n" \
+        " - Damage: High\n" \
+        " - Range: Short\n" \
         " - Cost: Expensive\n" \
         " - Ability: Special Damage to Chu's Units (Warriors, Elephants, Boats)"
 
-text_kanki = "Mou Bu is a Great General of Qin, the leader of Mou Bu Army, " \
-        "and the head of the Mou Family, also a former member of the 'Four Pillars' of Ryo Fui..\n" \
-        "Mou Bu has been called the 'Unrivaled Strongest Man in Qin' because of his brute force approach to battle.\n" \
+text_kanki = "Kan Ki is a General of Qin and the leader of Kan Ki Army. In the past he was a bandit leader with a penchant " \
+        "for decapitation, which earned him the moniker 'The Beheader'.\n" \
         "\n" \
         "Swordman: he is able to easily cut down several units and Wei's Siege Units.\n" \
         "\n" \
-        " - Damage: Enhanced Attack Speed\n" \
-        " - Range: Low\n" \
+        " - Damage: High Attack Speed\n" \
+        " - Range: Short\n" \
         " - Cost: Medium\n" \
         " - Ability: Special Damage to Wei's Siege Units (Catapult, Balista)"
 
-text_ouhon = "Shin is the main protagonist of Kingdom. \nHe is a General of Qin and the leader of the Hi Shin Army.\n" \
+text_ouhon = "Ou Hon is a General of Qin. He is also the son of General Ou Sen, " \
+        "a relative to the late Great General Ou Ki and the heir to the Ou Family.\n" \
         "\n" \
-        "Swordman: he is able to easily cut down a large number of soldiers.\n" \
+        "Spearman: he is able to freeze soldiers.\n" \
         "\n" \
-        " - Damage: Low\n" \
-        " - Range: Enhanced Range\n" \
-        " - Cost : Cheap\n" \
-        " - Ability: None"
+        " - Damage: None\n" \
+        " - Range: Short\n" \
+        " - Cost : Expensive\n" \
+        " - Ability: Freeze"
 
-text_fortress = "Qin City, must be besieged \nby enemies along their path.\n" \
+text_fortress = "Qin City, must be besieged by \n" \
+        "enemies along their path.\n" \
         "\n" \
         " - Health: 500/1000/1500\n" \
         " - Weakness: Wei Siege Units\n" \
 
-text_kyoukai = "Shin is the main protagonist of Kingdom. \nHe is a General of Qin and the leader of the Hi Shin Army.\n" \
+text_kyoukai = "Kyou Kai is a 5000-Man Commander and a \n lieutenant in the Hi Shin Unit, in which she \nconsiders herself, " \
+        "and her unit, bound to. \n" \
+        "Kyou Kai is also a former member of the \n legendary assassin Clan Shiyuu.\n" \
         "\n" \
-        "Swordman: he is able to easily cut down a large number of soldiers.\n" \
+        "Swordman: enhances towers' damage.\n" \
         "\n" \
-        " - Damage: Low\n" \
-        " - Range: Enhanced Range\n" \
-        " - Cost : Cheap\n" \
-        " - Ability: None"
+        " - Damage: None\n" \
+        " - Range: Short\n" \
+        " - Cost : Expensive\n" \
+        " - Ability: Enhance Tower Damage"
 
-text_ten = "Shin is the main protagonist of Kingdom. \nHe is a General of Qin and the leader of the Hi Shin Army.\n" \
+text_ten = "Ka Ryo Ten is the Strategist of the Hi Shin\n Unit and one of the best strategists \n" \
+        "for the state of Qin. She is an orphan and\n the last descendant of a large mountain\n tribe.\n" \
         "\n" \
-        "Swordman: he is able to easily cut down a large number of soldiers.\n" \
+        "Blowgun: enhances towers' range.\n" \
         "\n" \
-        " - Damage: Low\n" \
-        " - Range: Enhanced Range\n" \
-        " - Cost : Cheap\n" \
-        " - Ability: None"
+        " - Damage: None\n" \
+        " - Range: Short\n" \
+        " - Cost : Expensive\n" \
+        " - Ability: Enhance Tower Range"
 
-text_ryo = "Shin is the main protagonist of Kingdom. \nHe is a General of Qin and the leader of the Hi Shin Army.\n" \
+text_ryo = "Ryo Fui is a very powerful merchant and\n politic of the state of Qin. A former\n" \
+        "Chancellor of the Right and later\n Chancellor of State of Qin, he was\n the leader of the Ryo Fui Faction\n" \
+        "at the beginning of Ei Sei's reign.\n" \
         "\n" \
-        "Swordman: he is able to easily cut down a large number of soldiers.\n" \
-        "\n" \
-        " - Damage: Low\n" \
-        " - Range: Enhanced Range\n" \
-        " - Cost : Cheap\n" \
-        " - Ability: None"
+        " - Damage: None\n" \
+        " - Range: Long\n" \
+        " - Cost : Expensive\n" \
+        " - Ability: Enhance Tower Gold Drops"
