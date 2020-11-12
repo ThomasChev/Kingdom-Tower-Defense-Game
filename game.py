@@ -4,6 +4,9 @@ import math
 import time
 import random
 import pandas as pd
+import seaborn as sns
+from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
 
 # enemies
 from enemies.zao_warrior import Zao_warrior
@@ -162,17 +165,23 @@ class Game():
         # Graphs 
         self.start_ticks = 0
         self.seconds = 0
-        self.data_dict = {'seconds':[], 'waves':[], 'money':[], 'lives':[], 'money_earnt':[], 'money_spent':[],
-                            'shin':[], 'moubu':[], 'kanki':[], 'ouhon':[], 'ten':[], 'kyoukai':[], 'ryo':[],'fortress':[], 'towers':[], 'upgrade':[], 
-                            'shin_stack':[], 'moubu_stack':[], 'kanki_stack':[], 'ouhon_stack':[], 'ten_stack':[], 'kyoukai_stack':[], 'ryo_stack':[],'fortress_stack':[]}
+        self.data_dict = {'seconds':[], 
+                        'waves':[], 
+                        'money':[], 
+                        'lives':[], 
+                        'money_earnt':[], 
+                        'money_spent':[],
+                        'shin':[], 'moubu':[], 'kanki':[], 'ouhon':[], 
+                        'ten':[], 'kyoukai':[], 'ryo':[],'fortress':[], 
+                        'towers':[], 
+                        'upgrade':[]}
         self.counters = {'shin':0,'moubu':0, 'kanki':0, 'ouhon':0, 'ten':0, 'kyoukai':0, 'ryo':0 ,'fortress':0, 'upgrade':0}
-        self.stacks = {'shin':0, 'moubu':0, 'kanki':0, 'ouhon':0, 'ten':0, 'kyoukai':0, 'ryo':0, 'fortress':0}
         self.money_earnt = 0
         self.money_spent = 0
         self.upgrade = 0
         self.df = pd.DataFrame()
         self.not_killed = {"zao_warrior":0, "yan_warrior":0, "qi_warrior":0, "wei_catapult":0, "wei_balista":0, "han_warrior":0, "chu_warrior":0, "chu_elephant":0, "chu_boat":0, "yan_boat":0, "qi_boat":0, "zao_riboku":0}
-        self.list_enemy_spawned= [0,0,0,0,0,0,0,0,0,0,0,0]
+        self.list_enemy_spawned = [0,0,0,0,0,0,0,0,0,0,0,0]
         self.change_sound = False
         self.coef_rate = 1
 
@@ -208,8 +217,6 @@ class Game():
                     self.fortress_sound = False
                     self.playPauseButton.on = False
                     self.current_wave = waves[self.wave]
-                    for items in self.stacks:
-                        self.stacks[items] = 0
                     
                 # No wave left, go_win
                 else:
@@ -323,7 +330,7 @@ class Game():
                         # add moving object if no collision with towers, fortress or forbidden tile
                         if not not_allowed:
                             self.add_obj(self.moving_object)
-                            self.up_counter(self.moving_object, "+")
+                            self.update_counter(self.moving_object, 1)
                             self.moving_object.moving = False
                             self.moving_object = None
                             play_sound(1,"put_tower.wav",600)
@@ -396,7 +403,7 @@ class Game():
                                 if btn_clicked == "Sell":
                                     refund = self.selected_tower.sell()
                                     self.gain(refund)
-                                    self.up_counter(self.selected_tower, "-")
+                                    self.update_counter(self.selected_tower, -1)
                                     play_sound(1,"sell.wav",200)
                                     try:
                                         self.del_obj(self.selected_tower)
@@ -500,18 +507,58 @@ class Game():
                     self.df = pd.DataFrame(data = self.data_dict)
                     self.fade(self.width, self.height, rgb(0,0,0), 0, 300, 4) # (width, height, color, start=0, end=300, delay=1)
 
-                    # plot Tower Graphs and Enemy bar
-                    graph_1 = Graph()
-                    graph_1.name = os.path.join("graphs/fig/","plot_towers.png")
-                    graph_1.write_line(self.df, 'waves')
-                    graph_1.plot(0)
+                    # Seaborn plots
+                    # sns.set(rc={'figure.figsize':(12,10)})
+                    fig, axes = plt.subplots(2, 2, figsize=(14, 14))
+                    sns.set(style="whitegrid")
 
-                    not_killed  = [x[1] for x in self.not_killed.items()]
-                    killed = [x-y for (x,y) in zip(self.list_enemy_spawned, not_killed)]
-                    graph_2 = Graph()
-                    graph_2.name = os.path.join("graphs/fig/","plot_enemies.png")
-                    graph_2.import_bar(self.list_enemy_spawned, killed)
-                    graph_2.plot(1)
+                    # (0,0) : Seaborn lineplot
+                    data_preproc = pd.DataFrame({'Waves (Nb)': self.df['waves'].values, 'Money Spent': self.df['money_spent'].values,'Money Earnt': self.df['money_earnt'].values,'Money': self.df['money'].values})
+                    data = pd.melt(data_preproc, ['Waves (Nb)'])
+                    data = data.rename(columns={"value": "Money ($)"})
+                    sns.lineplot(x='Waves (Nb)', y='Money ($)', hue='variable', data=data, ci=None, markers=True, style = 'variable', palette=['#E33B24', '#2EB4F6', '#797979'], ax=axes[0,0])
+                    axes[0,0].legend(loc='upper left')
+
+                    # (0,1) : Matplotlib stackplot
+                    x = self.df['waves'].values
+                    y = [self.df['shin'].values, self.df['moubu'].values, self.df['kanki'].values, self.df['ouhon'].values]
+                    label = ["Shin", "Moubu", "Kanki", "Ouhon"]
+                    color = ['#1B6EF2', '#F2801B', '#6412CA', '#AAAAAA']
+                    axes[0,1].stackplot(x, y, labels=label, baseline ='zero', colors=color)
+                    axes[0,1].legend(loc='upper left')
+                    axes[0,1].set_xlabel('Waves (Nb)')
+                    axes[0,1].set_ylabel('Attack Towers (Nb)')
+
+                    # (1,0) : Seaborn lineplot
+                    color = '#A01E0A'
+                    data = pd.DataFrame({'Waves (Nb)': self.df['waves'].values, 'Lives (Nb)': self.df['lives'].values})
+                    sns.lineplot(x='Waves (Nb)', y='Lives (Nb)', data=data, ci=None, markers=True, color=color, ax=axes[1,0])
+                    
+                    # (1,1) : Matplotlib stackplot
+                    x = self.df['waves'].values
+                    y = [self.df['kyoukai'].values, self.df['ten'].values, self.df['ryo'].values, self.df['fortress'].values]
+                    label = ["Kyoukai", "Ten", "Ryo", "Fortress"]
+                    color = ['#A01E0A', '#1B6EF2', '#EECE1A', '#2E2E2E']
+                    axes[1,1].stackplot(x, y, labels=label, baseline ='zero', colors=color)
+                    axes[1,1].legend(loc='upper left')
+                    axes[1,1].set_xlabel('Waves (Nb)')
+                    axes[1,1].set_ylabel('Support Towers (Nb)')
+                    
+                    plt.show()
+
+
+                    # # plot Tower Graphs and Enemy bar
+                    # graph_1 = Graph()
+                    # graph_1.name = os.path.join("graphs/fig/","plot_towers.png")
+                    # graph_1.write_line(self.df, 'waves')
+                    # graph_1.plot(0)
+
+                    # not_killed  = [x[1] for x in self.not_killed.items()]
+                    # killed = [x-y for (x,y) in zip(self.list_enemy_spawned, not_killed)]
+                    # graph_2 = Graph()
+                    # graph_2.name = os.path.join("graphs/fig/","plot_enemies.png")
+                    # graph_2.import_bar(self.list_enemy_spawned, killed)
+                    # graph_2.plot(1)
                     
                     run = False
 
@@ -682,13 +729,8 @@ class Game():
             else:
                 obj.selected = False
 
-    def up_counter(self, obj, sign):
-        if sign == "+":
-            self.counters[obj.name] += 1
-            self.stacks[obj.name] += 1
-        if sign == "-":
-            self.counters[obj.name] -= 1
-            self.stacks[obj.name] += 1
+    def update_counter(self, obj, sign):
+        self.counters[obj.name] = self.counters[obj.name] + sign
 
     def spend(self, cost):
         self.money -= cost
@@ -754,7 +796,6 @@ class Game():
         # reduce spaw rates based on game level (-0%, -20%, -40%) TO DO
         coef = 1 - 0.2*self.lvl[self.level]
         self.coef_rate = coef
-        #self.spawn_rate = [r*coef for r in self.spawn_rate]
 
         # balance enemies strengh based on game level
         coef = self.lvl[self.level]/5
@@ -770,16 +811,28 @@ class Game():
             if items != 'upgrade':
                 towers_nb += self.counters[items]
 
-        list_keys = ['seconds', 'waves', 'money', 'lives', 'money_earnt', 'money_spent', 
-                        'shin','moubu', 'kanki', 'ouhon', 'ten', 'kyoukai', 'ryo', 'fortress', 'towers', 'upgrade',
-                        'shin_stack', 'moubu_stack', 'kanki_stack', 'ouhon_stack', 'ten_stack', 'kyoukai_stack', 'ryo_stack', 'fortress_stack']
-        list_items = [round(self.seconds), self.wave + 1 , self.money, self.lives, self.money_earnt,  self.money_spent,
-                        self.counters['shin'],  self.counters['moubu'],  self.counters['kanki'],  self.counters['ouhon'],  
-                        self.counters['ten'],  self.counters['kyoukai'], self.counters['ryo'],  self.counters['fortress'], towers_nb, 
-                        self.counters['upgrade'], self.stacks['shin'],  self.stacks['moubu'],  self.stacks['kanki'],  self.stacks['ouhon'],  
-                        self.stacks['ten'],  self.stacks['kyoukai'], self.stacks['ryo'], self.stacks['fortress']]
+        list_keys = ['seconds', 
+                    'waves', 
+                    'money', 
+                    'lives', 
+                    'money_earnt', 
+                    'money_spent', 
+                    'shin','moubu', 'kanki', 'ouhon', 
+                    'ten', 'kyoukai', 'ryo', 'fortress', 
+                    'towers', 
+                    'upgrade']
+        list_items = [round(self.seconds), 
+                    self.wave + 1 , 
+                    self.money, 
+                    self.lives, 
+                    self.money_earnt,  
+                    self.money_spent,
+                    self.counters['shin'],  self.counters['moubu'],  self.counters['kanki'],  self.counters['ouhon'],  
+                    self.counters['ten'],  self.counters['kyoukai'], self.counters['ryo'],  self.counters['fortress'], 
+                    towers_nb, 
+                    self.counters['upgrade']] 
 
-        # store data every 2 seconds
+        # store data every 2 seconds (+- 0.01)
         rest = math.fmod(self.seconds, 2)
         if rest <= 0.01:
             for key, item in zip(list_keys, list_items):
