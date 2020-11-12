@@ -523,14 +523,14 @@ class Game():
                     x = self.df['waves'].values
                     y = [self.df['shin'].values, self.df['moubu'].values, self.df['kanki'].values, self.df['ouhon'].values]
                     label = ["Shin", "Moubu", "Kanki", "Ouhon"]
-                    color = ['#1B6EF2', '#F2801B', '#6412CA', '#AAAAAA']
+                    color = ['#2EB4F6', '#F2801B', '#6412CA', '#AAAAAA']
                     axes[0,1].stackplot(x, y, labels=label, baseline ='zero', colors=color)
                     axes[0,1].legend(loc='upper left')
                     axes[0,1].set_xlabel('Waves (Nb)')
                     axes[0,1].set_ylabel('Attack Towers (Nb)')
 
                     # (1,0) : Seaborn lineplot
-                    color = '#A01E0A'
+                    color = '#E33B24'
                     data = pd.DataFrame({'Waves (Nb)': self.df['waves'].values, 'Lives (Nb)': self.df['lives'].values})
                     sns.lineplot(x='Waves (Nb)', y='Lives (Nb)', data=data, ci=None, markers=True, color=color, ax=axes[1,0])
                     
@@ -538,7 +538,7 @@ class Game():
                     x = self.df['waves'].values
                     y = [self.df['kyoukai'].values, self.df['ten'].values, self.df['ryo'].values, self.df['fortress'].values]
                     label = ["Kyoukai", "Ten", "Ryo", "Fortress"]
-                    color = ['#A01E0A', '#1B6EF2', '#EECE1A', '#2E2E2E']
+                    color = ['#E33B24', '#2EB4F6', '#EECE1A', '#AAAAAA']
                     axes[1,1].stackplot(x, y, labels=label, baseline ='zero', colors=color)
                     axes[1,1].legend(loc='upper left')
                     axes[1,1].set_xlabel('Waves (Nb)')
@@ -811,16 +811,8 @@ class Game():
             if items != 'upgrade':
                 towers_nb += self.counters[items]
 
-        list_keys = ['seconds', 
-                    'waves', 
-                    'money', 
-                    'lives', 
-                    'money_earnt', 
-                    'money_spent', 
-                    'shin','moubu', 'kanki', 'ouhon', 
-                    'ten', 'kyoukai', 'ryo', 'fortress', 
-                    'towers', 
-                    'upgrade']
+        list_keys = list(self.data_dict.keys())
+        
         list_items = [round(self.seconds), 
                     self.wave + 1 , 
                     self.money, 
