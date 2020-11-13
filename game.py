@@ -38,8 +38,8 @@ from kingdoms.chu_base import Chu_base
 from kingdoms.chu2_base import Chu2_base
 from kingdoms.chu3_base import Chu3_base
 from menu.menu import VerticalMenu, PlayPauseButton, ReturnButton
-from graphs.graphs import Graph
 from game_assets.colors import rgb
+# from graphs.graphs import Graph
 
 pygame.font.init()
 pygame.init()
@@ -182,8 +182,11 @@ class Game():
         self.df = pd.DataFrame()
         self.not_killed = {"zao_warrior":0, "yan_warrior":0, "qi_warrior":0, "wei_catapult":0, "wei_balista":0, "han_warrior":0, "chu_warrior":0, "chu_elephant":0, "chu_boat":0, "yan_boat":0, "qi_boat":0, "zao_riboku":0}
         self.list_enemy_spawned = [0,0,0,0,0,0,0,0,0,0,0,0]
+        self.not_kill_count = 0
+        self.spawn_count = 0
         self.change_sound = False
         self.coef_rate = 1
+        self.df_enemies = pd.DataFrame(data={'waves': [], 'spawned': [], 'killed':[]})
 
     def gen_enemies(self):
         """
@@ -217,7 +220,15 @@ class Game():
                     self.fortress_sound = False
                     self.playPauseButton.on = False
                     self.current_wave = waves[self.wave]
+
                     
+                    spawned = self.spawn_count
+                    not_killed = self.not_kill_count
+                    killed = spawned - not_killed
+                    self.df_enemies = self.df_enemies.append({'waves': self.wave, 'spawned':spawned, 'killed':killed}, ignore_index=True)
+                    self.spawn_count = 0
+                    self.not_kill_count = 0
+
                 # No wave left, go_win
                 else:
                     time.sleep(0.7)
@@ -254,6 +265,7 @@ class Game():
                     self.current_kingdom = kingdom
                     self.current_wave[x] = self.current_wave[x] - 1
                     self.list_enemy_spawned[x] += 1
+                    self.spawn_count += 1
                     self.next_spawn = False
                     # if wave has just one type of enemy, break for better spawn rates
                     if one_type:
@@ -407,8 +419,8 @@ class Game():
                                     play_sound(1,"sell.wav",200)
                                     try:
                                         self.del_obj(self.selected_tower)
-                                    except ValueError: # sell bugs
-                                        pass 
+                                    except Exception as e:
+                                        print("Sell Exception: " + str(e)) 
 
                         if not btn_clicked:
 
@@ -506,60 +518,13 @@ class Game():
                 if self.go_win or self.go_lose:
                     self.df = pd.DataFrame(data = self.data_dict)
                     self.fade(self.width, self.height, rgb(0,0,0), 0, 300, 4) # (width, height, color, start=0, end=300, delay=1)
+                    try:
+                        self.plot_towers(self.df)
+                        self.plot_enemies(self.df_enemies, self.list_enemy_spawned, self.not_killed)
+                        plt.show()
+                    except Exception as e:
+                        print("Graph Exception: " + str(e))
 
-                    # Seaborn plots
-                    # sns.set(rc={'figure.figsize':(12,10)})
-                    fig, axes = plt.subplots(2, 2, figsize=(14, 14))
-                    sns.set(style="whitegrid")
-
-                    # (0,0) : Seaborn lineplot
-                    data_preproc = pd.DataFrame({'Waves (Nb)': self.df['waves'].values, 'Money Spent': self.df['money_spent'].values,'Money Earnt': self.df['money_earnt'].values,'Money': self.df['money'].values})
-                    data = pd.melt(data_preproc, ['Waves (Nb)'])
-                    data = data.rename(columns={"value": "Money ($)"})
-                    sns.lineplot(x='Waves (Nb)', y='Money ($)', hue='variable', data=data, ci=None, markers=True, style = 'variable', palette=['#E33B24', '#2EB4F6', '#797979'], ax=axes[0,0])
-                    axes[0,0].legend(loc='upper left')
-
-                    # (0,1) : Matplotlib stackplot
-                    x = self.df['waves'].values
-                    y = [self.df['shin'].values, self.df['moubu'].values, self.df['kanki'].values, self.df['ouhon'].values]
-                    label = ["Shin", "Moubu", "Kanki", "Ouhon"]
-                    color = ['#2EB4F6', '#F2801B', '#6412CA', '#AAAAAA']
-                    axes[0,1].stackplot(x, y, labels=label, baseline ='zero', colors=color)
-                    axes[0,1].legend(loc='upper left')
-                    axes[0,1].set_xlabel('Waves (Nb)')
-                    axes[0,1].set_ylabel('Attack Towers (Nb)')
-
-                    # (1,0) : Seaborn lineplot
-                    color = '#E33B24'
-                    data = pd.DataFrame({'Waves (Nb)': self.df['waves'].values, 'Lives (Nb)': self.df['lives'].values})
-                    sns.lineplot(x='Waves (Nb)', y='Lives (Nb)', data=data, ci=None, markers=True, color=color, ax=axes[1,0])
-                    
-                    # (1,1) : Matplotlib stackplot
-                    x = self.df['waves'].values
-                    y = [self.df['kyoukai'].values, self.df['ten'].values, self.df['ryo'].values, self.df['fortress'].values]
-                    label = ["Kyoukai", "Ten", "Ryo", "Fortress"]
-                    color = ['#E33B24', '#2EB4F6', '#EECE1A', '#AAAAAA']
-                    axes[1,1].stackplot(x, y, labels=label, baseline ='zero', colors=color)
-                    axes[1,1].legend(loc='upper left')
-                    axes[1,1].set_xlabel('Waves (Nb)')
-                    axes[1,1].set_ylabel('Support Towers (Nb)')
-                    
-                    plt.show()
-
-
-                    # # plot Tower Graphs and Enemy bar
-                    # graph_1 = Graph()
-                    # graph_1.name = os.path.join("graphs/fig/","plot_towers.png")
-                    # graph_1.write_line(self.df, 'waves')
-                    # graph_1.plot(0)
-
-                    # not_killed  = [x[1] for x in self.not_killed.items()]
-                    # killed = [x-y for (x,y) in zip(self.list_enemy_spawned, not_killed)]
-                    # graph_2 = Graph()
-                    # graph_2.name = os.path.join("graphs/fig/","plot_enemies.png")
-                    # graph_2.import_bar(self.list_enemy_spawned, killed)
-                    # graph_2.plot(1)
-                    
                     run = False
 
             self.draw()
@@ -742,6 +707,7 @@ class Game():
 
     def lose_life(self, enemy):
         self.not_killed[enemy.name] +=1
+        self.not_kill_count += 1
         self.lives -= 1
         self.shake_life = True
         self.enemys.remove(enemy)
@@ -829,6 +795,105 @@ class Game():
         if rest <= 0.01:
             for key, item in zip(list_keys, list_items):
                 self.data_dict[key].append(item)
+
+
+    def plot_towers(self, df):
+
+        # Plots 1
+        fig, axes = plt.subplots(2, 2, figsize=(14, 14))
+        sns.set(style="whitegrid")
+
+        # (0,0) : Seaborn lineplot
+        data_preproc = pd.DataFrame({'Waves (Nb)': df['waves'].values, 'Money Spent': df['money_spent'].values,'Money Earnt': df['money_earnt'].values,'Money': df['money'].values})
+        data = pd.melt(data_preproc, ['Waves (Nb)'])
+        data = data.rename(columns={"value": "Money ($)"})
+        sns.lineplot(x='Waves (Nb)', y='Money ($)', hue='variable', data=data, ci=None, markers=True, style = 'variable', palette=['#E33B24', '#2EB4F6', '#797979'], ax=axes[0,0])
+        axes[0,0].legend(loc='upper left')
+
+        # (0,1) : Matplotlib stackplot
+        x = df['waves'].values
+        y = [df['shin'].values, df['moubu'].values, df['kanki'].values, df['ouhon'].values]
+        label = ["Shin", "Moubu", "Kanki", "Ouhon"]
+        color = ['#2EB4F6', '#F2801B', '#6412CA', '#AAAAAA']
+        axes[0,1].stackplot(x, y, labels=label, baseline ='zero', colors=color)
+        axes[0,1].legend(loc='upper left')
+        axes[0,1].set_xlabel('Waves (Nb)')
+        axes[0,1].set_ylabel('Attack Towers (Nb)')
+
+        # (1,0) : Seaborn lineplot
+        color = '#E33B24'
+        data = pd.DataFrame({'Waves (Nb)': df['waves'].values, 'Lives (Nb)': df['lives'].values})
+        sns.lineplot(x='Waves (Nb)', y='Lives (Nb)', data=data, ci=None, markers=True, color=color, ax=axes[1,0])
+        
+        # (1,1) : Matplotlib stackplot
+        x = df['waves'].values
+        y = [df['kyoukai'].values, df['ten'].values, df['ryo'].values, df['fortress'].values]
+        label = ["Kyoukai", "Ten", "Ryo", "Fortress"]
+        color = ['#E33B24', '#2EB4F6', '#EECE1A', '#AAAAAA']
+        axes[1,1].stackplot(x, y, labels=label, baseline ='zero', colors=color)
+        axes[1,1].legend(loc='upper left')
+        axes[1,1].set_xlabel('Waves (Nb)')
+        axes[1,1].set_ylabel('Support Towers (Nb)')
+            
+    def plot_enemies(self, df, spawned, alive):   
+
+        # Plots 2
+        fig, axes = plt.subplots(2, 2, figsize=(14, 14))
+        sns.set(style="whitegrid")
+
+        # data
+        enemies = ["Zao Warrior", "Yan Warrior", "Qi Warrior", "Wei Catapult", "Wei Balista", "Han Warrior", "Chu Warrior", "Chu Elephant", "Chu Boat", "Yan Boat", "Qi Boat", "Riboku"]
+        not_killed  = [x[1] for x in alive.items()]
+        killed = [x-y for (x,y) in zip(spawned, not_killed)]
+        waves = df['waves'].values
+        spawned_count = df['spawned'].values
+        kill_count = df['killed'].values
+
+
+        # colors
+        color_red = '#E33B24'
+        color_blue = '#2EB4F6'
+        color_green = '#6EF95F'
+
+        # (0,0) : Seaborn barplot
+        x_red = spawned
+        x_blue = killed
+        y = enemies
+        data_red = pd.DataFrame({'Enemies': y, 'Number': x_red})
+        data_blue = pd.DataFrame({'Enemies': y, 'Number': x_blue})
+        sns.barplot(x='Number', y='Enemies', data=data_red, ci=None, color=color_red, orient = 'h', ax=axes[0,0])
+        sns.barplot(x='Number', y='Enemies', data=data_blue, ci=None, color=color_blue, orient = 'h', ax=axes[0,0])
+        axes[0,0].legend(loc='lower right', labels=['Not Killed', 'Killed'])
+
+        # (0,1) : Seaborn barplot
+        x_red = spawned
+        x_blue = killed
+        y = enemies
+        data_red = pd.DataFrame({'Enemies': y, 'Number': x_red})
+        data_blue = pd.DataFrame({'Enemies': y, 'Number': x_blue})
+        sns.barplot(x='Number', y='Enemies', data=data_red, ci=None, color=color_red, orient = 'h', ax=axes[0,1])
+        sns.barplot(x='Number', y='Enemies', data=data_blue, ci=None, color=color_blue, orient = 'h', ax=axes[0,1])
+        axes[0,1].legend(loc='lower right', labels=['Not Killed', 'Killed'])
+
+        # (1,0) : Seaborn barplot
+        x_red = spawned_count
+        x_blue = kill_count
+        y = waves
+        data_red = pd.DataFrame({'Waves': y, 'Number': x_red})
+        data_blue = pd.DataFrame({'Waves': y, 'Number': x_blue})
+        sns.barplot(x='Number', y='Waves', data=data_red, ci=None, color=color_red, orient = 'h', ax=axes[1,0])
+        sns.barplot(x='Number', y='Waves', data=data_blue, ci=None, color=color_green, orient = 'h', ax=axes[1,0])
+        axes[1,0].legend(loc='upper right', labels=['Not Killed', 'Killed'])
+
+        # (1,1) : Seaborn barplot
+        x_red = spawned
+        x_blue = killed
+        y = enemies
+        data_red = pd.DataFrame({'Enemies': y, 'Number': x_red})
+        data_blue = pd.DataFrame({'Enemies': y, 'Number': x_blue})
+        sns.barplot(x='Number', y='Enemies', data=data_red, ci=None, color=color_red, orient = 'h', ax=axes[1,1])
+        sns.barplot(x='Number', y='Enemies', data=data_blue, ci=None, color=color_blue, orient = 'h', ax=axes[1,1])
+        axes[1,1].legend(loc='lower right', labels=['Not Killed', 'Killed'])
 
 def play_sound(*args):
     if len(args) == 3:
