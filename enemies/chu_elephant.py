@@ -13,6 +13,7 @@ class Chu_elephant(Enemy):
 
 		self.imgs = imgs[:]
 		self.name = "chu_elephant"
+		self.nickname = "Chu Elephant"
 		self.max_health = 12
 		self.vel = 1
 		self.money = 10

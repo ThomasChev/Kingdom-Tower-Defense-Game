@@ -13,6 +13,7 @@ class Qi_boat(Enemy):
 
 		self.imgs = imgs[:]
 		self.name = "qi_boat"
+		self.nickname = "Qi Boat"
 		self.max_health = 4
 		self.vel = 2
 		self.money = 8
