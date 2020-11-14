@@ -51,6 +51,7 @@ class ShinTower(Tower):
         self.gold_drop = 0
         self.coord = (0, 0)
         self.speed = 4
+        self.attacked_enemy = None
 
     def get_upgrade_cost(self):
         """
@@ -95,6 +96,7 @@ class ShinTower(Tower):
         :return: None
         """
         money = 0
+        self.attacked_enemy = None
         self.gold_drop = 0
 
         self.inRange = False
@@ -126,6 +128,7 @@ class ShinTower(Tower):
                     pygame.mixer.Channel(1).play(pygame.mixer.Sound(os.path.join("game_assets/sounds/", first_enemy.sound)), maxtime=600)
                     
                     # give money, drop reward (low probability), remove died enemy
+                    self.attacked_enemy = first_enemy
                     money = first_enemy.money * 2
                     self.random_reward(first_enemy)
                     if self.gold_drop > 0:

@@ -87,7 +87,7 @@ pygame.mixer.music.play()
 
 # frequency of enemies [Zao_w, Yan_w, Qi_w, Wei_c, Wei_b, Han_w, Chu_w, Chu_e, Chu_b, Yan_b, Qi_b, Zao_r]
 waves = [[3,0,0,0,0,0,0,0,0,0,0,0],[6,0,0,0,0,0,0,0,0,0,0,0],[0,3,0,0,0,0,0,0,0,0,0,0],[0,5,0,0,0,0,0,0,0,0,0,0],[0,0,3,0,0,0,0,0,0,0,0,0],[0,0,6,0,0,0,0,0,0,0,0,0],[0,0,0,2,0,0,0,0,0,0,0,0],[0,0,0,4,0,0,0,0,0,0,0,0],[0,0,0,0,4,0,0,0,0,0,0,0],[1,1,1,1,1,1,1,1,0,0,0,0],[0,0,0,0,0,4,0,0,0,0,0,0],[0,0,0,0,0,6,0,0,0,0,0,0],[0,0,0,0,0,0,4,0,0,0,0,0],[0,0,0,0,0,0,6,0,0,0,0,0],[0,0,0,0,0,0,0,2,0,0,0,0],[0,0,0,0,0,0,0,6,0,0,0,0],[0,0,0,0,0,0,0,0,2,0,0,0],[0,0,0,0,0,0,0,0,6,0,0,0],[0,0,0,0,0,0,0,0,0,2,0,0],[0,4,0,0,0,0,0,0,4,4,0,0],[0,0,0,0,0,0,0,0,0,0,2,0],[0,0,0,0,0,0,0,0,0,0,8,0],[9,0,0,0,0,0,0,0,0,0,0,0],[0,8,0,0,0,0,0,0,0,3,0,0],[0,0,9,0,0,0,0,0,0,0,4,0],[0,0,0,3,5,0,0,0,0,0,0,0],[0,0,0,0,0,14,0,0,0,0,0,0],[0,0,0,0,0,0,4,4,4,0,0,0],[5,5,5,0,0,0,0,0,0,0,0,0],[0,12,0,0,0,0,0,0,0,0,0,0],[3,3,3,0,0,3,6,0,0,0,0,0],[3,6,3,0,0,3,6,0,0,0,0,0],[0,0,0,0,0,10,8,0,0,0,0,0],[0,0,0,0,0,0,0,0,16,0,0,0],[0,0,0,0,0,0,0,0,0,18,0,0],[0,0,0,0,0,0,0,0,0,0,20,0],[0,0,0,0,0,0,0,0,12,6,6,0],[11,11,11,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,16,18,0,0,0,0,0],[8,8,10,0,0,10,8,0,0,0,0,0],[9,9,9,0,0,9,9,0,0,0,0,0],[0,25,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,12,12,0,0],[0,0,0,0,0,0,0,0,12,0,12,0],[0,0,0,0,0,0,0,0,12,8,8,0],[0,0,0,0,0,0,0,0,12,12,15,0],[18,12,0,0,0,0,0,0,0,0,0,0],[18,15,0,0,0,0,0,0,0,0,0,0],[0,0,12,8,12,0,0,4,0,0,0,0],[10,10,10,4,4,10,10,4,4,4,4,0],[10,10,10,6,6,10,10,4,4,4,4,0],[10,10,10,6,6,10,10,6,4,4,4,0],[10,10,10,6,6,10,10,6,6,6,6,0],[12,15,10,8,8,10,10,8,6,6,6,0],[12,20,10,8,8,10,10,12,6,6,6,1]]
-waves = [[1,0,0,0,0,0,0,0,0,0,0,0],[1,1,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,2,2,0,1,1,1,0], [1,1,1,1,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0], [1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0], [1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0]]
+# waves = [[1,0,0,0,0,0,0,0,0,0,0,0],[1,1,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,2,2,0,1,1,1,0], [1,1,1,1,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0], [1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0], [1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0]]
 enemy_nickname = ["Zao Warrior", "Yan Warrior", "Qi Warrior", "Wei Catapult", "Wei Balista", "Han Warrior", "Chu Warrior", "Chu Elephant", "Chu Boat", "Yan Boat", "Qi Boat", "Zao Riboku"]
 spawn_rates = [1.5,0.2,1,3,3,1,1,5,2,2,2,1]
 break_round = 10
@@ -187,7 +187,8 @@ class Game():
         self.change_sound = False
         self.coef_rate = 1
         self.df_enemies = pd.DataFrame(data={'waves':[], 'spawned':[], 'killed':[],"Zao Warrior":[], "Yan Warrior":[], "Qi Warrior":[], "Wei Catapult":[], "Wei Balista":[], "Han Warrior":[], "Chu Warrior":[], "Chu Elephant":[], "Chu Boat":[], "Yan Boat":[], "Qi Boat":[], "Zao Riboku":[]})
-
+        self.counter_gold = {"Gold Earnt":[], "Enemies (Type)":[]}
+    
     def gen_enemies(self):
         """
         generate the next enemy or enemies to show
@@ -481,7 +482,10 @@ class Game():
                     tw.speed = self.speed
                     money_before = self.money 
                     self.money += tw.attack(self.enemys)
-                    self.money_earnt += self.money - money_before
+                    value = self.money - money_before
+                    self.money_earnt += value
+                    if tw.attacked_enemy is not None:
+                        self.update_counter_gold(tw.attacked_enemy, value)
 
                     # check if you got a random gold_drop
                     if tw.gold_drop > 0:
@@ -516,10 +520,13 @@ class Game():
                 # stop run if game is over (win or lose)
                 if self.go_win or self.go_lose:
                     self.df = pd.DataFrame(data = self.data_dict)
+                    self.df_gold = pd.DataFrame(data = self.counter_gold)
+                    self.df_gold = self.df_gold.groupby(by=["Enemies (Type)"]).sum()
+                    self.df_gold['Enemies (Type)'] = self.df_gold.index
                     self.fade(self.width, self.height, rgb(0,0,0), 0, 300, 4) # (width, height, color, start=0, end=300, delay=1)
                     try:
                         self.plot_towers(self.df)
-                        self.plot_enemies(self.df_enemies, self.list_enemy_spawned, self.not_killed)
+                        self.plot_enemies(self.df_enemies, self.list_enemy_spawned, self.not_killed, self.df_gold)
                         plt.show()
                     except Exception as e:
                         print("Graph Exception: " + str(e))
@@ -695,6 +702,10 @@ class Game():
     def update_counter(self, obj, sign):
         self.counters[obj.name] = self.counters[obj.name] + sign
 
+    def update_counter_gold(self, obj, value):
+        self.counter_gold["Gold Earnt"].append(value)
+        self.counter_gold["Enemies (Type)"].append(obj.nickname)
+
     def spend(self, cost):
         self.money -= cost
         self.money_spent += cost
@@ -833,7 +844,7 @@ class Game():
         axes[1,1].set_xlabel('Waves (Nb)')
         axes[1,1].set_ylabel('Support Towers (Nb)')
             
-    def plot_enemies(self, df, spawned, alive):   
+    def plot_enemies(self, df, spawned, alive, df_gold):   
 
         # Plots 2
         fig, axes = plt.subplots(2, 2, figsize=(14, 14))
@@ -883,16 +894,8 @@ class Game():
         axes[1,0].set_ylabel('Waves (Nb)')
 
         # (1,1) : Seaborn barplot
-        x_red = spawned
-        x_blue = killed
-        y = enemy_nickname
-        data_red = pd.DataFrame({'Enemies': y, 'Number': x_red})
-        data_blue = pd.DataFrame({'Enemies': y, 'Number': x_blue})
-        sns.barplot(x='Number', y='Enemies', data=data_red, ci=None, color=color_red, orient = 'h', ax=axes[1,1])
-        sns.barplot(x='Number', y='Enemies', data=data_blue, ci=None, color=color_blue, orient = 'h', ax=axes[1,1])
-        axes[1,1].legend(loc='lower right', labels=['Not Killed', 'Killed'])
-        axes[1,1].set_xlabel('Enemies (Nb)')
-        axes[1,1].set_ylabel('Enemies (Type)')
+        sns.barplot(x='Gold Earnt', y='Enemies (Type)', data=df_gold, ci=None, orient = 'h', ax=axes[1,1])
+        axes[1,1].legend(loc='lower right')
 
 def play_sound(*args):
     if len(args) == 3:
