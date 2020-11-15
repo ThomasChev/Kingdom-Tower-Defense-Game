@@ -39,16 +39,21 @@ from kingdoms.chu2_base import Chu2_base
 from kingdoms.chu3_base import Chu3_base
 from menu.menu import VerticalMenu, PlayPauseButton, ReturnButton
 from game_assets.colors import rgb
-# from graphs.graphs import Graph
 
 pygame.font.init()
 pygame.init()
 
+# game images
 lives_img = pygame.image.load(os.path.join("game_assets/menu/","heart.png"))
 money_img = pygame.image.load(os.path.join("game_assets/menu/","star.png"))
 side_img = pygame.image.load(os.path.join("game_assets/menu/","side.png"))
 side_btn = pygame.image.load(os.path.join("game_assets/menu/","side_btn.png"))
+gold_bag = pygame.image.load(os.path.join("game_assets/menu/", "gold_bag.png"))
+wave_bg = pygame.image.load(os.path.join("game_assets/menu/","wave_sign.png"))
+alert_red = pygame.image.load(os.path.join("game_assets/menu/","alert_red.png")) # red alert
+alert_white = pygame.image.load(os.path.join("game_assets/menu/","alert_white.png")) # white alert
 
+# tower icons images
 buy_shin = pygame.image.load(os.path.join("game_assets/quin_towers/shin_icon","buy_shin.png"))
 buy_moubu = pygame.image.load(os.path.join("game_assets/quin_towers/moubu_icon","buy_moubu.png"))
 buy_kanki = pygame.image.load(os.path.join("game_assets/quin_towers/kanki_icon","buy_kanki.png"))
@@ -58,6 +63,7 @@ buy_ten = pygame.image.load(os.path.join("game_assets/support_towers/ten_icon","
 buy_ryo = pygame.image.load(os.path.join("game_assets/support_towers/ryo_icon","buy_ryo.png"))
 buy_fortress = pygame.image.load(os.path.join("game_assets/fortress/fortress_icon","buy_fortress.png"))
 
+# button images
 play_btn = pygame.image.load(os.path.join("game_assets/menu/","play_btn.png"))
 pause_btn = pygame.image.load(os.path.join("game_assets/menu/","pause_btn.png"))
 speed1_btn = pygame.image.load(os.path.join("game_assets/menu/","speed1_btn.png"))
@@ -65,29 +71,23 @@ speed2_btn = pygame.image.load(os.path.join("game_assets/menu/","speed2_btn.png"
 speed3_btn = pygame.image.load(os.path.join("game_assets/menu/","speed3_btn.png"))
 sound_btn = pygame.image.load(os.path.join("game_assets/menu/","music_btn.png"))
 sound_btn_off= pygame.image.load(os.path.join("game_assets/menu/","music_off_btn.png"))
-gold_bag = pygame.image.load(os.path.join("game_assets/menu/", "gold_bag.png"))
 
-wave_bg = pygame.image.load(os.path.join("game_assets/menu/","wave_sign.png"))
-alert_red = pygame.image.load(os.path.join("game_assets/menu/","alert_red.png")) # red alert
-alert_white = pygame.image.load(os.path.join("game_assets/menu/","alert_white.png")) # white alert
-
+# tower lists
 attack_tower_names = ["shin", "moubu", "kanki", "ouhon"]
 support_tower_names = ["ten", "kyoukai", "ryo"]
 fortress_names = ["fortress"]
 
 # initialize background music
+SONG_END = pygame.USEREVENT + 1
 pygame.mixer.pre_init()
 pygame.mixer.init()
-
-SONG_END = pygame.USEREVENT + 1
-
 pygame.mixer.music.set_endevent(SONG_END)
 pygame.mixer.music.load(os.path.join("game_assets/sounds/", "loop0.wav"))
 pygame.mixer.music.play()
 
-# frequency of enemies [Zao_w, Yan_w, Qi_w, Wei_c, Wei_b, Han_w, Chu_w, Chu_e, Chu_b, Yan_b, Qi_b, Zao_r]
-waves = [[3,0,0,0,0,0,0,0,0,0,0,0],[6,0,0,0,0,0,0,0,0,0,0,0],[0,3,0,0,0,0,0,0,0,0,0,0],[0,5,0,0,0,0,0,0,0,0,0,0],[0,0,3,0,0,0,0,0,0,0,0,0],[0,0,6,0,0,0,0,0,0,0,0,0],[0,0,0,2,0,0,0,0,0,0,0,0],[0,0,0,4,0,0,0,0,0,0,0,0],[0,0,0,0,4,0,0,0,0,0,0,0],[1,1,1,1,1,1,1,1,0,0,0,0],[0,0,0,0,0,4,0,0,0,0,0,0],[0,0,0,0,0,6,0,0,0,0,0,0],[0,0,0,0,0,0,4,0,0,0,0,0],[0,0,0,0,0,0,6,0,0,0,0,0],[0,0,0,0,0,0,0,2,0,0,0,0],[0,0,0,0,0,0,0,6,0,0,0,0],[0,0,0,0,0,0,0,0,2,0,0,0],[0,0,0,0,0,0,0,0,6,0,0,0],[0,0,0,0,0,0,0,0,0,2,0,0],[0,4,0,0,0,0,0,0,4,4,0,0],[0,0,0,0,0,0,0,0,0,0,2,0],[0,0,0,0,0,0,0,0,0,0,8,0],[9,0,0,0,0,0,0,0,0,0,0,0],[0,8,0,0,0,0,0,0,0,3,0,0],[0,0,9,0,0,0,0,0,0,0,4,0],[0,0,0,3,5,0,0,0,0,0,0,0],[0,0,0,0,0,14,0,0,0,0,0,0],[0,0,0,0,0,0,4,4,4,0,0,0],[5,5,5,0,0,0,0,0,0,0,0,0],[0,12,0,0,0,0,0,0,0,0,0,0],[3,3,3,0,0,3,6,0,0,0,0,0],[3,6,3,0,0,3,6,0,0,0,0,0],[0,0,0,0,0,10,8,0,0,0,0,0],[0,0,0,0,0,0,0,0,16,0,0,0],[0,0,0,0,0,0,0,0,0,18,0,0],[0,0,0,0,0,0,0,0,0,0,20,0],[0,0,0,0,0,0,0,0,12,6,6,0],[11,11,11,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,16,18,0,0,0,0,0],[8,8,10,0,0,10,8,0,0,0,0,0],[9,9,9,0,0,9,9,0,0,0,0,0],[0,25,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,12,12,0,0],[0,0,0,0,0,0,0,0,12,0,12,0],[0,0,0,0,0,0,0,0,12,8,8,0],[0,0,0,0,0,0,0,0,12,12,15,0],[18,12,0,0,0,0,0,0,0,0,0,0],[18,15,0,0,0,0,0,0,0,0,0,0],[0,0,12,8,12,0,0,4,0,0,0,0],[10,10,10,4,4,10,10,4,4,4,4,0],[10,10,10,6,6,10,10,4,4,4,4,0],[10,10,10,6,6,10,10,6,4,4,4,0],[10,10,10,6,6,10,10,6,6,6,6,0],[12,15,10,8,8,10,10,8,6,6,6,0],[12,20,10,8,8,10,10,12,6,6,6,1]]
+# waves  list and enemies list
 # waves = [[1,0,0,0,0,0,0,0,0,0,0,0],[1,1,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,2,2,0,1,1,1,0], [1,1,1,1,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0], [1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0], [1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0]]
+waves = [[3,0,0,0,0,0,0,0,0,0,0,0],[6,0,0,0,0,0,0,0,0,0,0,0],[0,3,0,0,0,0,0,0,0,0,0,0],[0,5,0,0,0,0,0,0,0,0,0,0],[0,0,3,0,0,0,0,0,0,0,0,0],[0,0,6,0,0,0,0,0,0,0,0,0],[0,0,0,2,0,0,0,0,0,0,0,0],[0,0,0,4,0,0,0,0,0,0,0,0],[0,0,0,0,4,0,0,0,0,0,0,0],[1,1,1,1,1,1,1,1,0,0,0,0],[0,0,0,0,0,4,0,0,0,0,0,0],[0,0,0,0,0,6,0,0,0,0,0,0],[0,0,0,0,0,0,4,0,0,0,0,0],[0,0,0,0,0,0,6,0,0,0,0,0],[0,0,0,0,0,0,0,2,0,0,0,0],[0,0,0,0,0,0,0,6,0,0,0,0],[0,0,0,0,0,0,0,0,2,0,0,0],[0,0,0,0,0,0,0,0,6,0,0,0],[0,0,0,0,0,0,0,0,0,2,0,0],[0,4,0,0,0,0,0,0,4,4,0,0],[0,0,0,0,0,0,0,0,0,0,2,0],[0,0,0,0,0,0,0,0,0,0,8,0],[9,0,0,0,0,0,0,0,0,0,0,0],[0,8,0,0,0,0,0,0,0,3,0,0],[0,0,9,0,0,0,0,0,0,0,4,0],[0,0,0,3,5,0,0,0,0,0,0,0],[0,0,0,0,0,14,0,0,0,0,0,0],[0,0,0,0,0,0,4,4,4,0,0,0],[5,5,5,0,0,0,0,0,0,0,0,0],[0,12,0,0,0,0,0,0,0,0,0,0],[3,3,3,0,0,3,6,0,0,0,0,0],[3,6,3,0,0,3,6,0,0,0,0,0],[0,0,0,0,0,10,8,0,0,0,0,0],[0,0,0,0,0,0,0,0,16,0,0,0],[0,0,0,0,0,0,0,0,0,18,0,0],[0,0,0,0,0,0,0,0,0,0,20,0],[0,0,0,0,0,0,0,0,12,6,6,0],[11,11,11,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,16,18,0,0,0,0,0],[8,8,10,0,0,10,8,0,0,0,0,0],[9,9,9,0,0,9,9,0,0,0,0,0],[0,25,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,12,12,0,0],[0,0,0,0,0,0,0,0,12,0,12,0],[0,0,0,0,0,0,0,0,12,8,8,0],[0,0,0,0,0,0,0,0,12,12,15,0],[18,12,0,0,0,0,0,0,0,0,0,0],[18,15,0,0,0,0,0,0,0,0,0,0],[0,0,12,8,12,0,0,4,0,0,0,0],[10,10,10,4,4,10,10,4,4,4,4,0],[10,10,10,6,6,10,10,4,4,4,4,0],[10,10,10,6,6,10,10,6,4,4,4,0],[10,10,10,6,6,10,10,6,6,6,6,0],[12,15,10,8,8,10,10,8,6,6,6,0],[12,20,10,8,8,10,10,12,6,6,6,1]]
 enemy_nickname = ["Zao Warrior", "Yan Warrior", "Qi Warrior", "Wei Catapult", "Wei Balista", "Han Warrior", "Chu Warrior", "Chu Elephant", "Chu Boat", "Yan Boat", "Qi Boat", "Zao Riboku"]
 spawn_rates = [1.5,0.2,1,3,3,1,1,5,2,2,2,1]
 break_round = 10
@@ -96,9 +96,9 @@ class Game():
     def __init__(self, win):
 
         # Basics
+        self.win = win
         self.width = 1200
         self.height = 700
-        self.win = win
         self.lives = 20
         self.money = 35
         self.bg = pygame.image.load(os.path.join("game_assets/background/", "kingdom.png"))
@@ -143,6 +143,7 @@ class Game():
         self.speed = 1
         self.shake_money = False
         self.shake_life = False
+        self.change_sound = False
         
         # Fortress
         self.fortress_sound = False
@@ -161,33 +162,24 @@ class Game():
         # Game level
         self.level = ""
         self.lvl = {"Easy":0, "Medium":1, "Hard":2}
+        self.coef_rate = 1
 
         # Graphs 
         self.start_ticks = 0
         self.seconds = 0
-        self.data_dict = {'seconds':[], 
-                        'waves':[], 
-                        'money':[], 
-                        'lives':[], 
-                        'money_earnt':[], 
-                        'money_spent':[],
-                        'shin':[], 'moubu':[], 'kanki':[], 'ouhon':[], 
-                        'ten':[], 'kyoukai':[], 'ryo':[],'fortress':[], 
-                        'towers':[], 
-                        'upgrade':[]}
-        self.counters = {'shin':0,'moubu':0, 'kanki':0, 'ouhon':0, 'ten':0, 'kyoukai':0, 'ryo':0 ,'fortress':0, 'upgrade':0}
+        # Plot-1
+        self.df = pd.DataFrame()
+        self.data_dict = {'seconds':[],'waves':[],'money':[], 'lives':[], 'money_earnt':[], 'money_spent':[],'shin':[], 'moubu':[], 'kanki':[], 'ouhon':[], 'ten':[], 'kyoukai':[], 'ryo':[],'fortress':[], 'towers':[]}
+        self.counters = {'shin':0,'moubu':0, 'kanki':0, 'ouhon':0, 'ten':0, 'kyoukai':0, 'ryo':0 ,'fortress':0}
         self.money_earnt = 0
         self.money_spent = 0
-        self.upgrade = 0
-        self.df = pd.DataFrame()
+        # Plot-2
+        self.df_enemies = pd.DataFrame(data={'waves':[], 'spawned':[], 'killed':[],"Zao Warrior":[], "Yan Warrior":[], "Qi Warrior":[], "Wei Catapult":[], "Wei Balista":[], "Han Warrior":[], "Chu Warrior":[], "Chu Elephant":[], "Chu Boat":[], "Yan Boat":[], "Qi Boat":[], "Zao Riboku":[]})
         self.not_killed = {"zao_warrior":0, "yan_warrior":0, "qi_warrior":0, "wei_catapult":0, "wei_balista":0, "han_warrior":0, "chu_warrior":0, "chu_elephant":0, "chu_boat":0, "yan_boat":0, "qi_boat":0, "zao_riboku":0}
+        self.counter_gold = {"Gold Earnt":[], "Enemies (Type)":[]}
         self.list_enemy_spawned = [0,0,0,0,0,0,0,0,0,0,0,0]
         self.not_kill_count = 0
         self.spawn_count = 0
-        self.change_sound = False
-        self.coef_rate = 1
-        self.df_enemies = pd.DataFrame(data={'waves':[], 'spawned':[], 'killed':[],"Zao Warrior":[], "Yan Warrior":[], "Qi Warrior":[], "Wei Catapult":[], "Wei Balista":[], "Han Warrior":[], "Chu Warrior":[], "Chu Elephant":[], "Chu Boat":[], "Yan Boat":[], "Qi Boat":[], "Zao Riboku":[]})
-        self.counter_gold = {"Gold Earnt":[], "Enemies (Type)":[]}
     
     def gen_enemies(self):
         """
@@ -197,16 +189,17 @@ class Game():
 
         wave_compo = [(Zao_warrior(),Zao_base()), (Yan_warrior(),Yan_base()), (Qi_warrior(),Qi_base()), (Wei_catapult(),Wei_base()), (Wei_balista(),Wei_base()), (Han_warrior(),Han_base()), (Chu_warrior(),Chu_base()), (Chu_elephant(),Chu2_base()), (Chu_boat(),Chu3_base()), (Yan_boat(),Yan_base()), (Qi_boat(),Qi_base()), (Zao_riboku(),Zao_base())]
         
-
         # Wave has finished
         if sum(self.current_wave) == 0:
             self.next_spawn = True
 
+            # go to next wave
             if len(self.enemys) == 0:
                 self.wave += 1
 
                 # Go to next wave
                 if self.wave < len(waves):
+                    
                     # play sound, write wave number and shade
                     if self.wave > 0:
                         # change music (epic AOE) at wave 10
@@ -217,11 +210,13 @@ class Game():
                         if not self.change_sound:
                             play_sound(0,"next_round.wav")
                         self.fade(self.width, self.height, rgb(0,0,0), 0, 50, 60)  # (width, height, color, start=0, end=300, delay=1)
+                    
                     # reset
                     self.fortress_sound = False
                     self.playPauseButton.on = False
                     self.current_wave = waves[self.wave][:]
 
+                    # update dict for enemies graphs
                     spawned = self.spawn_count
                     not_killed = self.not_kill_count
                     killed = spawned - not_killed
@@ -239,7 +234,7 @@ class Game():
                     time.sleep(0.4)
                     print("You Win")
 
-        # Generates enemies of current wave 
+        # Generates enemies of current wave, if wave is still going on
         else:
 
             # check if wave has just one type of enemy
@@ -249,15 +244,18 @@ class Game():
             else:
                 one_type = False
 
+            # loop throw current wave to spawn enemies on by one
             for x in range(len(self.current_wave)):
                 enemy_nb = self.current_wave[x]
                 enemy_type = wave_compo[x][0]
                 kingdom = wave_compo[x][1]
                 
+                # change to next enemy spawn
                 if enemy_nb == 0:
                     self.next_spawn = True
                 self.current_spawn_rate = enemy_type.rate*self.coef_rate
 
+                # spawn one enemy
                 if enemy_nb != 0:
                     enemy_type.scale_health(self.wave)
                     enemy_type.shield = self.shield
@@ -301,6 +299,7 @@ class Game():
                     self.gen_enemies()
 
             pos = pygame.mouse.get_pos()
+
             # check for moving object
             if self.moving_object:
                 self.moving_object.move(pos[0], pos[1])
@@ -347,7 +346,7 @@ class Game():
                             self.moving_object = None
                             play_sound(1,"put_tower.wav",600)
 
-                    # if you click another object (NOT moving)
+                    # if you click another object (not moving obj)
                     else:
 
                         # toggle play/pause
@@ -404,7 +403,6 @@ class Game():
                                     cost = self.selected_tower.get_upgrade_cost()
                                     if self.money >= cost:
                                         self.spend(cost)
-                                        self.upgrade += 1
                                         self.selected_tower.upgrade()
                                         play_sound(1,"buy.wav",600)
                                     else:
@@ -519,6 +517,8 @@ class Game():
 
                 # stop run if game is over (win or lose)
                 if self.go_win or self.go_lose:
+                    
+                    # load Plot-1 and Plot-2 windows
                     self.df = pd.DataFrame(data = self.data_dict)
                     self.df_gold = pd.DataFrame(data = self.counter_gold)
                     self.df_gold = self.df_gold.groupby(by=["Enemies (Type)"]).sum()
@@ -530,9 +530,14 @@ class Game():
                         plt.show()
                     except Exception as e:
                         print("Graph Exception: " + str(e))
+                    
+                    # game has finished
                     run = False
 
+            # actualise pictures
             self.draw()
+
+            # re init
             self.shake_money = False
             self.shake_life = False
             self.menu.blink = False
@@ -632,6 +637,7 @@ class Game():
         timer = time.time() - self.timer
         rate = self.current_spawn_rate
         if not self.next_spawn:
+            # randomly flashing
             if timer >= random.randrange(0, 1 + math.ceil(rate))/rate:
                 self.win.blit(alert_red, (x, y))
             else:
@@ -661,6 +667,9 @@ class Game():
         return False
 
     def add_tower(self, name):
+        """
+        add tower if clicked on its button
+        """
         x, y = pygame.mouse.get_pos()
         name_list = ["buy_shin", "buy_moubu", "buy_kanki", "buy_ouhon", "buy_fortress", "buy_kyoukai", "buy_ten", "buy_ryo"]
         object_list = [ShinTower(x,y), MoubuTower(x, y), KankiTower(x, y), OuhonTower(x, y), Fortress(x, y), KyoukaiTower(x, y), TenTower(x, y), RyoTower(x, y)]
@@ -672,6 +681,9 @@ class Game():
             print(str(e) + "NOT VALID NAME")
 
     def add_obj(self, obj):
+        """
+        add tower or fortress to its corresponding list
+        """
         if obj.name in attack_tower_names:
             self.attack_towers.append(obj)
         elif obj.name in support_tower_names:
@@ -681,6 +693,9 @@ class Game():
             self.first_contact = True
 
     def del_obj(self, obj):
+        """
+        removes tower or fortress
+        """
         if obj.name in attack_tower_names:
             self.attack_towers.remove(obj)
         elif obj.name in support_tower_names:
@@ -691,6 +706,9 @@ class Game():
             self.fortress.remove(obj)
 
     def check_click(self, pos, elem):
+        """
+        select obj if clicked
+        """
         for obj in elem:
             if obj.click(pos[0], pos[1]):
                 obj.selected = True
@@ -700,21 +718,36 @@ class Game():
                 obj.selected = False
 
     def update_counter(self, obj, sign):
+        """
+        update dict for graphs
+        """
         self.counters[obj.name] = self.counters[obj.name] + sign
 
     def update_counter_gold(self, obj, value):
+        """
+        update dict for enemy graphs
+        """
         self.counter_gold["Gold Earnt"].append(value)
         self.counter_gold["Enemies (Type)"].append(obj.nickname)
 
     def spend(self, cost):
+        """
+        update money
+        """
         self.money -= cost
         self.money_spent += cost
 
     def gain(self, cost):
+        """
+        update money
+        """
         self.money += cost
         self.money_earnt += cost
 
     def lose_life(self, enemy):
+        """
+        update enemy counters, lose 1 live, do animation
+        """
         self.not_killed[enemy.name] +=1
         self.not_kill_count += 1
         self.lives -= 1
@@ -722,12 +755,18 @@ class Game():
         self.enemys.remove(enemy)
 
     def dropped(self, tower):
+        """
+        gives reward and drop coordinates
+        """
         self.reward = tower.gold_drop
         self.drop_x = tower.coord[0] - gold_bag.get_width() / 2
         self.drop_y = tower.coord[1] - gold_bag.get_height() / 2 - 35
         self.draw_drop = True
 
     def game_over(self):
+        """
+        transition to end game
+        """
         play_sound(1,"beep.wav",600)
         self.shake_life = False
         self.draw()
@@ -741,7 +780,10 @@ class Game():
         pygame.mixer.music.play(loops=-1)
 
 
-    def fade(self, width, height, color, start=0, end=300, delay=1): 
+    def fade(self, width, height, color, start=0, end=300, delay=1):
+        """
+        transition to next scene
+        """ 
         fade = pygame.Surface((width, height))
         fade.fill(color)
 
@@ -764,6 +806,10 @@ class Game():
             pygame.time.delay(5000)
 
     def initialise(self):
+        """
+        Initialise based on diffculty
+        """
+
         # add additional money based on game level (+10, +20, +30)
         coef = 3 - self.lvl[self.level]
         self.money = self.money + self.money*coef
@@ -777,29 +823,21 @@ class Game():
         self.shield = 2 + coef
 
     def update_stat(self):
+        """
+        update dict every 2 seconds for end game statistics
+        """
 
         # seconds ticking
         self.seconds = (pygame.time.get_ticks()-self.start_ticks)/1000
 
+        # calculate total towers number
         towers_nb = 0
         for items in self.counters:
-            if items != 'upgrade':
-                towers_nb += self.counters[items]
-
-        list_keys = list(self.data_dict.keys())
-        
-        list_items = [round(self.seconds), 
-                    self.wave + 1 , 
-                    self.money, 
-                    self.lives, 
-                    self.money_earnt,  
-                    self.money_spent,
-                    self.counters['shin'],  self.counters['moubu'],  self.counters['kanki'],  self.counters['ouhon'],  
-                    self.counters['ten'],  self.counters['kyoukai'], self.counters['ryo'],  self.counters['fortress'], 
-                    towers_nb, 
-                    self.counters['upgrade']] 
+            towers_nb += self.counters[items]
 
         # store data every 2 seconds (+- 0.01)
+        list_keys = list(self.data_dict.keys())
+        list_items = [round(self.seconds), self.wave + 1 , self.money, self.lives, self.money_earnt,  self.money_spent,self.counters['shin'],  self.counters['moubu'],  self.counters['kanki'],  self.counters['ouhon'],  self.counters['ten'],  self.counters['kyoukai'], self.counters['ryo'],  self.counters['fortress'], towers_nb] 
         rest = math.fmod(self.seconds, 2)
         if rest <= 0.01:
             for key, item in zip(list_keys, list_items):
@@ -807,19 +845,22 @@ class Game():
 
 
     def plot_towers(self, df):
+        """
+        plot end game statistics : 4 graphs (money, attack towers, lives, support towers)
+        """
 
-        # Plots 1
+        # Plot-1 configuration
         fig, axes = plt.subplots(2, 2, figsize=(14, 14))
         sns.set(style="whitegrid")
 
-        # (0,0) : Seaborn lineplot
+        # axe (0,0) : Seaborn lineplot
         data_preproc = pd.DataFrame({'Waves (Nb)': df['waves'].values, 'Money Spent': df['money_spent'].values,'Money Earnt': df['money_earnt'].values,'Money': df['money'].values})
         data = pd.melt(data_preproc, ['Waves (Nb)'])
         data = data.rename(columns={"value": "Money ($)"})
         sns.lineplot(x='Waves (Nb)', y='Money ($)', hue='variable', data=data, ci=None, markers=True, style = 'variable', palette=['#E33B24', '#2EB4F6', '#797979'], ax=axes[0,0])
         axes[0,0].legend(loc='upper left')
 
-        # (0,1) : Matplotlib stackplot
+        # axe (0,1) : Matplotlib stackplot
         x = df['waves'].values
         y = [df['shin'].values, df['moubu'].values, df['kanki'].values, df['ouhon'].values]
         label = ["Shin", "Moubu", "Kanki", "Ouhon"]
@@ -829,12 +870,12 @@ class Game():
         axes[0,1].set_xlabel('Waves (Nb)')
         axes[0,1].set_ylabel('Attack Towers (Nb)')
 
-        # (1,0) : Seaborn lineplot
+        # axe (1,0) : Seaborn lineplot
         color = '#E33B24'
         data = pd.DataFrame({'Waves (Nb)': df['waves'].values, 'Lives (Nb)': df['lives'].values})
         sns.lineplot(x='Waves (Nb)', y='Lives (Nb)', data=data, ci=None, markers=True, color=color, ax=axes[1,0])
         
-        # (1,1) : Matplotlib stackplot
+        # axe (1,1) : Matplotlib stackplot
         x = df['waves'].values
         y = [df['kyoukai'].values, df['ten'].values, df['ryo'].values, df['fortress'].values]
         label = ["Kyoukai", "Ten", "Ryo", "Fortress"]
@@ -844,9 +885,12 @@ class Game():
         axes[1,1].set_xlabel('Waves (Nb)')
         axes[1,1].set_ylabel('Support Towers (Nb)')
             
-    def plot_enemies(self, df, spawned, alive, df_gold):   
+    def plot_enemies(self, df, spawned, alive, df_gold): 
+        """
+        plot end game statistics : 4 graphs (enemies killes, not killed, money earnt)
+        """ 
 
-        # Plots 2
+        # Plot-2 configuration
         fig, axes = plt.subplots(2, 2, figsize=(14, 14))
         sns.set(style="whitegrid")
 
@@ -862,7 +906,7 @@ class Game():
         color_blue = '#2EB4F6'
         color_green = '#6EF95F'
 
-        # (0,0) : Seaborn barplot
+        # axe (0,0) : Seaborn barplot
         x_red = spawned
         x_blue = killed
         y = enemy_nickname
@@ -874,14 +918,14 @@ class Game():
         axes[0,0].set_xlabel('Enemies (Nb)')
         axes[0,0].set_ylabel('Enemies (Type)')
 
-        # (0,1) : Seaborn barplot
+        # axe (0,1) : Seaborn barplot
         df2 = df.drop(['spawned', 'killed'], axis=1)
         df2 = df2.sort_values('waves', ascending=False)
         df2.set_index('waves').plot(kind='barh', stacked=True, ax=axes[0,1])
         axes[0,1].set_xlabel('Enemies (Nb)')
         axes[0,1].set_ylabel('Waves (Nb)')
 
-        # (1,0) : Seaborn barplot
+        # axe (1,0) : Seaborn barplot
         x_red = spawned_count
         x_blue = kill_count
         y = waves
@@ -893,11 +937,15 @@ class Game():
         axes[1,0].set_xlabel('Enemies (Nb)')
         axes[1,0].set_ylabel('Waves (Nb)')
 
-        # (1,1) : Seaborn barplot
+        # axe (1,1) : Seaborn barplot
         sns.barplot(x='Gold Earnt', y='Enemies (Type)', data=df_gold, ci=None, orient = 'h', ax=axes[1,1])
         axes[1,1].legend(loc='lower right')
 
 def play_sound(*args):
+    """
+    call pygame.mixer fonction with sounds in "game_assets/sounds/"
+    """ 
+
     if len(args) == 3:
         a,b,c = args[0],args[1],args[2]
         pygame.mixer.Channel(a).play(pygame.mixer.Sound(os.path.join("game_assets/sounds/", b)), maxtime=c)
@@ -908,6 +956,9 @@ def play_sound(*args):
 
 _songs = [os.path.join("game_assets/sounds/", "13_Tazer.mp3"), os.path.join("game_assets/sounds/", "08_T_Station.mp3"), os.path.join("game_assets/sounds/", "04_Shamburger.mp3")]
 def play_next_song():
+    """
+    change sound when previous sound is finished
+    """ 
     global _songs
     _songs = _songs[1:] + [_songs[0]] # move current song to the back of the list
     pygame.mixer.music.load(_songs[0])
