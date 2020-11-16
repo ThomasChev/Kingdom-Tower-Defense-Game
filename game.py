@@ -41,37 +41,43 @@ from kingdoms.chu3_base import Chu3_base
 from menu.menu import VerticalMenu, PlayPauseButton, ReturnButton
 from game_assets.colors import rgb
 
+from explosions.explosion import Explosion 
+
 pygame.font.init()
 pygame.init()
 
 # game images
-lives_img = pygame.image.load(os.path.join("game_assets/menu/","heart.png"))
-money_img = pygame.image.load(os.path.join("game_assets/menu/","star.png"))
-side_img = pygame.image.load(os.path.join("game_assets/menu/","side.png"))
-side_btn = pygame.image.load(os.path.join("game_assets/menu/","side_btn.png"))
-gold_bag = pygame.image.load(os.path.join("game_assets/menu/", "gold_bag.png"))
-wave_bg = pygame.image.load(os.path.join("game_assets/menu/","wave_sign.png"))
-alert_red = pygame.image.load(os.path.join("game_assets/menu/","alert_red.png")) # red alert
-alert_white = pygame.image.load(os.path.join("game_assets/menu/","alert_white.png")) # white alert
+img_dir = "game_assets/menu/"
+lives_img = pygame.image.load(os.path.join(img_dir,"heart.png"))
+money_img = pygame.image.load(os.path.join(img_dir,"star.png"))
+side_img = pygame.image.load(os.path.join(img_dir,"side.png"))
+side_btn = pygame.image.load(os.path.join(img_dir,"side_btn.png"))
+gold_bag = pygame.image.load(os.path.join(img_dir, "gold_bag.png"))
+wave_bg = pygame.image.load(os.path.join(img_dir,"wave_sign.png"))
+alert_red = pygame.image.load(os.path.join(img_dir,"alert_red.png")) # red alert
+alert_white = pygame.image.load(os.path.join(img_dir,"alert_white.png")) # white alert
+
 
 # tower icons images
-buy_shin = pygame.image.load(os.path.join("game_assets/quin_towers/shin_icon","buy_shin.png"))
-buy_moubu = pygame.image.load(os.path.join("game_assets/quin_towers/moubu_icon","buy_moubu.png"))
-buy_kanki = pygame.image.load(os.path.join("game_assets/quin_towers/kanki_icon","buy_kanki.png"))
-buy_ouhon = pygame.image.load(os.path.join("game_assets/quin_towers/ouhon_icon","buy_ouhon.png"))
-buy_kyoukai = pygame.image.load(os.path.join("game_assets/support_towers/kyoukai_icon","buy_kyoukai.png"))
-buy_ten = pygame.image.load(os.path.join("game_assets/support_towers/ten_icon","buy_ten.png"))
-buy_ryo = pygame.image.load(os.path.join("game_assets/support_towers/ryo_icon","buy_ryo.png"))
-buy_fortress = pygame.image.load(os.path.join("game_assets/fortress/fortress_icon","buy_fortress.png"))
+img_dir = "game_assets/"
+buy_shin = pygame.image.load(os.path.join(img_dir + "quin_towers/shin_icon","buy_shin.png"))
+buy_moubu = pygame.image.load(os.path.join(img_dir + "quin_towers/moubu_icon","buy_moubu.png"))
+buy_kanki = pygame.image.load(os.path.join(img_dir + "quin_towers/kanki_icon","buy_kanki.png"))
+buy_ouhon = pygame.image.load(os.path.join(img_dir + "quin_towers/ouhon_icon","buy_ouhon.png"))
+buy_kyoukai = pygame.image.load(os.path.join(img_dir + "support_towers/kyoukai_icon","buy_kyoukai.png"))
+buy_ten = pygame.image.load(os.path.join(img_dir + "support_towers/ten_icon","buy_ten.png"))
+buy_ryo = pygame.image.load(os.path.join(img_dir + "support_towers/ryo_icon","buy_ryo.png"))
+buy_fortress = pygame.image.load(os.path.join(img_dir + "fortress/fortress_icon","buy_fortress.png"))
 
 # button images
-play_btn = pygame.image.load(os.path.join("game_assets/menu/","play_btn.png"))
-pause_btn = pygame.image.load(os.path.join("game_assets/menu/","pause_btn.png"))
-speed1_btn = pygame.image.load(os.path.join("game_assets/menu/","speed1_btn.png"))
-speed2_btn = pygame.image.load(os.path.join("game_assets/menu/","speed2_btn.png"))
-speed3_btn = pygame.image.load(os.path.join("game_assets/menu/","speed3_btn.png"))
-sound_btn = pygame.image.load(os.path.join("game_assets/menu/","music_btn.png"))
-sound_btn_off= pygame.image.load(os.path.join("game_assets/menu/","music_off_btn.png"))
+img_dir = "game_assets/menu/"
+play_btn = pygame.image.load(os.path.join(img_dir,"play_btn.png"))
+pause_btn = pygame.image.load(os.path.join(img_dir,"pause_btn.png"))
+speed1_btn = pygame.image.load(os.path.join(img_dir,"speed1_btn.png"))
+speed2_btn = pygame.image.load(os.path.join(img_dir,"speed2_btn.png"))
+speed3_btn = pygame.image.load(os.path.join(img_dir,"speed3_btn.png"))
+sound_btn = pygame.image.load(os.path.join(img_dir,"music_btn.png"))
+sound_btn_off= pygame.image.load(os.path.join(img_dir,"music_off_btn.png"))
 
 # tower lists
 attack_tower_names = ["shin", "moubu", "kanki", "ouhon"]
@@ -92,6 +98,7 @@ waves = [[3,0,0,0,0,0,0,0,0,0,0,0],[6,0,0,0,0,0,0,0,0,0,0,0],[0,3,0,0,0,0,0,0,0,
 enemy_nickname = ["Zao Warrior", "Yan Warrior", "Qi Warrior", "Wei Catapult", "Wei Balista", "Han Warrior", "Chu Warrior", "Chu Elephant", "Chu Boat", "Yan Boat", "Qi Boat", "Zao Riboku"]
 spawn_rates = [1.5,0.2,1,3,3,1,1,5,2,2,2,1]
 break_round = 10
+all_sprites = pygame.sprite.Group()
 
 class Game():
     def __init__(self, win):
@@ -101,7 +108,7 @@ class Game():
         self.width = 1200
         self.height = 700
         self.lives = 20
-        self.money = 35
+        self.money = 35000
         self.bg = pygame.image.load(os.path.join("game_assets/background/", "kingdom.png"))
         self.bg = pygame.transform.scale(self.bg, (self.width, self.height))
         self.clicks = [] # use to see clicks
@@ -181,6 +188,7 @@ class Game():
         self.list_enemy_spawned = [0,0,0,0,0,0,0,0,0,0,0,0]
         self.not_kill_count = 0
         self.spawn_count = 0
+
     
     def gen_enemies(self):
         """
@@ -483,8 +491,11 @@ class Game():
                     self.money += tw.attack(self.enemys)
                     value = self.money - money_before
                     self.money_earnt += value
-                    if tw.attacked_enemy is not None:
-                        self.update_counter_gold(tw.attacked_enemy, value)
+                    en = tw.attacked_enemy
+                    if en is not None:
+                        expl = Explosion(en.x, en.y, 'sm')
+                        all_sprites.add(expl)
+                        self.update_counter_gold(en, value)
 
                     # check if you got a random gold_drop
                     if tw.gold_drop > 0:
@@ -536,6 +547,7 @@ class Game():
                     run = False
 
             # actualise pictures
+            all_sprites.update()
             self.draw()
 
             # re init
@@ -624,6 +636,8 @@ class Game():
         if self.moving_object:
             self.moving_object.draw(self.win)
 
+        all_sprites.draw(self.win)
+
         pygame.display.update()
 
 
@@ -692,6 +706,8 @@ class Game():
         elif obj.name in fortress_names:
             self.fortress.append(obj)
             self.first_contact = True
+        exp = Explosion(obj.x, obj.y, "tower")
+        all_sprites.add(exp)
 
     def del_obj(self, obj):
         """
@@ -753,6 +769,8 @@ class Game():
         self.not_kill_count += 1
         self.lives -= 1
         self.shake_life = True
+        expl = Explosion(enemy.x, enemy.y, 'lg')
+        all_sprites.add(expl)
         self.enemys.remove(enemy)
 
     def dropped(self, tower):
