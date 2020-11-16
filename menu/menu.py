@@ -58,8 +58,16 @@ class Button:
         updates button position
         :return: None
         """
-        self.x = self.menu.x - 72 + i*80
-        self.y = self.menu.y - 81
+
+        if self.name == "kingdom":
+            self.x = self.menu.x - 60 + i*80
+            self.y = self.menu.y - 81
+        elif self.name == "kingdom2":
+            self.x = self.menu.x - 22 + i*80
+            self.y = self.menu.y - 81
+        else:
+            self.x = self.menu.x - 72 + i*80
+            self.y = self.menu.y - 81
 
 
 class PlayPauseButton(Button):
@@ -174,6 +182,8 @@ class Menu:
                 sell_price = "$ " + str(self.tower.sell())
                 text = self.font.render(sell_price, 1, (255,255,255))
                 win.blit(text, (item.x + item.width + 18 - text.get_width()/2, item.y + 8))
+            elif item.name == "kingdom":
+                pass
 
     def get_clicked(self, X, Y):
         """

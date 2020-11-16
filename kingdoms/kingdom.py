@@ -1,4 +1,7 @@
 import pygame
+import os
+from menu.menu import Menu, Button
+
 
 class Kingdom:
     """
@@ -14,6 +17,9 @@ class Kingdom:
         self.range = 36
         self.tile_width = 36
         self.tile_height = 30
+        self.sound = "kingdom.wav"
+        self.price = [0, 0, 0]
+        # self.menu = Menu(self, self.x, self.y, menu_bg, self.price)
 
     def draw (self, win):
         """
@@ -32,6 +38,7 @@ class Kingdom:
                 if elem[1] >= 313:
                     y = elem[1] + 5 # correction for better display
                 self.draw_tile(win, x, y)
+    
 
     # draw single tile
     def draw_tile(self, win, X, Y):
@@ -51,5 +58,6 @@ class Kingdom:
         img = self.img
         if X <= self.x - img.get_width()//2 + self.width and X >= self.x - img.get_width()//2:
             if Y <= self.y + self.height - img.get_height()//2 and Y >= self.y - img.get_height()//2:
+                pygame.mixer.Channel(1).play(pygame.mixer.Sound(os.path.join("game_assets/sounds/", self.sound)), maxtime=600)
                 return True
         return False
