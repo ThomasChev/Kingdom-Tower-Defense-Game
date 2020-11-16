@@ -7,6 +7,7 @@ import pandas as pd
 import seaborn as sns
 from matplotlib import pyplot as plt
 import matplotlib.pyplot as plt
+from collections import deque
 
 # enemies
 from enemies.zao_warrior import Zao_warrior
@@ -954,12 +955,12 @@ def play_sound(*args):
         pygame.mixer.Channel(a).play(pygame.mixer.Sound(os.path.join("game_assets/sounds/", b)))
 
 
-_songs = [os.path.join("game_assets/sounds/", "13_Tazer.mp3"), os.path.join("game_assets/sounds/", "08_T_Station.mp3"), os.path.join("game_assets/sounds/", "04_Shamburger.mp3")]
+_songs = deque([os.path.join("game_assets/sounds/", "13_Tazer.mp3"), os.path.join("game_assets/sounds/", "08_T_Station.mp3"), os.path.join("game_assets/sounds/", "04_Shamburger.mp3")])
 def play_next_song():
     """
     change sound when previous sound is finished
     """ 
     global _songs
-    _songs = _songs[1:] + [_songs[0]] # move current song to the back of the list
+    _songs.rotate(-1) # move current song to the back of the list (equal to: _songs = _songs[1:] + [_songs[0]])
     pygame.mixer.music.load(_songs[0])
     pygame.mixer.music.play()

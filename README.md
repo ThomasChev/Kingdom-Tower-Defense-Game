@@ -46,7 +46,7 @@ I made my own Tower Defense Game with pygame, based on TechWithTim's 12 hours st
 
 - End Game Statistics
 
-<a href='https://www.casimages.com/i/201104033348783751.png.html' target='_blank' title='Mon image'><img src='https://nsa40.casimages.com/img/2020/11/04/201104033348783751.png' border='0' alt='Mon image' /></a>
+<a href='https://www.casimages.com/i/20111603324361167.png.html' target='_blank' title='Mon image'><img src='https://nsa40.casimages.com/img/2020/11/16/20111603324361167.png' border='0' alt='Mon image' /></a>
 
 # Join Us !
 
