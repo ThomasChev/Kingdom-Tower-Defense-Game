@@ -171,35 +171,6 @@ class Enemy:
         self.max_health += 0.01*wave**2 # health scaling with waves
         self.health = self.max_health
 
-        # L = wave + 1
-        # La = 0
-        # Lb = 4
-        # Lc = 6
-        # Ld = 8
-        # Da = self.init_max_health + 0/100 * self.init_max_health
-        # Db = self.init_max_health + 20/100 * self.init_max_health
-        # Dc = self.init_max_health + 80/100 * self.init_max_health
-        # Dd = self.init_max_health + 110/100 * self.init_max_health
-        # Gk = (Dc-Db)/(Lc-Lb)
-
-        # if (L<=Lb):
-        #     #Intro Phase
-        #     self.max_health = Da + (Db-Da)/(L-La)
-        # elif (L<=Lc):
-        #     #Learning Phase
-        #     self.max_health = Db + (Dc-Db)/(L-Lb)
-        # elif (L<=Ld):
-        #     #Progress Phase
-        #     self.max_health = Dc + (Dd-Dc)/(L-Lc)
-        # else:
-        #     #Kill-off phase
-        #     self.max_health = Dd + Gk*(L-Ld)
-
-        # print("init_h", self.init_max_health)
-        # print("max_health", self.max_health)
-
-        # self.health = self.max_health
-
     def collide(self, otherTower):
         x2 = otherTower.x
         y2 = otherTower.y

@@ -925,10 +925,8 @@ class Game():
         self.seconds = (pygame.time.get_ticks()-self.start_ticks)/1000
 
         # calculate total towers number
-        towers_nb = 0
-        for items in self.counters:
-            towers_nb += self.counters[items]
-
+        towers_nb = sum(self.counters.values())
+        
         # store data every 2 seconds (+- 0.01)
         list_keys = list(self.data_dict.keys())
         list_items = [round(self.seconds), self.wave + 1 , self.money, self.lives, self.money_earnt,  self.money_spent,self.counters['shin'],  self.counters['moubu'],  self.counters['kanki'],  self.counters['ouhon'],  self.counters['ten'],  self.counters['kyoukai'], self.counters['ryo'],  self.counters['fortress'], towers_nb] 
