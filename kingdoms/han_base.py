@@ -7,7 +7,7 @@ from menu.menu import Menu, Button
 img_dir = "game_assets/kingdoms/"
 img = pygame.image.load(os.path.join(img_dir, "han_base.png"))
 menu_bg = pygame.transform.scale(pygame.image.load(os.path.join(img_dir, "enemy_menu.png")),(120, 60))
-warrior = pygame.image.load(os.path.join(img_dir, "warrior.jpg"))
+warrior = pygame.image.load(os.path.join(img_dir, "warrior.png"))
 
 class Han_base(Kingdom):
 	

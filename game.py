@@ -57,7 +57,6 @@ wave_bg = pygame.image.load(os.path.join(img_dir,"wave_sign.png"))
 alert_red = pygame.image.load(os.path.join(img_dir,"alert_red.png")) # red alert
 alert_white = pygame.image.load(os.path.join(img_dir,"alert_white.png")) # white alert
 
-
 # tower icons images
 img_dir = "game_assets/"
 buy_shin = pygame.image.load(os.path.join(img_dir + "quin_towers/shin_icon","buy_shin.png"))
@@ -93,8 +92,8 @@ pygame.mixer.music.load(os.path.join("game_assets/sounds/", "loop0.wav"))
 pygame.mixer.music.play()
 
 # waves  list and enemies list
-# waves = [[1,0,0,0,0,0,0,0,0,0,0,0],[1,1,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,2,2,0,1,1,1,0], [1,1,1,1,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0], [1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0], [1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0]]
-waves = [[3,0,0,0,0,0,0,0,0,0,0,0],[6,0,0,0,0,0,0,0,0,0,0,0],[0,3,0,0,0,0,0,0,0,0,0,0],[0,5,0,0,0,0,0,0,0,0,0,0],[0,0,3,0,0,0,0,0,0,0,0,0],[0,0,6,0,0,0,0,0,0,0,0,0],[0,0,0,2,0,0,0,0,0,0,0,0],[0,0,0,4,0,0,0,0,0,0,0,0],[0,0,0,0,4,0,0,0,0,0,0,0],[1,1,1,1,1,1,1,1,0,0,0,0],[0,0,0,0,0,4,0,0,0,0,0,0],[0,0,0,0,0,6,0,0,0,0,0,0],[0,0,0,0,0,0,4,0,0,0,0,0],[0,0,0,0,0,0,6,0,0,0,0,0],[0,0,0,0,0,0,0,2,0,0,0,0],[0,0,0,0,0,0,0,6,0,0,0,0],[0,0,0,0,0,0,0,0,2,0,0,0],[0,0,0,0,0,0,0,0,6,0,0,0],[0,0,0,0,0,0,0,0,0,2,0,0],[0,4,0,0,0,0,0,0,4,4,0,0],[0,0,0,0,0,0,0,0,0,0,2,0],[0,0,0,0,0,0,0,0,0,0,8,0],[9,0,0,0,0,0,0,0,0,0,0,0],[0,8,0,0,0,0,0,0,0,3,0,0],[0,0,9,0,0,0,0,0,0,0,4,0],[0,0,0,3,5,0,0,0,0,0,0,0],[0,0,0,0,0,14,0,0,0,0,0,0],[0,0,0,0,0,0,4,4,4,0,0,0],[5,5,5,0,0,0,0,0,0,0,0,0],[0,12,0,0,0,0,0,0,0,0,0,0],[3,3,3,0,0,3,6,0,0,0,0,0],[3,6,3,0,0,3,6,0,0,0,0,0],[0,0,0,0,0,10,8,0,0,0,0,0],[0,0,0,0,0,0,0,0,16,0,0,0],[0,0,0,0,0,0,0,0,0,18,0,0],[0,0,0,0,0,0,0,0,0,0,20,0],[0,0,0,0,0,0,0,0,12,6,6,0],[11,11,11,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,16,18,0,0,0,0,0],[8,8,10,0,0,10,8,0,0,0,0,0],[9,9,9,0,0,9,9,0,0,0,0,0],[0,25,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,12,12,0,0],[0,0,0,0,0,0,0,0,12,0,12,0],[0,0,0,0,0,0,0,0,12,8,8,0],[0,0,0,0,0,0,0,0,12,12,15,0],[18,12,0,0,0,0,0,0,0,0,0,0],[18,15,0,0,0,0,0,0,0,0,0,0],[0,0,12,8,12,0,0,4,0,0,0,0],[10,10,10,4,4,10,10,4,4,4,4,0],[10,10,10,6,6,10,10,4,4,4,4,0],[10,10,10,6,6,10,10,6,4,4,4,0],[10,10,10,6,6,10,10,6,6,6,6,0],[12,15,10,8,8,10,10,8,6,6,6,0],[12,20,10,8,8,10,10,12,6,6,6,1]]
+waves = [[3,1,0,0,0,0,0,0,0,0,1,0],[1,0,0,1,0,0,0,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1],[1,0,0,0,0,2,2,0,1,1,1,0], [1,1,1,1,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0], [1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0], [1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0]]
+# waves = [[3,0,0,0,0,0,0,0,0,0,0,0],[6,0,0,0,0,0,0,0,0,0,0,0],[0,3,0,0,0,0,0,0,0,0,0,0],[0,5,0,0,0,0,0,0,0,0,0,0],[0,0,3,0,0,0,0,0,0,0,0,0],[0,0,6,0,0,0,0,0,0,0,0,0],[0,0,0,2,0,0,0,0,0,0,0,0],[0,0,0,4,0,0,0,0,0,0,0,0],[0,0,0,0,4,0,0,0,0,0,0,0],[1,1,1,1,1,1,1,1,0,0,0,0],[0,0,0,0,0,4,0,0,0,0,0,0],[0,0,0,0,0,6,0,0,0,0,0,0],[0,0,0,0,0,0,4,0,0,0,0,0],[0,0,0,0,0,0,6,0,0,0,0,0],[0,0,0,0,0,0,0,2,0,0,0,0],[0,0,0,0,0,0,0,6,0,0,0,0],[0,0,0,0,0,0,0,0,2,0,0,0],[0,0,0,0,0,0,0,0,6,0,0,0],[0,0,0,0,0,0,0,0,0,2,0,0],[0,4,0,0,0,0,0,0,4,4,0,0],[0,0,0,0,0,0,0,0,0,0,2,0],[0,0,0,0,0,0,0,0,0,0,8,0],[9,0,0,0,0,0,0,0,0,0,0,0],[0,8,0,0,0,0,0,0,0,3,0,0],[0,0,9,0,0,0,0,0,0,0,4,0],[0,0,0,3,5,0,0,0,0,0,0,0],[0,0,0,0,0,14,0,0,0,0,0,0],[0,0,0,0,0,0,4,4,4,0,0,0],[5,5,5,0,0,0,0,0,0,0,0,0],[0,12,0,0,0,0,0,0,0,0,0,0],[3,3,3,0,0,3,6,0,0,0,0,0],[3,6,3,0,0,3,6,0,0,0,0,0],[0,0,0,0,0,10,8,0,0,0,0,0],[0,0,0,0,0,0,0,0,16,0,0,0],[0,0,0,0,0,0,0,0,0,18,0,0],[0,0,0,0,0,0,0,0,0,0,20,0],[0,0,0,0,0,0,0,0,12,6,6,0],[11,11,11,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,16,18,0,0,0,0,0],[8,8,10,0,0,10,8,0,0,0,0,0],[9,9,9,0,0,9,9,0,0,0,0,0],[0,25,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,12,12,0,0],[0,0,0,0,0,0,0,0,12,0,12,0],[0,0,0,0,0,0,0,0,12,8,8,0],[0,0,0,0,0,0,0,0,12,12,15,0],[18,12,0,0,0,0,0,0,0,0,0,0],[18,15,0,0,0,0,0,0,0,0,0,0],[0,0,12,8,12,0,0,4,0,0,0,0],[10,10,10,4,4,10,10,4,4,4,4,0],[10,10,10,6,6,10,10,4,4,4,4,0],[10,10,10,6,6,10,10,6,4,4,4,0],[10,10,10,6,6,10,10,6,6,6,6,0],[12,15,10,8,8,10,10,8,6,6,6,0],[12,20,10,8,8,10,10,12,6,6,6,1]]
 enemy_nickname = ["Zao Warrior", "Yan Warrior", "Qi Warrior", "Wei Catapult", "Wei Balista", "Han Warrior", "Chu Warrior", "Chu Elephant", "Chu Boat", "Yan Boat", "Qi Boat", "Zao Riboku"]
 spawn_rates = [1.5,0.2,1,3,3,1,1,5,2,2,2,1]
 break_round = 10
@@ -208,7 +207,8 @@ class Game():
 
                 # Go to next wave
                 if self.wave < len(waves):
-                    
+                    next_wave = waves[self.wave][:]
+
                     # play sound, write wave number and shade
                     if self.wave > 0:
                         # change music (epic AOE) at wave 10
@@ -218,12 +218,13 @@ class Game():
                             play_next_song()
                         if not self.change_sound:
                             play_sound(0,"next_round.wav")
-                        self.fade(self.width, self.height, rgb(0,0,0), 0, 50, 60)  # (width, height, color, start=0, end=300, delay=1)
+                        next_intro = [w_comp[0] for w_comp,w in zip(wave_compo, next_wave) if w>0]
+                        self.fade(self.width, self.height, rgb(0,0,0), 0, 50, 60, next_intro)  # (width, height, color, start=0, end=300, delay=1)
                     
                     # reset
                     self.fortress_sound = False
                     self.playPauseButton.on = False
-                    self.current_wave = waves[self.wave][:]
+                    self.current_wave = next_wave
 
                     # update dict for enemies graphs
                     spawned = self.spawn_count
@@ -284,8 +285,9 @@ class Game():
         pygame.mixer.music.load(os.path.join("game_assets/sounds/", "loop0.wav"))
         pygame.mixer.music.set_volume(0.4)
         pygame.mixer.music.play(loops=-1) # loop forever
-
-        self.fade(self.width, self.height, rgb(0,0,0), 0, 255, 10) # (width, height, color, start=0, end=300, delay=1)
+        wave_compo = [(Zao_warrior(),Zao_base()), (Yan_warrior(),Yan_base()), (Qi_warrior(),Qi_base()), (Wei_catapult(),Wei_base()), (Wei_balista(),Wei_base()), (Han_warrior(),Han_base()), (Chu_warrior(),Chu_base()), (Chu_elephant(),Chu2_base()), (Chu_boat(),Chu3_base()), (Yan_boat(),Yan_base()), (Qi_boat(),Qi_base()), (Zao_riboku(),Zao_base())]
+        first_intro = [w_comp[0] for w_comp,w in zip(wave_compo, waves[0]) if w>0]
+        self.fade(self.width, self.height, rgb(0,0,0), 0, 255, 10, first_intro) # (width, height, color, start=0, end=300, delay=1)
         
         # Before game initialisation :
         if self.wave == 0:
@@ -782,6 +784,30 @@ class Game():
         self.drop_y = tower.coord[1] - gold_bag.get_height() / 2 - 35
         self.draw_drop = True
 
+    def getUniqueEnemies(self, l):
+        """
+        create a list of unique enemies based on their type
+        """
+        result = []
+        temp = []
+        for item in l:
+            if item.type not in temp:
+                result.append(item)
+                temp.append(item.type)
+        return result
+
+    def flipDict(self, d):
+        """
+        flip keys and values
+        """
+        result = {}
+        for key, value in d.items(): 
+            if value not in result: 
+                result[value] = [key] 
+            else: 
+                result[value].append(key)
+        return result
+
     def game_over(self):
         """
         transition to end game
@@ -799,30 +825,79 @@ class Game():
         pygame.mixer.music.play(loops=-1)
 
 
-    def fade(self, width, height, color, start=0, end=300, delay=1):
+    def fade(self, width, height, color, start=0, end=300, delay=1, en_intro=[]):
         """
         transition to next scene
         """ 
+
         fade = pygame.Surface((width, height))
         fade.fill(color)
 
         if self.wave == break_round - 1:
             delay = round(delay*1.5)
+
         for alpha in range(start, end):
             fade.set_alpha(alpha)
-            # redrawWindow()
-            self.win.blit(fade, (0,0))
-            if self.go_win: 
-                text = self.wave_font2.render("Win", 2, rgb(255,255,255))
-            elif self.go_lose:
-                text = self.wave_font2.render("Game Over", 2, rgb(255,255,255))
-            else:
-                text = text = self.wave_font2.render("Wave " + str(self.wave + 1), 2, rgb(255,255,255))
-            self.win.blit(text, (self.width/2 - text.get_width()/2, self.height/2 - text.get_height()/2))
+
+            # draw wave number
+            wave_text = self.drawWaveNumber(fade, self.wave_font2)
+
+            # draw enemies intro images and texts under the wave text:
+            self.drawEnemiesIntro(wave_text, en_intro)
+
             pygame.display.update()
             pygame.time.delay(delay)
+
+        # longer transition for the upcoming special wave
         if self.wave == break_round - 1:
             pygame.time.delay(5000)
+
+    def drawWaveNumber(self, srfc, font):
+        """
+        draw wave texts based on game status (run, go_win, go_lose) and return the text
+        """
+
+        self.win.blit(srfc, (0,0))
+        if self.go_win: 
+            text = font.render("Win", 2, rgb(255,255,255))
+        elif self.go_lose:
+            text = font.render("Game Over", 2, rgb(255,255,255))
+        else:
+            text = font.render("Wave " + str(self.wave + 1), 2, rgb(255,255,255))
+        self.win.blit(text, (self.width/2 - text.get_width()/2, self.height/2 - text.get_height()/2))
+        return text
+
+    def drawEnemiesIntro(self, text, l):
+        """
+        draw images next to each others, and texts under the images
+        """
+
+        # create flipped dict with enemies type as keys, enemies nickname as values, and list
+        key = [en.nickname for en in l]
+        value = [en.type for en in l]
+        ini_dict = dict(zip(key, value))
+        flipped = self.flipDict(ini_dict)
+        en_txt = [[key,value] for key, value in flipped.items()]
+
+        # create a list of unique enemy types 
+        en_obj = self.getUniqueEnemies(l)
+
+        # draw loop : draw images next to each others, and texts under images
+        type_nb = len(en_obj)
+        img_width = 120 # en.intro.get_width()
+        img_height = 120 
+        pad = 10
+        x = self.width/2 -((type_nb/2)*img_width +(type_nb-1)*pad)
+        y = self.height/2 + text.get_height()/2
+        for en, txt in zip(en_obj, en_txt):
+            # draw images
+            self.win.blit(en.intro, (x,y))
+            # draw texts
+            for i, t in enumerate(txt[1]):
+                text_en = self.wave_font.render(t, 2, rgb(255,255,255))
+                self.win.blit(text_en, (x+img_width/2-text_en.get_width()/2, y+img_height+pad+i*text_en.get_height()))
+            x += img_width + 2*pad
+
 
     def initialise(self):
         """
@@ -982,3 +1057,11 @@ def play_next_song():
     _songs.rotate(-1) # move current song to the back of the list (equal to: _songs = _songs[1:] + [_songs[0]])
     pygame.mixer.music.load(_songs[0])
     pygame.mixer.music.play()
+
+def getUniqueItems(d):
+    result = {}
+    for key,value in d.items():
+        if value not in result.values():
+            result[key] = value
+    return result
+

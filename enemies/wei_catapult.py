@@ -5,6 +5,7 @@ from .enemy import Enemy
 img_dir = "game_assets/enemies/"
 imgs = []
 imgs = [pygame.transform.scale(pygame.image.load(os.path.join(img_dir, f"catapult/{i}.png")), (48, 43)) for i in range(1,21)]
+img_pres = pygame.transform.scale(pygame.image.load(os.path.join(img_dir, "intro/intro_catapult.png")),(120, 120))
 
 class Wei_catapult(Enemy):
 	
@@ -24,4 +25,6 @@ class Wei_catapult(Enemy):
 		self.y = self.path[0][1]
 		self.speed = 1
 		self.rate = 1
+		self.intro = img_pres
+		self.type = "catapult"
 		

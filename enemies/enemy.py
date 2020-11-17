@@ -7,6 +7,7 @@ from game_assets.colors import rgb
 img_dir = "game_assets/enemies/"
 ices = []
 ices = [pygame.image.load(os.path.join(img_dir, f"freeze/{i}.png")) for i in range(0,56)]
+img_pres = pygame.transform.scale(pygame.image.load(os.path.join(img_dir, "intro/intro_warrior.png")),(120, 120))
 
 
 class Enemy:
@@ -35,6 +36,8 @@ class Enemy:
         self.wei_special = ["wei_catapult", "wei_balista"]
         self.zao_special = ["zao_riboku"]
         self.rate = 1.5
+        self.intro = img_pres
+        self.type = "warrior"
 
     def draw(self, win):
         """

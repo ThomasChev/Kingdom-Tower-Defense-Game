@@ -19,7 +19,6 @@ class Kingdom:
         self.tile_height = 30
         self.sound = "kingdom.wav"
         self.price = [0, 0, 0]
-        # self.menu = Menu(self, self.x, self.y, menu_bg, self.price)
 
     def draw (self, win):
         """

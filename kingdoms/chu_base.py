@@ -7,7 +7,7 @@ from menu.menu import Menu, Button
 img_dir = "game_assets/kingdoms/"
 img = pygame.image.load(os.path.join(img_dir, "chu_base.png"))
 menu_bg = pygame.transform.scale(pygame.image.load(os.path.join(img_dir, "enemy_menu.png")),(120, 60))
-warrior = pygame.image.load(os.path.join(img_dir, "warrior.jpg"))
+warrior = pygame.image.load(os.path.join(img_dir, "warrior.png"))
 
 class Chu_base(Kingdom):
 	
@@ -22,7 +22,7 @@ class Chu_base(Kingdom):
 		self.rgb = rgb(176, 134, 105)
 		self.menu = Menu(self, self.x, self.y, menu_bg, self.price)
 		self.menu.add_btn(warrior, "kingdom2")
-
+		
 	def draw(self, win):
 		super().draw(win)
 		if self.selected:

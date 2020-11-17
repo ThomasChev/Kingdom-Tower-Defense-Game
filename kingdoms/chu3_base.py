@@ -22,7 +22,7 @@ class Chu3_base(Kingdom):
 		self.rgb = rgb(176, 134, 105)
 		self.menu = Menu(self, self.x, self.y, menu_bg, self.price)
 		self.menu.add_btn(boat, "kingdom2")
-
+		
 	def draw(self, win):
 		super().draw(win)
 		if self.selected:

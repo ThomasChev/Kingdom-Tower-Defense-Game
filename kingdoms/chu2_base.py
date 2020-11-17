@@ -7,7 +7,7 @@ from menu.menu import Menu, Button
 img_dir = "game_assets/kingdoms/"
 img = pygame.image.load(os.path.join(img_dir, "chu_base.png"))
 menu_bg = pygame.transform.scale(pygame.image.load(os.path.join(img_dir, "enemy_menu.png")),(120, 60))
-elephant = pygame.image.load(os.path.join(img_dir, "elephant.jpg"))
+elephant = pygame.image.load(os.path.join(img_dir, "elephant.png"))
 
 class Chu2_base(Kingdom):
 	

@@ -5,6 +5,7 @@ from .enemy import Enemy
 img_dir = "game_assets/enemies/"
 imgs = []
 imgs = [pygame.image.load(os.path.join(img_dir, f"balista/{i}.png")) for i in range(1,25)]
+img_pres = pygame.transform.scale(pygame.image.load(os.path.join(img_dir, "intro/intro_balista.png")),(120, 120))
 
 class Wei_balista(Enemy):
 	
@@ -24,3 +25,5 @@ class Wei_balista(Enemy):
 		self.y = self.path[0][1]
 		self.speed = 1
 		self.rate = 1
+		self.intro = img_pres
+		self.type = "balista"

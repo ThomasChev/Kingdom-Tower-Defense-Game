@@ -5,6 +5,7 @@ from .enemy import Enemy
 img_dir = "game_assets/enemies/"
 imgs = []
 imgs = [pygame.image.load(os.path.join(img_dir, f"yan_warrior/{i}.png")) for i in range(0,16)]
+img_pres = pygame.transform.scale(pygame.image.load(os.path.join(img_dir, "intro/intro_warrior.png")),(120, 120))
 
 class Yan_warrior(Enemy):
 	
@@ -24,3 +25,5 @@ class Yan_warrior(Enemy):
 		self.y = self.path[0][1]
 		self.speed = 1
 		self.rate = 0.2
+		self.intro = img_pres
+		self.type = "warrior"
