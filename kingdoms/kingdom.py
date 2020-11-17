@@ -58,6 +58,6 @@ class Kingdom:
         img = self.img
         if X <= self.x - img.get_width()//2 + self.width and X >= self.x - img.get_width()//2:
             if Y <= self.y + self.height - img.get_height()//2 and Y >= self.y - img.get_height()//2:
-                pygame.mixer.Channel(1).play(pygame.mixer.Sound(os.path.join("game_assets/sounds/", self.sound)), maxtime=600)
+                pygame.mixer.Channel(0).play(pygame.mixer.Sound(os.path.join("game_assets/sounds/", self.sound)))
                 return True
         return False

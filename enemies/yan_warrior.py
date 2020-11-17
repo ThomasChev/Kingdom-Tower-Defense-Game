@@ -2,9 +2,9 @@ import pygame
 import os
 from .enemy import Enemy
 
+img_dir = "game_assets/enemies/"
 imgs = []
-for x in range(0,16):
-	imgs.append(pygame.image.load(os.path.join("game_assets/enemies/yan_warrior", str(x) + ".png")))
+imgs = [pygame.image.load(os.path.join(img_dir, f"yan_warrior/{i}.png")) for i in range(0,16)]
 
 class Yan_warrior(Enemy):
 	

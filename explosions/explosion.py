@@ -58,6 +58,6 @@ class Explosion(pygame.sprite.Sprite):
         if self.style == "tower":
             self.corr_x = self.corr_x
             self.corr_y = self.corr_y + 60
-            self.frame_rate = 25
+            self.frame_rate = 75
 
         self.rect.center = (self.x + self.corr_x, self.y + self.corr_y)

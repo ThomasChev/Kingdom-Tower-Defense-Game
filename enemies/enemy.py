@@ -4,9 +4,9 @@ import random
 import os
 from game_assets.colors import rgb
 
+img_dir = "game_assets/enemies/"
 ices = []
-for x in range(0,56):
-    ices.append(pygame.image.load(os.path.join("game_assets/enemies/freeze", str(x) + ".png")))
+ices = [pygame.image.load(os.path.join(img_dir, f"freeze/{i}.png")) for i in range(0,56)]
 
 
 class Enemy:

@@ -4,10 +4,11 @@ from .kingdom import Kingdom
 from game_assets.colors import rgb
 from menu.menu import Menu, Button
 
-img = pygame.image.load(os.path.join("game_assets/kingdoms", "yan_base.png"))
-menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/menu/", "enemy_menu.png")),(180, 60))
-warrior = pygame.image.load(os.path.join("game_assets/menu/", "warrior.jpg"))
-boat = pygame.image.load(os.path.join("game_assets/menu/", "boat.png"))
+img_dir = "game_assets/kingdoms/"
+img = pygame.image.load(os.path.join(img_dir, "yan_base.png"))
+menu_bg = pygame.transform.scale(pygame.image.load(os.path.join(img_dir, "enemy_menu.png")),(180, 60))
+warrior = pygame.image.load(os.path.join(img_dir, "warrior.jpg"))
+boat = pygame.image.load(os.path.join(img_dir, "boat.png"))
 
 class Yan_base(Kingdom):
 	

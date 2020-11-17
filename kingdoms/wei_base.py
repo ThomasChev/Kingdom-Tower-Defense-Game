@@ -4,10 +4,11 @@ from .kingdom import Kingdom
 from game_assets.colors import rgb
 from menu.menu import Menu, Button
 
-img = pygame.image.load(os.path.join("game_assets/kingdoms", "wei_base.png"))
-menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/menu/", "enemy_menu.png")),(180, 60))
-catapult = pygame.image.load(os.path.join("game_assets/menu/", "catapult.png"))
-balista = pygame.image.load(os.path.join("game_assets/menu/", "balista.png"))
+img_dir = "game_assets/kingdoms/"
+img = pygame.image.load(os.path.join(img_dir, "wei_base.png"))
+menu_bg = pygame.transform.scale(pygame.image.load(os.path.join(img_dir, "enemy_menu.png")),(180, 60))
+catapult = pygame.image.load(os.path.join(img_dir, "catapult.png"))
+balista = pygame.image.load(os.path.join(img_dir, "balista.png"))
 
 class Wei_base(Kingdom):
 	

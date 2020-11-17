@@ -8,17 +8,13 @@ from menu.menu import Menu
 menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/menu/", "red_menu.png")),(171, 50))
 upgrade_btn = pygame.image.load(os.path.join("game_assets/menu/", "upgrade_btn.png"))
 sell_btn = pygame.image.load(os.path.join("game_assets/menu/", "sell_btn.png"))
+img_dir = "game_assets/fortress/"
 
 # load base tower images and animation images 6
 base_imgs6 = []
 animation_imgs6 = []
-for x in range(0,3):
-    base_imgs6.append(pygame.image.load(os.path.join("game_assets/fortress/fortress_base", str(x) + ".png" )))
-for x in range(0,3):
-    add_str = str(x)
-    if x < 10:
-        add_str = "0" + add_str
-    animation_imgs6.append(pygame.image.load(os.path.join("game_assets/fortress/fortress_animation", "0" + add_str + ".png" )))
+base_imgs6 = [pygame.image.load(os.path.join(img_dir, f"fortress_base/{i}.png")) for i in range(0,3)]
+animation_imgs6 = [pygame.image.load(os.path.join(img_dir, f"fortress_animation/00{i}.png")) for i in range(0,3)]
 
 class Fortress(Tower):
     """

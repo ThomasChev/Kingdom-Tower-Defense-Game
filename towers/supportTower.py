@@ -8,11 +8,11 @@ from menu.menu import Menu
 menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/menu/", "red_menu.png")),(171, 50))
 upgrade_btn = pygame.image.load(os.path.join("game_assets/menu/", "upgrade_btn.png"))
 sell_btn = pygame.image.load(os.path.join("game_assets/menu/", "sell_btn.png"))
+img_dir = "game_assets/support_towers/"
 
 # load base tower images 4
 base_imgs4 = []
-for x in range(0,3):
-    base_imgs4.append(pygame.image.load(os.path.join("game_assets/support_towers/ten_base", str(x) + ".png" )))
+base_imgs4 = [pygame.image.load(os.path.join(img_dir, f"ten_base/{i}.png")) for i in range(0,3)]
 
 class TenTower(Tower):
     """
@@ -65,8 +65,7 @@ class TenTower(Tower):
 
 # load base tower images 5
 base_imgs5 = []
-for x in range(0,3):
-    base_imgs5.append(pygame.image.load(os.path.join("game_assets/support_towers/kyoukai_base", str(x) + ".png" )))
+base_imgs5 = [pygame.image.load(os.path.join(img_dir, f"kyoukai_base/{i}.png")) for i in range(0,3)]
 
 class KyoukaiTower(TenTower):
     """
@@ -106,8 +105,7 @@ class KyoukaiTower(TenTower):
 
 # load base tower images 6
 base_imgs6 = []
-for x in range(0,3):
-    base_imgs6.append(pygame.image.load(os.path.join("game_assets/support_towers/ryo_base", str(x) + ".png" )))
+base_imgs6 = [pygame.image.load(os.path.join(img_dir, f"ryo_base/{i}.png")) for i in range(0,3)]
 
 class RyoTower(TenTower):
     """

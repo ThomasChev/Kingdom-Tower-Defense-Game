@@ -9,18 +9,13 @@ from menu.menu import Menu
 menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/menu/", "red_menu.png")),(171, 50))
 upgrade_btn = pygame.image.load(os.path.join("game_assets/menu/", "upgrade_btn.png"))
 sell_btn = pygame.image.load(os.path.join("game_assets/menu/", "sell_btn.png"))
+img_dir = "game_assets/quin_towers/"
 
 # load base tower images and animation images 1
 base_imgs1 = []
 animation_imgs1 = []
-for x in range(0,3):
-    base_imgs1.append(pygame.image.load(os.path.join("game_assets/quin_towers/shin_base", str(x) + ".png" )))
-for x in range(0,24):
-    add_str = str(x)
-    if x < 10:
-        add_str = "0" + add_str
-    animation_imgs1.append(pygame.image.load(os.path.join("game_assets/quin_towers/shin_animation", "0" + add_str + ".png" )))
-
+base_imgs1 = [pygame.image.load(os.path.join(img_dir, f"shin_base/{i}.png")) for i in range(0,3)]
+animation_imgs1 = [pygame.image.load(os.path.join(img_dir, f"shin_animation/00{i}.png")) if i <=9 else pygame.image.load(os.path.join(img_dir, f"shin_animation/0{i}.png")) for i in range(0,24)]
 
 class ShinTower(Tower):
 
@@ -150,13 +145,8 @@ class ShinTower(Tower):
 # load base tower images and animation images 2
 base_imgs2 = []
 animation_imgs2 = []
-for x in range(0,3):
-    base_imgs2.append(pygame.image.load(os.path.join("game_assets/quin_towers/moubu_base", str(x) + ".png" )))
-for x in range(0,26):
-    add_str = str(x)
-    if x < 10:
-        add_str = "0" + add_str
-    animation_imgs2.append(pygame.image.load(os.path.join("game_assets/quin_towers/moubu_animation", "0" + add_str + ".png" )))
+base_imgs2 = [pygame.image.load(os.path.join(img_dir, f"moubu_base/{i}.png")) for i in range(0,3)]
+animation_imgs2 = [pygame.image.load(os.path.join(img_dir, f"moubu_animation/00{i}.png")) if i <=9 else pygame.image.load(os.path.join(img_dir, f"moubu_animation/0{i}.png")) for i in range(0,26)]
 
 
 class MoubuTower(ShinTower):
@@ -184,13 +174,9 @@ class MoubuTower(ShinTower):
 # load base tower images and animation images 3
 base_imgs3 = []
 animation_imgs3 = []
-for x in range(0,3):
-    base_imgs3.append(pygame.image.load(os.path.join("game_assets/quin_towers/kanki_base", str(x) + ".png" )))
-for x in range(0,17):
-    add_str = str(x)
-    if x < 10:
-        add_str = "0" + add_str
-    animation_imgs3.append(pygame.image.load(os.path.join("game_assets/quin_towers/kanki_animation", "0" + add_str + ".png" )))
+base_imgs3 = [pygame.image.load(os.path.join(img_dir, f"kanki_base/{i}.png")) for i in range(0,3)]
+animation_imgs3 = [pygame.image.load(os.path.join(img_dir, f"kanki_animation/00{i}.png")) if i <=9 else pygame.image.load(os.path.join(img_dir, f"kanki_animation/0{i}.png")) for i in range(0,17)]
+
 
 class KankiTower(ShinTower):
     def __init__(self, x,y):
@@ -217,13 +203,9 @@ class KankiTower(ShinTower):
 # load base tower images and animation images 4
 base_imgs4 = []
 animation_imgs4 = []
-for x in range(0,3):
-    base_imgs4.append(pygame.image.load(os.path.join("game_assets/quin_towers/ouhon_base", str(x) + ".png" )))
-for x in range(0,55):
-    add_str = str(x)
-    if x < 10:
-        add_str = "0" + add_str
-    animation_imgs4.append(pygame.image.load(os.path.join("game_assets/quin_towers/ouhon_animation", "0" + add_str + ".png" )))
+base_imgs4 = [pygame.image.load(os.path.join(img_dir, f"ouhon_base/{i}.png")) for i in range(0,3)]
+animation_imgs4 = [pygame.image.load(os.path.join(img_dir, f"ouhon_animation/00{i}.png")) if i <=9 else pygame.image.load(os.path.join(img_dir, f"ouhon_animation/0{i}.png")) for i in range(0,55)]
+
 
 class OuhonTower(ShinTower):
     def __init__(self, x,y):

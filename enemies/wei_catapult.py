@@ -2,9 +2,9 @@ import pygame
 import os
 from .enemy import Enemy
 
+img_dir = "game_assets/enemies/"
 imgs = []
-for x in range(1,21):
-	imgs.append(pygame.transform.scale(pygame.image.load(os.path.join("game_assets/enemies/catapult", str(x) + ".png" )), (48, 43)))
+imgs = [pygame.transform.scale(pygame.image.load(os.path.join(img_dir, f"catapult/{i}.png")), (48, 43)) for i in range(1,21)]
 
 class Wei_catapult(Enemy):
 	
