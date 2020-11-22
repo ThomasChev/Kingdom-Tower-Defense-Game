@@ -11,10 +11,15 @@
 """
 
 # import statements
+import os
 import random
 import pygame
 import time
+import collections
+from collections import deque
+from collections import namedtuple
 from game_assets.colors import rgb
+from PIL import Image, ImageSequence
 
 # Initialize pygame
 pygame.init()
@@ -22,8 +27,16 @@ pygame.init()
 # Initialize game constants
 FRAME_RATE = 30
 GAME_TITLE = "Slot Machine"
-BACKGROUND_IMAGE_NAME = "game_assets/slot/background.png"
+BACKGROUND_IMAGE_NAME1 = "game_assets/slot/background.png"
+BACKGROUND_IMAGE_NAME2 = "game_assets/slot/background2.png"
+BACKGROUND_IMAGE_NAME3 = "game_assets/slot/background3.png"
+ARROW_WHITE = "game_assets/slot/arrow_white.png"
+ARROW_YELLOW = "game_assets/slot/arrow_yellow.png"
+COINS_GIF = "game_assets/slot/coins.gif"
+
 pad_y = 14
+WIDTH = 1200
+HEIGHT = 700
 
 """
   Class: SlotMachineButton
@@ -94,6 +107,7 @@ class SlotMachine:
   STARTING_BET = 10
   JACKPOT_INCREASE_RATE = .15
 
+
   """
     Constructor:
       params:
@@ -118,6 +132,10 @@ class SlotMachine:
     self.icons = []
     self.__create_icons()
 
+    # Set the reels items probabilities
+    self.prob_l = []
+    self.__make_proba()
+
     # Call the method used to set the initial values
     self.set_resettable_values()
 
@@ -137,15 +155,31 @@ class SlotMachine:
     Purpose: Private method used to create and set icons in an array.
   """
   def __create_icons(self):
-   # The bonus win rate is for when no sad face is on the reel
-    self.icons.append(Icon("Riboku", 0, 0, "riboku_icon.png", bonus_win_rate = 1))
-    self.icons.append(Icon("Ten", 10, 1, "ten_icon.png"))
-    self.icons.append(Icon("Kyoukai", 20, 2, "kyoukai_icon.png"))
-    self.icons.append(Icon("Ouhon", 30, 2, "ouhon_icon.png"))
-    self.icons.append(Icon("Shin", 100, 2, "shin_icon.png"))
-    self.icons.append(Icon("Kanki", 200, 2, "kanki_icon.png"))
-    self.icons.append(Icon("Moubu", 300, 5, "moubu_icon.png"))
-    self.icons.append(Icon("Ryo", 1000, 10, "ryo_icon.png", bonus_win_rate = 5))
+   # The bonus win rate is for when no riboku is on the reel
+    self.icons.append(Icon("Riboku", 40, 0, 0, "riboku_icon.png", bonus_win_rate = 1))
+    self.icons.append(Icon("Ten", 56, 10, 1, "ten_icon.png"))
+    self.icons.append(Icon("Kyoukai", 70, 20, 2, "kyoukai_icon.png"))
+    self.icons.append(Icon("Ouhon", 82, 30, 2, "ouhon_icon.png"))
+    self.icons.append(Icon("Shin", 89, 100, 2, "shin_icon.png"))
+    self.icons.append(Icon("Kanki", 95, 200, 2, "kanki_icon.png"))
+    self.icons.append(Icon("Moubu", 99, 300, 5, "moubu_icon.png"))
+    self.icons.append(Icon("Ryo", 100, 1000, 10, "ryo_icon.png", bonus_win_rate = 5))
+    
+  """
+    Method: Set probability list
+    Purpose: Method used to set the reel random generation
+  """
+  def __make_proba(self):
+    self.Proba = namedtuple('Proba', {"proba":0, "name":""})
+
+    self.__add_tuple(0, self.icons[0].name)
+    for j in range(1, len(self.icons)):
+      self.__add_tuple(self.icons[j-1].proba, self.icons[j].name)
+    self.__add_tuple(self.icons[len(self.icons)-1].proba, "")
+
+  def __add_tuple(self, p_param, n_param):
+    self.prob_l.append(self.Proba(p_param,n_param))
+
 
   """
     Method: Set bet
@@ -181,6 +215,7 @@ class SlotMachine:
     Purpose: Method used to spin the reels in the slot machine. It generates spin values to be used as spin data. Spinning is only allowed when there is enough money to do so.
   """
   def spin(self):
+
     if self.current_cash - self.bet >= 0:
       self.spin_snd.play()
       # pay the bet and increase the jackpot
@@ -191,23 +226,9 @@ class SlotMachine:
       for spin in range(3):
         # Save the wildcard number as spinned_result
         spinned_result = random.randint(0, 100)
-
-        if spinned_result in range(0, 40):     # 40% Chance
-            self.results[spin] = self.icons[0].name
-        elif spinned_result in range(40, 56):  # 16% Chance
-            self.results[spin] = self.icons[1].name
-        elif spinned_result in range(56, 70):  # 14% Chance
-            self.results[spin] = self.icons[2].name
-        elif spinned_result in range(70, 82):  # 12% Chance
-            self.results[spin] = self.icons[3].name
-        elif spinned_result in range(82, 89):  # 7% Chance
-            self.results[spin] = self.icons[4].name
-        elif spinned_result in range(89, 95):  # 6% Chance
-            self.results[spin] = self.icons[5].name
-        elif spinned_result in range(95, 99):  # 4% Chance
-            self.results[spin] = self.icons[6].name
-        elif spinned_result in range(99, 100):  # 1% Chance
-            self.results[spin] = self.icons[7].name
+        for j in range(0,len(self.icons)-1):
+          if spinned_result in range(self.prob_l[j].proba, self.prob_l[j+1].proba):
+            self.results[spin] = self.prob_l[j].name
 
       # Check what does the result of the calculation rewards.
       self.__check_results()
@@ -241,7 +262,6 @@ class SlotMachine:
       # Check how many of this icon is on the reel. Multiply the win rate to the bet and add it to winnings.
       if self.results.count(icon.name) == 3:
         winnings += self.bet * icon.win_rate_full
-        self.jackpot_snd.play()
         # Play jackpot when 3 of a kind and not sadface is the result
         if winnings > 0:
           jackpot_won = self.jackpot_win()
@@ -276,7 +296,6 @@ class SlotMachine:
     JACKPOT_WILDCARD = 7
     # Generate a random number from 1 to 100
     jackpot_try = random.randint(1, 100)
-    jackpot_try = 7
     winnings = 0
 
     # Compare the wildcard to the random number
@@ -288,7 +307,6 @@ class SlotMachine:
       # Reset the jackpot
       self.current_jackpot = self.starting_jackpot
       self.jackpot_snd.play()
-      print("jacki")
     return winnings
 
   """
@@ -312,7 +330,7 @@ class Icon(pygame.sprite.Sprite):
         icon_image: The file name of the image of this sprite
         bonus_win_rate: Optional win rate for special icons
   """
-  def __init__(self, name, win_rate_full, win_rate_two, icon_image, bonus_win_rate = 0):
+  def __init__(self, name, proba, win_rate_full, win_rate_two, icon_image, bonus_win_rate = 0):
     pygame.sprite.Sprite.__init__(self)
     self.name = name
     self.image = pygame.image.load("game_assets/slot/" + icon_image)
@@ -321,6 +339,7 @@ class Icon(pygame.sprite.Sprite):
     self.win_rate_full = win_rate_full
     self.win_rate_two = win_rate_two
     self.bonus_win_rate = bonus_win_rate
+    self.proba = proba
 
 """
   Class: DigitalFont
@@ -362,30 +381,46 @@ class DigitalFont(pygame.sprite.Sprite):
   """
 def start_game():
   # Assign the Display Variables
-  background = pygame.image.load(BACKGROUND_IMAGE_NAME)
-  screen = pygame.display.set_mode((1200,700))
+  background1 = pygame.image.load(BACKGROUND_IMAGE_NAME1)
+  background2 = pygame.image.load(BACKGROUND_IMAGE_NAME2)
+  background3 = pygame.image.load(BACKGROUND_IMAGE_NAME3)
+  arrow_yellow = pygame.image.load(ARROW_YELLOW)
+  arrow_white = pygame.image.load(ARROW_WHITE)
+  gif_l = split_animated_gif(COINS_GIF)
+  arrow_l = [20, 58, 97, 136, 175, 215, 255, 293, 333, 373, 411, 449, 489, 529, 569, 606]
+  arrow_pos = -1
+  pushed = False
+  coin_gif = False
+
+  # Init Money and Jakpot
+  STARTING_MONEY = 100
+  JACKPOT_INIT = 1000
+
+  screen = pygame.display.set_mode((WIDTH,HEIGHT))
   pygame.display.set_caption(GAME_TITLE)
 
   # Create the slot machine object and hashes to be used by the game
-  slot_machine = SlotMachine(1000, 100)
+  slot_machine = SlotMachine(JACKPOT_INIT, STARTING_MONEY)
   spin_results = slot_machine.results
   icon_images = [] # The current icon images or spin result icons
 
   # Create the text labels
+  y_txt = 424
+  y_msg = 140
   digital_fonts_hash = [
-    {"method": slot_machine.get_bet, "pos": (265, 424 + pad_y)},
-    {"method": slot_machine.get_current_cash, "pos": (83, 424 + pad_y)},
-    {"method": slot_machine.get_current_jackpot, "pos": (438, 424 + pad_y)},
+    {"method": slot_machine.get_bet, "pos": (265, y_txt + pad_y)},
+    {"method": slot_machine.get_current_cash, "pos": (83, y_txt + pad_y)},
+    {"method": slot_machine.get_current_jackpot, "pos": (438, y_txt + pad_y)},
   ]
   digital_fonts = pygame.sprite.Group()
 
-  current_message_digifont = DigitalFont(slot_machine.get_current_message, (100, 140 + pad_y), rgb(0, 0, 0))
+  current_message_digifont = DigitalFont(slot_machine.get_current_message, (100, y_msg + pad_y), rgb(0, 0, 0))
 
   for digital_font in digital_fonts_hash:
     digital_fonts.add(DigitalFont(digital_font["method"], digital_font["pos"]))
 
   # Set the constants
-  BUTTON_BOTTOM_POS = background.get_height() - 165 + pad_y
+  BUTTON_BOTTOM_POS = background1.get_height() + pad_y - 165
 
   # Create the bet buttons
   bet_buttons_hash = [
@@ -400,9 +435,10 @@ def start_game():
     bet_buttons.add(SlotMachineBetButton(bet_button["image_file_name"], bet_button["bet_value"], bet_button["pos"]))
 
   # Create the action buttons
+  pad_btn = 30
   spin_button = SlotMachineActionButton("spin_button.png" , slot_machine.spin, (270, BUTTON_BOTTOM_POS))
-  reset_button = SlotMachineActionButton("reset_button.png" , slot_machine.reset, (210, BUTTON_BOTTOM_POS + 30))
-  quit_button = SlotMachineActionButton("quit_button.png" , slot_machine.reset, (422, BUTTON_BOTTOM_POS + 30))
+  reset_button = SlotMachineActionButton("reset_button.png" , slot_machine.reset, (210, BUTTON_BOTTOM_POS + pad_btn))
+  quit_button = SlotMachineActionButton("quit_button.png" , slot_machine.reset, (422, BUTTON_BOTTOM_POS + pad_btn))
   action_buttons = pygame.sprite.Group(spin_button, reset_button, quit_button)
 
   # Create all the symbols/icons to be shown in the reels
@@ -415,7 +451,8 @@ def start_game():
   clock = pygame.time.Clock()
 
   # The reel positions is saved as an array with tuples
-  reel_positions = [(78, 258 + pad_y), (260, 258 + pad_y), (438, 258 + pad_y)]
+  y_reel = 258
+  reel_positions = [(78, y_reel + pad_y), (260, y_reel + pad_y), (438, y_reel + pad_y)]
 
   # Add the spin result symbols to icon images
   for symbol in all_symbols:
@@ -447,12 +484,68 @@ def start_game():
   def prev_get_current_msg():
     return prev_current_msg
 
+  def get_case():
+
+    # Init every time get_case is called
+    fail = False
+    cash = False
+    win = False
+    x = 0
+
+    # build the case dictionnary, associate it to the symbole
+    li = [symbol.name for symbol in all_symbols]
+    d = {x:slot_machine.results.count(x) for x in slot_machine.results}
+    max_key = max(d, key=d.get)
+    for i, elem in enumerate(li):
+      if elem == max_key:
+        x = i
+    
+    # three unique items
+    if len(d) == 3: 
+      if "Ryo" in d:
+        pos = 13
+        cash = True
+
+      else:
+        if "Riboku" not in d:
+          pos = 1
+        else:
+          pos = 0
+          fail = True
+
+    # one pair
+    elif len(d) == 2: 
+      if "Ryo" in d:
+        pos = 14
+        win = True
+
+      else:
+        if x>0 :
+          pos = x*2-1
+          cash = True
+        else:
+          pos = 0
+          fail = True
+
+    # one trio
+    elif len(d) == 1:
+      if "Riboku" not in d:
+        win = True 
+    
+      if "Ryo" in d:
+        pos = 15
+      else:
+        pos = x*2
+
+    return pos, fail, cash, win
+
+
   # Set the text values as the previous values
   # The reason this is done is to not let the user see how much he won until the spin animation is done
-  prev_bet_digifont = DigitalFont(prev_get_bet, (265, 424 + pad_y))
-  prev_cash_digifont = DigitalFont(prev_get_current_cash, (83, 424 + pad_y))
-  prev_jackpot_digifont = DigitalFont(prev_get_current_jackpot, (438, 424 + pad_y))
-  prev_message_digifont = DigitalFont(prev_get_current_msg, (100, 140 + pad_y), rgb(0, 0, 0))
+  prev_bet_digifont = DigitalFont(prev_get_bet, (265, y_txt + pad_y))
+  prev_cash_digifont = DigitalFont(prev_get_current_cash, (83, y_txt + pad_y))
+  prev_jackpot_digifont = DigitalFont(prev_get_current_jackpot, (438, y_txt + pad_y))
+  prev_message_digifont = DigitalFont(prev_get_current_msg, (100, y_msg + pad_y), rgb(0, 0, 0))
 
   # Create the sprite group digifonts
   # The prev digifonts are the ones to be shown to the user while the spin animation is still running.
@@ -460,6 +553,8 @@ def start_game():
 
   # Continue looping while the player hasn't ended the game
   continue_playing = True
+  currentFrame = 0
+
   while (continue_playing):
     # Tick
     clock.tick(FRAME_RATE)
@@ -491,6 +586,10 @@ def start_game():
                 for symbol_name in spin_results:
                   if (symbol.name == symbol_name):
                     icon_images.append(symbol)
+              
+              # booleans to set the arrow position corresponding to the result case and draw gif
+              pushed = True
+              coin_gif = False
 
               # Set the start time to current time. Making the spin animation run
               start_time = time.time()
@@ -510,9 +609,11 @@ def start_game():
 
     # Display the sprites
 
-    # Display the background image
-    #screen.blit(background, background.get_rect())
-    screen.blit(background, (0, 350-background.get_height()/2))
+    # Display the background images
+    pad_left = -5
+    screen.blit(background2, (0, 0)) # casino background
+    screen.blit(background3, (WIDTH - background3.get_width() + 2*pad_left, 0)) # payoff table
+    screen.blit(background1, (0, HEIGHT/2-background1.get_height()/2)) # machine slot image
 
     # Update the action buttons and position them on the screen
     action_buttons.update()
@@ -545,13 +646,43 @@ def start_game():
       # Display the current texts
       for digital_font in prev_digifonts:
         screen.blit(digital_font.get_rendered_surface(), digital_font.pos)
+      
+      # Display the arrow indicator rolling
+      if arrow_pos>=len(arrow_l)-1:
+        arrow_pos = 0
+      arrow_pos +=1
+      x = WIDTH - background3.get_width() + 3*pad_left - arrow_white.get_width()
+      y = 12
+      y += arrow_l[arrow_pos]
+      screen.blit(arrow_white, (x, y))
+
     else:
+      # set the arrow position corresponding to the result case
+      if pushed:
+        arrow_pos, fail, cash, win = get_case()
+        pushed = False
+
       # The animation is done and display the resulted values
       for i in range(3):
         screen.blit(icon_images[i].image, reel_positions[i])
       screen.blit(current_message_digifont.get_rendered_surface(), current_message_digifont.pos)
       # Spinning is now false. The user can hit spin again
       spinning = False
+      
+      # play jackpot or failure sounds
+      if arrow_pos != -1: # except initial images
+        if fail:
+          play_sound(0,"slot/fail_snd.wav")
+          fail = False
+        elif cash:
+          play_sound(0,"slot/cash_snd.wav")
+          cash = False
+          coin_gif = True
+        elif win:
+          play_sound(0,"slot/jackpot.wav")
+          win = False
+          coin_gif = True
+
       # Set the prev results to the current images to be used again on animation
       prev_results = icon_images
       # Stop the spinning sound if playing
@@ -559,6 +690,16 @@ def start_game():
       # Render the current texts in the screen
       for digital_font in digital_fonts:
         screen.blit(digital_font.get_rendered_surface(), digital_font.pos)
+
+      # Display arrow indicator, moves to the corresponding position
+      x = WIDTH - background3.get_width() + 3*pad_left - arrow_yellow.get_width()
+      y = 12
+      y += arrow_l[arrow_pos]
+      screen.blit(arrow_yellow, (x, y))
+      if coin_gif:
+        screen.blit(gif_l[currentFrame], (x-250, 0))
+        screen.blit(gif_l[currentFrame], (x-250, 300))
+        currentFrame = (currentFrame + 1) % len(gif_l)
 
       # Reset the prev values
       prev_bet, prev_jackpot, prev_current_msg, prev_cash = slot_machine.bet, slot_machine.current_jackpot, slot_machine.current_message, slot_machine.current_cash
@@ -573,6 +714,18 @@ def play_sound(*args):
     elif len(args) == 2:
         a,b = args[0],args[1]
         pygame.mixer.Channel(a).play(pygame.mixer.Sound(os.path.join("game_assets/sounds/", b)))
+
+def split_animated_gif(gif_file_path):
+    ret = []
+    gif = Image.open(gif_file_path)
+    for frame_index in range(gif.n_frames):
+        gif.seek(frame_index)
+        frame_rgba = gif.convert("RGBA")
+        pygame_image = pygame.image.fromstring(
+            frame_rgba.tobytes(), frame_rgba.size, frame_rgba.mode
+        )
+        ret.append(pygame_image)
+    return ret
 
 """
   Function: Main
