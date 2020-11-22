@@ -108,6 +108,7 @@ class SlotMachine:
     self.spin_snd = pygame.mixer.Sound("game_assets/sounds/slot/spin_snd.ogg")
     self.spinning_snd = pygame.mixer.Sound("game_assets/sounds/slot/spinning_snd.ogg")
     self.reset_snd = pygame.mixer.Sound("game_assets/sounds/slot/reset_snd.ogg")
+    self.jackpot_snd = pygame.mixer.Sound("game_assets/sounds/slot/jackpot.wav")
 
     # Set Starting values
     self.starting_jackpot = starting_jackpot
@@ -240,6 +241,7 @@ class SlotMachine:
       # Check how many of this icon is on the reel. Multiply the win rate to the bet and add it to winnings.
       if self.results.count(icon.name) == 3:
         winnings += self.bet * icon.win_rate_full
+        self.jackpot_snd.play()
         # Play jackpot when 3 of a kind and not sadface is the result
         if winnings > 0:
           jackpot_won = self.jackpot_win()
@@ -274,6 +276,7 @@ class SlotMachine:
     JACKPOT_WILDCARD = 7
     # Generate a random number from 1 to 100
     jackpot_try = random.randint(1, 100)
+    jackpot_try = 7
     winnings = 0
 
     # Compare the wildcard to the random number
@@ -284,6 +287,8 @@ class SlotMachine:
       winnings = self.current_jackpot
       # Reset the jackpot
       self.current_jackpot = self.starting_jackpot
+      self.jackpot_snd.play()
+      print("jacki")
     return winnings
 
   """
@@ -560,6 +565,14 @@ def start_game():
 
     # Refresh the display
     pygame.display.flip()
+
+def play_sound(*args):
+    if len(args) == 3:
+        a,b,c = args[0],args[1],args[2]
+        pygame.mixer.Channel(a).play(pygame.mixer.Sound(os.path.join("game_assets/sounds/", b)), maxtime=c)
+    elif len(args) == 2:
+        a,b = args[0],args[1]
+        pygame.mixer.Channel(a).play(pygame.mixer.Sound(os.path.join("game_assets/sounds/", b)))
 
 """
   Function: Main

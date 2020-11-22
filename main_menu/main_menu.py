@@ -139,6 +139,8 @@ class MainMenu:
                         del game
 
                     if self.click(self.slot, x, y):
+                        pygame.mixer.music.stop()
+                        play_sound(1,"slot/jackpot.wav")
                         mini_game = Casino()
 
                     # if you click on other buttons

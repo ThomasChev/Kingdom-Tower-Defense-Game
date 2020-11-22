@@ -86,7 +86,7 @@ fortress_names = ["fortress"]
 # initialize background music
 SONG_END = pygame.USEREVENT + 1
 pygame.mixer.pre_init()
-pygame.mixer.init()
+pygame.mixer.init(frequency=22050, size=-16, buffer=512)
 pygame.mixer.music.set_endevent(SONG_END)
 pygame.mixer.music.load(os.path.join("game_assets/sounds/", "loop0.wav"))
 pygame.mixer.music.play()
