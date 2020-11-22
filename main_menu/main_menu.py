@@ -1,10 +1,12 @@
 from game import Game
+from slotmachine import Casino
 import pygame
 import os
 import time
 from game_assets.colors import rgb
 pygame.font.init()
 
+casino_btn = pygame.image.load(os.path.join("game_assets/menu/", "casino_btn.png"))
 start_btn = pygame.image.load(os.path.join("game_assets/menu/", "play_big_btn.png"))
 lore_btn = pygame.image.load(os.path.join("game_assets/menu/", "lore_btn.png"))
 lore_img = pygame.image.load(os.path.join("game_assets/menu/", "lore.png"))
@@ -55,6 +57,9 @@ class MainMenu:
 
         # play
         self.btn = (self.width/2 - start_btn.get_width()/2, 225, start_btn.get_width(), start_btn.get_height())
+
+        # casino mini-game
+        self.slot = (self.width/2 + start_btn.get_width()/2 + pad_x/2, 225, casino_btn.get_width(), casino_btn.get_height())
         
         # get lore info
         self.lore = (self.width/2 - lore_btn.get_width()/2, 300, lore_btn.get_width(), lore_btn.get_height())
@@ -133,6 +138,9 @@ class MainMenu:
                         self.show_level = False
                         del game
 
+                    if self.click(self.slot, x, y):
+                        mini_game = Casino()
+
                     # if you click on other buttons
                     for button, name in zip(self.buttons, self.btn_names):
                         if self.click(button, x, y):
@@ -181,6 +189,9 @@ class MainMenu:
         text = self.font.render(self.game_level, 2, rgb(255,255,255))
         self.win.blit(text, (self.width/2 - text.get_width()/2, self.height - 10 - text.get_height()))
         
+        # draw mini-game button
+        self.win.blit(casino_btn, (self.slot[0], self.slot[1]))
+
         # draw Start, Lore, Info, Level buttons
         self.win.blit(start_btn, (self.btn[0], self.btn[1]))
         self.win.blit(lore_btn, (self.lore[0], self.lore[1]))
