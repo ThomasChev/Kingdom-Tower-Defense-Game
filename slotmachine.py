@@ -156,14 +156,14 @@ class SlotMachine:
   """
   def __create_icons(self):
    # The bonus win rate is for when no riboku is on the reel
-    self.icons.append(Icon("Riboku", 40, 0, 0, "riboku_icon.png", bonus_win_rate = 1))
-    self.icons.append(Icon("Ten", 56, 10, 1, "ten_icon.png"))
-    self.icons.append(Icon("Kyoukai", 70, 20, 2, "kyoukai_icon.png"))
-    self.icons.append(Icon("Ouhon", 82, 30, 2, "ouhon_icon.png"))
-    self.icons.append(Icon("Shin", 89, 100, 2, "shin_icon.png"))
-    self.icons.append(Icon("Kanki", 95, 200, 2, "kanki_icon.png"))
-    self.icons.append(Icon("Moubu", 99, 300, 5, "moubu_icon.png"))
-    self.icons.append(Icon("Ryo", 100, 1000, 10, "ryo_icon.png", bonus_win_rate = 5))
+    self.icons.append(Icon("Riboku", 30, 0, 0, "riboku_icon.png", bonus_win_rate = 1))
+    self.icons.append(Icon("Ten", 48, 10, 1, "ten_icon.png"))
+    self.icons.append(Icon("Kyoukai", 64, 20, 2, "kyoukai_icon.png"))
+    self.icons.append(Icon("Ouhon", 78, 30, 3, "ouhon_icon.png"))
+    self.icons.append(Icon("Shin", 87, 100, 4, "shin_icon.png"))
+    self.icons.append(Icon("Kanki", 94, 200, 5, "kanki_icon.png"))
+    self.icons.append(Icon("Moubu", 99, 300, 6, "moubu_icon.png"))
+    self.icons.append(Icon("Ryo", 100, 1000, 100, "ryo_icon.png", bonus_win_rate = 5))
     
   """
     Method: Set probability list
@@ -437,6 +437,7 @@ def start_game():
   # Create the action buttons
   pad_btn = 30
   spin_button = SlotMachineActionButton("spin_button.png" , slot_machine.spin, (270, BUTTON_BOTTOM_POS))
+  spin_psh_button = SlotMachineActionButton("spin_psh2_button.png" , slot_machine.spin, (270, BUTTON_BOTTOM_POS))
   reset_button = SlotMachineActionButton("reset_button.png" , slot_machine.reset, (210, BUTTON_BOTTOM_POS + pad_btn))
   quit_button = SlotMachineActionButton("quit_button.png" , slot_machine.reset, (422, BUTTON_BOTTOM_POS + pad_btn))
   action_buttons = pygame.sprite.Group(spin_button, reset_button, quit_button)
@@ -530,7 +531,9 @@ def start_game():
     # one trio
     elif len(d) == 1:
       if "Riboku" not in d:
-        win = True 
+        win = True
+      else:
+        fail = True 
     
       if "Ryo" in d:
         pos = 15
@@ -632,6 +635,9 @@ def start_game():
     # While the current time - the time the spin button is clicked is less than one
     # Change the images in the reel and show the previous/current texts
     if time.time() - start_time < 1 and spinning:
+
+      # display the spin pushed button on top
+      screen.blit(spin_psh_button.image, spin_psh_button.pos)
       # Display the current icons in the reel so it does not change until the pulling the lever sound is finished
       for i in range(3):
         screen.blit(prev_results[i].image, reel_positions[i])

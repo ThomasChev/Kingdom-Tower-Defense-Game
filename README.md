@@ -48,6 +48,14 @@ I made my own Tower Defense Game with pygame, based on TechWithTim's 12 hours st
 
 <a href='https://www.casimages.com/i/20111603324361167.png.html' target='_blank' title='Mon image'><img src='https://nsa40.casimages.com/img/2020/11/16/20111603324361167.png' border='0' alt='Mon image' /></a>
 
+
+# SlotMachine Mini-Game !
+
+Gamble : the machine pays out according to the pattern of Characters, displayed when the reels stop spinning.
+
+<a href='https://www.casimages.com/i/201123075311504873.png.html' target='_blank' title='Mon image'><img src='https://nsa40.casimages.com/img/2020/11/23/201123075311504873.png' border='0' alt='Mon image' /></a>
+
+
 # Join Us !
 
 <a href='https://www.casimages.com/i/201031032339434381.jpg.html' target='_blank' title='Mon image'><img src='https://nsa40.casimages.com/img/2020/10/31/201031032339434381.jpg' border='0' alt='Mon image' /></a>
