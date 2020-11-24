@@ -102,6 +102,7 @@ class SlotMachine:
   YOU_WIN_JACKPOT = "Jackpot won $"
   YOU_LOST = "You just lost $"
   YOU_BET = "You bet $"
+  REFUND = "Refund your bet"
   NO_CASH_LEFT = "Cannot bet to that amount. Cash not enough."
   CANNOT_SPIN = "Cannot spin. Change bet to a lower value."
   STARTING_BET = 10
@@ -257,22 +258,42 @@ class SlotMachine:
   def __check_results(self):
     winnings = 0
     jackpot_won = 0
-    # Go through each icon and check how many of the said icon is present. Base on that, check how much the player have won.
+    earnt = 0
+    trio_duo = False
+
+    # Go through each icon and check how many of the said icon is present. Base on that, check how much the player has won.
     for icon in self.icons:
       # Check how many of this icon is on the reel. Multiply the win rate to the bet and add it to winnings.
-      if self.results.count(icon.name) == 3:
-        winnings += self.bet * icon.win_rate_full
-        # Play jackpot when 3 of a kind and not sadface is the result
-        if winnings > 0:
-          jackpot_won = self.jackpot_win()
-      if self.results.count(icon.name) == 2:
-        winnings += self.bet * icon.win_rate_two
-    # If there is 1 seven, it is considered a win
-    if self.results.count(self.icons[7].name) == 1:
-      winnings += self.bet * self.icons[7].bonus_win_rate
-    # If there is no sad face, it is considered a bet return win
-    if self.results.count(self.icons[0].name) == 0:
-      winnings += self.bet * self.icons[0].bonus_win_rate
+      icon_nb = self.results.count(icon.name)
+      riboku_nb = self.results.count(self.icons[0].name)
+      # Trio icons
+      if icon_nb == 3:
+        trio_duo = True
+        # not Riboku : win_rate_full
+        if riboku_nb != 3: 
+          earnt = self.bet * icon.win_rate_full
+          winnings += earnt
+          if winnings > 0: # play jackpot
+            jackpot_won = self.jackpot_win()
+      # Duo icons
+      elif icon_nb == 2:
+        trio_duo = True
+        # not Riboku : win_rate_two
+        if riboku_nb != 2: 
+          earnt = self.bet * icon.win_rate_two 
+          winnings += earnt
+    # Unique icons
+    if not trio_duo:
+      ryo_nb = self.results.count(self.icons[7].name)
+      riboku_nb = self.results.count(self.icons[0].name)
+      # bonus Ryo
+      if ryo_nb == 1: 
+        earnt = self.bet * self.icons[7].bonus_win_rate
+        winnings += earnt
+      # not Riboku : refund
+      elif riboku_nb != 1: 
+        earnt = self.bet * self.icons[0].bonus_win_rate
+        winnings += earnt
 
     # If the winner won the jackpot or the winner just won something or the winner lost
     # Set the appropriate message
@@ -280,7 +301,10 @@ class SlotMachine:
       self.current_message = SlotMachine.YOU_WIN_JACKPOT + str(jackpot_won) + " With Cash $" + str(winnings)
     elif winnings > 0:
       self.current_cash += winnings
-      self.current_message = SlotMachine.YOU_WIN + str(winnings)
+      if earnt != self.bet:
+        self.current_message = SlotMachine.YOU_WIN + str(winnings)
+      else:
+        self.current_message = SlotMachine.REFUND
     elif winnings <= 0:
       self.current_message = SlotMachine.YOU_LOST + str(self.bet)
     else:
@@ -506,7 +530,6 @@ def start_game():
       if "Ryo" in d:
         pos = 13
         cash = True
-
       else:
         if "Riboku" not in d:
           pos = 1
@@ -519,7 +542,6 @@ def start_game():
       if "Ryo" in d:
         pos = 14
         win = True
-
       else:
         if x>0 :
           pos = x*2-1
@@ -713,6 +735,9 @@ def start_game():
     # Refresh the display
     pygame.display.flip()
 
+  money_diff = slot_machine.current_cash - STARTING_MONEY
+  return money_diff
+
 def play_sound(*args):
     if len(args) == 3:
         a,b,c = args[0],args[1],args[2]
@@ -738,7 +763,9 @@ def split_animated_gif(gif_file_path):
   Purpose: Calls the start game function
 """
 def Casino():
-  start_game()
+  money_diff = start_game()
+  bonus_money = money_diff if money_diff > 0 else 0
+  return bonus_money
 
 #Calls the main function
 if __name__ == "__main__": Casino()

@@ -141,7 +141,8 @@ class MainMenu:
                     if self.click(self.slot, x, y):
                         pygame.mixer.music.stop()
                         play_sound(1,"slot/jackpot.wav")
-                        mini_game = Casino()
+                        bonus_money = Casino()
+                        print(bonus_money)
 
                     # if you click on other buttons
                     for button, name in zip(self.buttons, self.btn_names):
