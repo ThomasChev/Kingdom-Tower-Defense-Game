@@ -40,8 +40,6 @@ info_ryo = pygame.image.load(os.path.join("game_assets/support_towers/ryo_info/"
 pygame.mixer.pre_init()
 pygame.mixer.init()
 
-
-
 pad_x = 75
 pad_y = 5
 
@@ -91,6 +89,9 @@ class MainMenu:
         self.game_level = "Easy"
         self.lvls = ["Easy", "Medium", "Hard"]
         self.levels = [self.easy, self.medium, self.hard]
+
+        # bonus money from mini-game
+        self.bonus_money = 0
         
         self.btn_names = ["lore", "info", "level"]
         self.buttons = [self.lore, self.info, self.level]
@@ -132,17 +133,18 @@ class MainMenu:
                         play_sound(1,"next_round.wav")
                         game = Game(self.win)
                         game.level = self.game_level
+                        game.money += self.bonus_money
                         game.run()
                         self.show_lore = False
                         self.show_info = False
                         self.show_level = False
                         del game
 
+                    # if you click on Mini-Game
                     if self.click(self.slot, x, y):
                         pygame.mixer.music.stop()
                         play_sound(1,"slot/jackpot.wav")
-                        bonus_money = Casino()
-                        print(bonus_money)
+                        self.bonus_money = Casino()
 
                     # if you click on other buttons
                     for button, name in zip(self.buttons, self.btn_names):

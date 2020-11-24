@@ -107,7 +107,7 @@ class Game():
         self.width = 1200
         self.height = 700
         self.lives = 20
-        self.money = 350
+        self.money = 35
         self.bg = pygame.image.load(os.path.join("game_assets/background/", "kingdom.png"))
         self.bg = pygame.transform.scale(self.bg, (self.width, self.height))
         self.clicks = [] # use to see clicks
