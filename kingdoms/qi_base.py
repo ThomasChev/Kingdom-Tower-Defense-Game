@@ -1,7 +1,7 @@
 import pygame
 import os
 from .kingdom import Kingdom
-from game_assets.colors import rgb
+from tools.color import rgb
 from menu.menu import Menu, Button
 
 img_dir = "game_assets/kingdoms/"

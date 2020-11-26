@@ -18,7 +18,7 @@ import time
 import collections
 from collections import deque
 from collections import namedtuple
-from game_assets.colors import rgb
+from tools.color import rgb
 from PIL import Image, ImageSequence
 
 # Initialize pygame

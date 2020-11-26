@@ -1,6 +1,6 @@
 import pygame
 import os
-from game_assets.colors import rgb
+from tools.color import rgb
 pygame.font.init()
 
 class Button:

@@ -1,6 +1,6 @@
 import pygame
 from menu.menu import Menu
-from game_assets.colors import rgb
+from tools.color import rgb
 import os
 import math
 import itertools

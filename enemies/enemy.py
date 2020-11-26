@@ -2,7 +2,7 @@ import pygame
 import math
 import random
 import os
-from game_assets.colors import rgb
+from tools.color import rgb
 
 img_dir = "game_assets/enemies/"
 ices = []

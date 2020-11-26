@@ -7,7 +7,6 @@ import pandas as pd
 import seaborn as sns
 from matplotlib import pyplot as plt
 import matplotlib.pyplot as plt
-from collections import deque
 
 # enemies
 from enemies.zao_warrior import Zao_warrior
@@ -39,7 +38,9 @@ from kingdoms.chu_base import Chu_base
 from kingdoms.chu2_base import Chu2_base
 from kingdoms.chu3_base import Chu3_base
 from menu.menu import VerticalMenu, PlayPauseButton, ReturnButton
-from game_assets.colors import rgb
+
+from tools.color import rgb
+from tools.play_snd import play_sound, play_next_song
 
 from explosions.explosion import Explosion 
 
@@ -173,7 +174,6 @@ class Game():
 
         # Graphs 
         self.start_ticks = 0
-        self.seconds = 0
         # Plot-1
         self.df = pd.DataFrame()
         self.data_dict = {'seconds':[],'waves':[],'money':[], 'lives':[], 'money_earnt':[], 'money_spent':[],'shin':[], 'moubu':[], 'kanki':[], 'ouhon':[], 'ten':[], 'kyoukai':[], 'ryo':[],'fortress':[], 'towers':[]}
@@ -920,17 +920,13 @@ class Game():
         """
         update dict every 2 seconds for end game statistics
         """
-
-        # seconds ticking
-        self.seconds = (pygame.time.get_ticks()-self.start_ticks)/1000
-
-        # calculate total towers number
-        towers_nb = sum(self.counters.values())
+        seconds = (pygame.time.get_ticks()-self.start_ticks)/1000 # seconds ticking
+        towers_nb = sum(self.counters.values()) # calculate total towers number
         
         # store data every 2 seconds (+- 0.01)
         list_keys = list(self.data_dict.keys())
-        list_items = [round(self.seconds), self.wave + 1 , self.money, self.lives, self.money_earnt,  self.money_spent,self.counters['shin'],  self.counters['moubu'],  self.counters['kanki'],  self.counters['ouhon'],  self.counters['ten'],  self.counters['kyoukai'], self.counters['ryo'],  self.counters['fortress'], towers_nb] 
-        rest = math.fmod(self.seconds, 2)
+        list_items = [round(seconds), self.wave + 1 , self.money, self.lives, self.money_earnt, self.money_spent, self.counters['shin'], self.counters['moubu'], self.counters['kanki'], self.counters['ouhon'], self.counters['ten'], self.counters['kyoukai'], self.counters['ryo'], self.counters['fortress'], towers_nb] 
+        rest = math.fmod(seconds, 2)
         if rest <= 0.01:
             for key, item in zip(list_keys, list_items):
                 self.data_dict[key].append(item)
@@ -1033,33 +1029,11 @@ class Game():
         sns.barplot(x='Gold Earnt', y='Enemies (Type)', data=df_gold, ci=None, orient = 'h', ax=axes[1,1])
         axes[1,1].legend(loc='lower right')
 
-def play_sound(*args):
-    """
-    call pygame.mixer fonction with sounds in "game_assets/sounds/"
-    """ 
 
-    if len(args) == 3:
-        a,b,c = args[0],args[1],args[2]
-        pygame.mixer.Channel(a).play(pygame.mixer.Sound(os.path.join("game_assets/sounds/", b)), maxtime=c)
-    elif len(args) == 2:
-        a,b = args[0],args[1]
-        pygame.mixer.Channel(a).play(pygame.mixer.Sound(os.path.join("game_assets/sounds/", b)))
-
-
-_songs = deque([os.path.join("game_assets/sounds/", "13_Tazer.mp3"), os.path.join("game_assets/sounds/", "08_T_Station.mp3"), os.path.join("game_assets/sounds/", "04_Shamburger.mp3")])
-def play_next_song():
-    """
-    change sound when previous sound is finished
-    """ 
-    global _songs
-    _songs.rotate(-1) # move current song to the back of the list (equal to: _songs = _songs[1:] + [_songs[0]])
-    pygame.mixer.music.load(_songs[0])
-    pygame.mixer.music.play()
-
-def getUniqueItems(d):
-    result = {}
-    for key,value in d.items():
-        if value not in result.values():
-            result[key] = value
-    return result
+# def getUniqueItems(d):
+#     result = {}
+#     for key,value in d.items():
+#         if value not in result.values():
+#             result[key] = value
+#     return result
 

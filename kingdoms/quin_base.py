@@ -1,7 +1,7 @@
 import pygame
 import os
 from .kingdom import Kingdom
-from game_assets.colors import rgb
+from tools.color import rgb
 
 img_dir = "game_assets/kingdoms/"
 img = pygame.image.load(os.path.join(img_dir, "quin_base.png"))

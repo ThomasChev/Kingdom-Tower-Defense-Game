@@ -3,7 +3,8 @@ from slotmachine import Casino
 import pygame
 import os
 import time
-from game_assets.colors import rgb
+from tools.color import rgb
+
 pygame.font.init()
 
 casino_btn = pygame.image.load(os.path.join("game_assets/menu/", "casino_btn.png"))
