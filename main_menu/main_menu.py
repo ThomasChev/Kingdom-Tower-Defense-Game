@@ -1,5 +1,5 @@
-from game import Game
-from slotmachine import Casino
+from games.game import Game
+from games.slotmachine import Casino
 import pygame
 import os
 import time
